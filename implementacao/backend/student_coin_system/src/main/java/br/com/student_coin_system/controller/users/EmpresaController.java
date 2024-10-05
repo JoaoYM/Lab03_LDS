@@ -11,11 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.student_coin_system.service.financeiro.TransferenciaService;
 
-
 @RestController
-@RequestMapping("/api/professores")
-public class ProfessorController {
-
+@RequestMapping("/api/empresa")
+public class EmpresaController {
     @Autowired
     private TransferenciaService transferenciaService;
 

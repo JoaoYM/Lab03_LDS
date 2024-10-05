@@ -1,5 +1,10 @@
 package br.com.student_coin_system.service.notification;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
+
 @Service
 public class EmailService {
 
