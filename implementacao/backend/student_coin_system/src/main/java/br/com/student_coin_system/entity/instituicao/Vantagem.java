@@ -1,14 +1,12 @@
 package br.com.student_coin_system.entity.instituicao;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import br.com.student_coin_system.entity.users.Professor;
+import br.com.student_coin_system.entity.users.Empresa;
+import java.math.BigDecimal;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.ManyToOne;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,14 +15,23 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Departamento {
+public class Vantagem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "departamento")
-    private List<Professor> professores = new ArrayList<>();
-
-    private String nome;
+    @ManyToOne
+    private Empresa empresa;
+    
+    @ManyToOne
+    private Instituicao instituicao;
+ 
+    private String     nome;
+ 
+    private String     descricao;
+ 
+    private String     fotoUrl;
+ 
+    private BigDecimal custoMoedas;
 }

@@ -1,32 +1,43 @@
 package br.com.student_coin_system.entity.users;
 
-public class Empresa extends Usuario {
+import java.util.ArrayList;
+import java.util.List;
+
+import br.com.student_coin_system.entity.financeiro.ContaCorrente;
+import br.com.student_coin_system.entity.instituicao.Vantagem;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Entity
+@Table(name = "empresa")
+public class Empresa{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long   id;
+
+    private String nome;
+
+    private String email;
+
     private String cnpj;
+    
     private String razaoSocial;
 
-    public Empresa() {
-    }
-
-    public Empresa(Long id, String nome, String email, String nDocumento, String cnpj, String razaoSocial) {
-        super(id, nome, email, nDocumento);
-        this.cnpj        = cnpj;
-        this.razaoSocial = razaoSocial;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
-
-    public void setCnpj(String cnpj) {
-        this.cnpj = cnpj;
-    }
-
-    public String getRazaoSocial() {
-        return razaoSocial;
-    }
-
-    public void setRazaoSocial(String razaoSocial) {
-        this.razaoSocial = razaoSocial;
-    }
-
+    @OneToMany
+    private List<Vantagem> vantagem = new ArrayList<>();
+    
+    @OneToOne
+    private ContaCorrente contaCorrente;
 }

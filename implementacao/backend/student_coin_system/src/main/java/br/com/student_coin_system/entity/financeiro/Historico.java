@@ -3,7 +3,6 @@ package br.com.student_coin_system.entity.financeiro;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import br.com.student_coin_system.entity.users.Usuario;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -12,7 +11,7 @@ import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Historico {
-    public Historico(LocalDateTime dataOperacao, Usuario pagador, Usuario beneficiario, BigDecimal entrada, BigDecimal saida, BigDecimal saldoFinal, ContaCorrente contaCorrente) {
+    public Historico(LocalDateTime dataOperacao, String pagador, String beneficiario, BigDecimal entrada, BigDecimal saida, BigDecimal saldoFinal, ContaCorrente contaCorrente) {
        setDataOperacao(dataOperacao);
        setPagador(pagador);
        setBeneficiario(beneficiario);
@@ -27,8 +26,8 @@ public class Historico {
     private Long id;
 
     private LocalDateTime dataOperacao;
-    private Usuario       pagador;
-    private Usuario       beneficiario;
+    private String        pagador;
+    private String        beneficiario;
     private BigDecimal    entrada;
     private BigDecimal    saida;
     private BigDecimal    saldoFinal;
@@ -54,19 +53,19 @@ public class Historico {
         this.dataOperacao = dataOperacao;
     }
 
-    public Usuario getPagador() {
+    public String getPagador() {
         return pagador;
     }
 
-    public void setPagador(Usuario pagador) {
+    public void setPagador(String pagador) {
         this.pagador = pagador;
     }
 
-    public Usuario getBeneficiario() {
+    public String getBeneficiario() {
         return beneficiario;
     }
 
-    public void setBeneficiario(Usuario beneficiario) {
+    public void setBeneficiario(String beneficiario) {
         this.beneficiario = beneficiario;
     }
 

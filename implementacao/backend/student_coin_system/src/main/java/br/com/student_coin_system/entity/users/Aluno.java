@@ -3,16 +3,30 @@ package br.com.student_coin_system.entity.users;
 import br.com.student_coin_system.entity.financeiro.ContaCorrente;
 import br.com.student_coin_system.entity.instituicao.Curso;
 import br.com.student_coin_system.entity.instituicao.Instituicao;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-public class Aluno extends Usuario {
-    private String rg;
-    private String endereco;
+@Table(name = "aluno")
+public class Aluno{
 
-    @ManyToOne
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long   id;
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private Instituicao instituicao;
 
     @ManyToOne
@@ -21,49 +35,13 @@ public class Aluno extends Usuario {
     @OneToOne
     private ContaCorrente contaCorrente;
 
-    public Aluno(Long id, String nome, String email, String nDocumento, String rg, String endereco) {
-        super(id, nome, email, nDocumento);
-        this.rg       = rg;
-        this.endereco = endereco;
-    }
+    private String nome;
 
-    public String getRg() {
-        return rg;
-    }
+    private String email;
 
-    public void setRg(String rg) {
-        this.rg = rg;
-    }
+    private String cpf;
 
-    public String getEndereco() {
-        return endereco;
-    }
+    private String rg;
 
-    public void setEndereco(String endereco) {
-        this.endereco = endereco;
-    }
-
-    public Instituicao getInstituicao() {
-        return instituicao;
-    }
-
-    public void setInstituicao(Instituicao instituicao) {
-        this.instituicao = instituicao;
-    }
-
-    public Curso getCurso() {
-        return curso;
-    }
-
-    public void setCurso(Curso curso) {
-        this.curso = curso;
-    }
-
-    public ContaCorrente getContaCorrente() {
-        return contaCorrente;
-    }
-
-    public void setContaCorrente(ContaCorrente contaCorrente) {
-        this.contaCorrente = contaCorrente;
-    }
+    private String endereco;
 }

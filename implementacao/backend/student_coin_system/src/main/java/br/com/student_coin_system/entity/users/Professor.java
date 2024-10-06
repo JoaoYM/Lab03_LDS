@@ -3,38 +3,36 @@ package br.com.student_coin_system.entity.users;
 import br.com.student_coin_system.entity.financeiro.ContaCorrente;
 import br.com.student_coin_system.entity.instituicao.Departamento;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
-public class Professor extends Usuario {
+@Table(name = "professor")
+public class Professor{
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long   id;
+
     @ManyToOne
     private Departamento departamento;
 
     @OneToOne
     private ContaCorrente contaCorrente;
 
-    // Getters e Setters
-    public Professor(Long id, String nome, String email, String nDocumento, Departamento departamento, Usuario professor) {
-        super(id, nome, email, nDocumento);
-        this.departamento = departamento;
-        this.contaCorrente = new ContaCorrente(professor);
-    }
+    private String nome;
 
-    // Getters e Setters
-    public Departamento getDepartamento() {
-        return departamento;
-    }
+    private String email;
 
-    public void setDepartamento(Departamento departamento) {
-        this.departamento = departamento;
-    }
-
-    public ContaCorrente getContaCorrente() {
-        return contaCorrente;
-    }
-
-    public void setContaCorrente(ContaCorrente contaCorrente) {
-        this.contaCorrente = contaCorrente;
-    }
+    private String cpf;
 }
