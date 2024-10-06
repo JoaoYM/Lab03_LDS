@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -56,7 +57,7 @@ public class ProfessorController {
         Professor oldProfessor = professorRepository.findById(id).orElseThrow();
         oldProfessor.setNome(professor.getNome());
         oldProfessor.setEmail(professor.getEmail());
-        oldProfessor.setCpf(professor.getnDocumento());
+        oldProfessor.setCpf(professor.getcpf());
 
         try {
             professorRepository.save(oldProfessor);
@@ -73,6 +74,16 @@ public class ProfessorController {
                                                  @RequestParam String motivo) {
         transferenciaService.transferirMoedas(professorId, alunoId, quantidade, motivo);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public Iterable<Professor> getProfessores() {
+        return professorRepository.findAll();
+    }
+
+    @GetMapping("/{id}")
+    public Professor getProfessor(@PathVariable Long id) {
+        return professorRepository.findById(id).orElse(null);
     }
 
     @DeleteMapping("/{id}")

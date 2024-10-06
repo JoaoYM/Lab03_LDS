@@ -8,14 +8,14 @@ public class ProfessorDTO {
     private Long   id;
     private String nome;
     private String email;
-    private String nDocumento;
+    private String cpf;
     private Departamento  departamento;
     private ContaCorrente contaCorrente;
 
-    public ProfessorDTO(String nome, String email, String nDocumento, Departamento  departamento, ContaCorrente contaCorrente) {
+    public ProfessorDTO(String nome, String email, String cpf, Departamento  departamento, ContaCorrente contaCorrente) {
         this.nome = nome;
         this.email = email;
-        this.nDocumento = nDocumento;
+        this.cpf = cpf;
         this.departamento = departamento;
         this.contaCorrente = contaCorrente;
     }
@@ -32,8 +32,8 @@ public class ProfessorDTO {
         return email;
     }
 
-    public String getnDocumento() {
-        return nDocumento;
+    public String getcpf() {
+        return cpf;
     }
 
     public Departamento getDepartamento() {

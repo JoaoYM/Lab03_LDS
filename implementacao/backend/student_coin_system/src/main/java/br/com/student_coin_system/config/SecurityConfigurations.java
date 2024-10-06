@@ -22,38 +22,26 @@ public class SecurityConfigurations {
     @Autowired
     SecurityFilterToken securityFilter;
 
-    // @Bean
-    // public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-    //     return  httpSecurity
-    //             .csrf(csrf -> csrf.disable())
-    //             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-    //             .authorizeHttpRequests(authorize -> authorize
-    //                     .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
-    //                     .requestMatchers(HttpMethod.POST, "/auth/register").hasRole("ADMIN")
-    //                     .requestMatchers(HttpMethod.POST, "/proprietario").hasRole("ADMIN")
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+        return  httpSecurity
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/auth/register").hasRole("ADMIN")
                         
-    //                     // Rotinas de gerenciamento entidades 'Especialidades' | 'Exames' | 'Funcionários'
-    //                     .requestMatchers("/especialidades/**").hasAnyRole("ADMIN", "SECRETARY")
-    //                     .requestMatchers("/exames/**").hasAnyRole("ADMIN", "SECRETARY")
-    //                     .requestMatchers("/funcionarios/**").hasRole("ADMIN")
-                        
-    //                     // Rotinas de gerenciamento entidades  'Médicos'
-    //                     .requestMatchers("/medicos/**").hasAnyRole("ADMIN", "SECRETARY")
-                        
-    //                     //  Rotinas de gerenciamento entidades  'Pacientes'
-    //                     .requestMatchers("/pacientes/**").hasAnyRole("ADMIN", "SECRETARY")
-                        
-    //                     //  Rotinas de gerenciamento entidades 'Agendamentos'
-    //                     .requestMatchers(HttpMethod.GET, "/exames-agendados/**").hasAnyRole("ADMIN", "SECRETARY", "MEDIC")
-    //                     .requestMatchers("/exames-agendados/**").hasAnyRole("ADMIN", "SECRETARY")
-    //                     .requestMatchers(HttpMethod.GET, "/consultas-agendadas/**").hasAnyRole("ADMIN", "SECRETARY", "MEDIC")
-    //                     .requestMatchers("/consultas-agendadas/**").hasAnyRole("ADMIN", "SECRETARY")
-                        
-    //                     .anyRequest().authenticated()
-    //             )
-    //             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
-    //             .build();
-    // }
+                        // Rotinas de gerenciamento entidades 'Especialidades' | 'Exames' | 'Funcionários'
+                        .requestMatchers("/api/**/**").hasAnyRole("ADMIN")                                              
+                        //  Rotinas de gerenciamento entidades 'Agendamentos'
+                        .requestMatchers(HttpMethod.GET, "/api/alunos/**").hasAnyRole("ALUNO", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/professores/**").hasAnyRole("PROFESSOR", "ADMIN")
+                        .requestMatchers(HttpMethod.GET, "/api/empresas/**").hasAnyRole("EMPRESAS", "EMPRESAS")
+                        .anyRequest().authenticated()
+                )
+                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
