@@ -1,4 +1,4 @@
-package com.valeviver.config;
+package br.com.student_coin_system.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,4 +20,3 @@ public class WebConfig implements WebMvcConfigurer {
         };
     }
 }
-  // .allowedOrigins("http://localhost:3000")
