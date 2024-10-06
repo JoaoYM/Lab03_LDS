@@ -1,9 +1,10 @@
 package br.com.student_coin_system.enums;
 
 public enum UserRoles {
-    EMPRESA("EMPRESA"),
-    PROFESSOR("PROFESSOR"),
-    ALUNO("ALUNO");
+    EMPRESA("empresa"),
+    PROFESSOR("professor"),
+    ALUNO("aluno"),
+    ADMIN("admin");
 
     private String role;
 

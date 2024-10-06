@@ -36,7 +36,7 @@ public class SecurityConfigurations {
                         //  Rotinas de gerenciamento entidades 'Agendamentos'
                         .requestMatchers(HttpMethod.GET, "/api/alunos/**").hasAnyRole("ALUNO", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/professores/**").hasAnyRole("PROFESSOR", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/empresas/**").hasAnyRole("EMPRESAS", "EMPRESAS")
+                        .requestMatchers(HttpMethod.GET, "/api/empresas/**").hasAnyRole("EMPRESAS", "ADMIN")
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
