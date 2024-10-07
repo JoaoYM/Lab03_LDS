@@ -51,23 +51,7 @@ public class User implements UserDetails {
         
         return authorities;
     }
-
-    // @Override
-    // public Collection<? extends GrantedAuthority> getAuthorities() {
-    //     // Usar UserRoles enum para gerar a lista de autoridades
-    //     List<GrantedAuthority> authorities = Stream.of(role)
-    //             .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getRole().toUpperCase()))
-    //             .distinct() // Para evitar duplicatas
-    //             .collect(Collectors.toList());
-
-    //     // Se o usuário for ADMIN, adicionar a autoridade ROLE_USER
-    //     if (this.role == UserRoles.ADMIN) {
-    //         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
-    //     }
-
-    //     return authorities;
-    // }
-
+    
     @Override
     public String getUsername() {
         return login;
