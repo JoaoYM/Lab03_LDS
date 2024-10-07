@@ -2,6 +2,7 @@ package br.com.student_coin_system.entity.users;
 
 import br.com.student_coin_system.entity.financeiro.ContaCorrente;
 import br.com.student_coin_system.entity.instituicao.Departamento;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -27,7 +28,9 @@ public class Professor{
     @ManyToOne
     private Departamento departamento;
 
-    @OneToOne
+    // @OneToOne
+    // private ContaCorrente contaCorrente;
+    @OneToOne(cascade = CascadeType.ALL)
     private ContaCorrente contaCorrente;
 
     private String nome;

@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.com.student_coin_system.entity.financeiro.ContaCorrente;
 import br.com.student_coin_system.entity.instituicao.Vantagem;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -38,6 +39,8 @@ public class Empresa{
     @OneToMany
     private List<Vantagem> vantagem = new ArrayList<>();
     
-    @OneToOne
+    // @OneToOne
+    // private ContaCorrente contaCorrente;
+    @OneToOne(cascade = CascadeType.ALL)
     private ContaCorrente contaCorrente;
 }

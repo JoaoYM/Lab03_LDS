@@ -32,7 +32,9 @@ public class Aluno{
     @ManyToOne
     private Curso curso;
 
-    @OneToOne
+    // @OneToOne
+    // private ContaCorrente contaCorrente;
+    @OneToOne(cascade = CascadeType.ALL)
     private ContaCorrente contaCorrente;
 
     private String nome;
