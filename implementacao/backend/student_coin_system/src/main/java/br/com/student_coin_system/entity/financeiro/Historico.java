@@ -8,8 +8,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "historico")
 public class Historico {
     public Historico(LocalDateTime dataOperacao, String pagador, String beneficiario, BigDecimal entrada, BigDecimal saida, BigDecimal saldoFinal, ContaCorrente contaCorrente) {
        setDataOperacao(dataOperacao);
