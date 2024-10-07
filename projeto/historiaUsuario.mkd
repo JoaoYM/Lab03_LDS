@@ -1,0 +1,84 @@
+### Histórias de Usuário - Sistema de Moeda Estudantil
+
+#### História de Usuário 1: Cadastrar no Sistema
+
+**Como** aluno,  
+**Quero** me cadastrar no sistema,  
+**Para que** eu possa acessar as funcionalidades e benefícios disponíveis.
+
+**Critérios de Aceitação:**
+- O aluno deve preencher um formulário com informações pessoais e de contato (UC1).
+- O sistema deve validar os dados e confirmar o cadastro via e-mail (UC9).
+
+---
+
+#### História de Usuário 2: Consultar Extrato
+
+**Como** aluno,  
+**Quero** consultar meu extrato de moedas,
+**Para que** eu possa acompanhar meu saldo e as transações realizadas.
+
+**Critérios de Aceitação:**
+- O aluno pode visualizar um relatório detalhado de transações, incluindo entradas e saídas de moedas (UC3).
+- O extrato deve ser atualizado em tempo real sempre que uma transação for realizada.
+
+---
+
+#### História de Usuário 3: Trocar Moedas por Vantagem
+
+**Como** aluno,  
+**Quero** trocar minhas moedas por vantagens,
+**Para que** eu possa usufruir de benefícios que melhoram minha experiência no sistema.
+
+**Critérios de Aceitação:**
+- O aluno deve ser capaz de escolher entre as vantagens disponíveis e confirmar a troca (UC6).
+- O sistema deve descontar automaticamente as moedas e confirmar a transação.
+
+---
+
+#### História de Usuário 4: Cadastrar Vantagem
+
+**Como** empresa parceira,
+**Quero** cadastrar novas vantagens no sistema,
+**Para que** eu possa oferecer opções atrativas aos alunos que utilizam minhas moedas.
+
+**Critérios de Aceitação:**
+- A empresa parceira deve preencher um formulário com os detalhes da vantagem, como descrição e valor em moedas (UC7).
+- As vantagens cadastradas devem ser visíveis para os alunos após a aprovação.
+
+---
+
+#### História de Usuário 5: Resgatar Vantagem
+
+**Como** aluno, 
+**Quero** resgatar uma vantagem disponível,
+**Para que** eu possa aproveitar o benefício que escolhi.
+
+**Critérios de Aceitação:**
+- O aluno pode visualizar as vantagens que estão disponíveis para resgate (UC10).
+- O sistema deve atualizar o status da vantagem após o resgate e enviar uma confirmação ao aluno.
+
+---
+
+#### História de Usuário 6: Distribuir Moedas
+
+**Como** professor,
+**Quero** distribuir moedas para alunos,
+**Para que** eu possa incentivá-los e recompensá-los por suas conquistas.
+
+**Critérios de Aceitação:**
+- O professor deve selecionar os alunos e a quantidade de moedas a serem distribuídas (UC2).
+- O sistema deve registrar a distribuição e atualizar automaticamente o saldo dos alunos em tempo real.
+
+- ---
+
+#### História de Usuário 7: Receber E-mail
+
+**Como** aluno,
+**Quero** receber e-mails sobre atualizações e ofertas,
+**Para que** eu esteja sempre informado sobre as novidades do sistema.
+
+**Critérios de Aceitação:**
+- O aluno deve receber notificações por e-mail sobre transações e novas vantagens disponíveis (UC9).
+- O sistema deve permitir que o aluno se inscreva ou cancele a assinatura de notificações.
+- 
