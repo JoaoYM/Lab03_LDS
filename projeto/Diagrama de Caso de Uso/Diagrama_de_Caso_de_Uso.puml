@@ -1,0 +1,32 @@
+@startuml
+left to right direction
+actor Aluno
+actor Professor
+actor EmpresaParceira
+
+usecase "Cadastrar no Sistema" as CA1
+usecase "Distribuir Moedas" as CA2
+usecase "Consultar extrato" as CA3
+usecase "Trocar Moedas por Vantagem" as CA6
+usecase "Cadastrar Vantagem" as CA7
+usecase "Receber Email" as CA9
+usecase "Resgatar Vantagem" as CA10
+usecase "Acessar Sistema" as CA11
+
+Aluno --> CA11
+Professor --> CA11
+EmpresaParceira --> CA11
+
+Aluno --> CA1
+Aluno --> CA3
+Aluno --> CA6
+Aluno --> CA9
+Aluno --> CA10
+
+Professor --> CA2
+Professor --> CA3
+
+EmpresaParceira --> CA1
+EmpresaParceira --> CA7
+EmpresaParceira --> CA10
+@enduml
