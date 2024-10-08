@@ -1,47 +1,71 @@
 @startuml
 class Aluno {
+  -id: Long
   -nome: String
   -email: String
   -cpf: String
   -rg: String
   -endereco: String
   -instituicao: Instituicao
-  -curso: String
-  -saldoMoedas: int
+  -curso: Curso
+  -contaCorrente: ContaCorrente
   +cadastrar(): void
-  +consultarSaldo(): int
+  +consultarContaCorrente(): void
   +consultarTransacoes(): List<Transacao>
   +resgatarVantagem(vantagem: Vantagem): void
 }
 
 class Professor {
+  -id: Long
   -nome: String
+  -email: String
   -cpf: String
-  -departamento: String
+  -departamento: Departamento
   -instituicao: Instituicao
-  -saldoMoedas: int
-  +consultarSaldo(): int
+  -contaCorrente: ContaCorrente
+  +consultarContaCorrente(): void
   +consultarTransacoes(): List<Transacao>
   +enviarMoedas(aluno: Aluno, quantidade: int, motivo: String): void
 }
 
-Interface Instituicao {
+class Instituicao {
+  -id: Long
   -nome: String
+  -cnpj: String
   -endereco: String
+  -cursos: List<Curso>
+  -departamento: List<Departamento>
+  -vantagens: List<Vantagem>
 }
 
 class Vantagem {
+  -id: Long
+  -nome: String
   -descricao: String
-  -foto: String
-  -custoMoedas: int
-  -empresa: EmpresaParceira
+  -fotoUrl: String
+  -custoMoedas: BigDecimal
+  -empresa: Empresa
+  -instituicao: Instituicao
 }
 
-class EmpresaParceira {
+class Empresa {
+  -id: Long
   -nome: String
+  -email: String
+  -cnpj: String
+  -razaoSocial: String
   -endereco: String
+  -contaCorrente: ContaCorrente
+  -vantagem: List<Vantagem>
   +cadastrar(): void
   +cadastrarVantagem(descricao: String, foto: String, custoMoedas: int): void
+}
+
+class ContaCorrente {
+  -id: Long
+  -saldo: BigDecimal
+  +adicionarMoedas(): void
+  +removerMoedas(): void
 }
 
 class Transacao {
@@ -51,10 +75,13 @@ class Transacao {
   -codigo: String
 }
 
-Aluno -- Instituicao
-Professor -- Instituicao
+Aluno "0..*" -- "1" Instituicao
+Professor "0..*" -- "1" Instituicao
 Professor "1" -- "0..*" Transacao 
 Aluno "1" -- "0..*" Transacao
 Aluno "0..*" -- "0..*" Vantagem
-Vantagem -- EmpresaParceira
+Vantagem "0..*" -- "1" Empresa
+Professor "0..*" -- "1" ContaCorrente
+Aluno "0..*" -- "1" ContaCorrente
+Empresa "0..*" -- "1" ContaCorrente
 @enduml
