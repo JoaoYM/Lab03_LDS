@@ -1,29 +1,37 @@
 @startuml
 package "Sistema de Moeda Esdutantil" {
 
-    [Navegador] <.. [API]
+    [Aluno]
+    [Professor]
+    [EmpresaParceira]
+    [FrontEnd]
+    [PostgreSQL]
 
-    [API] -(0- [Cadastrar no Sistema]
-    [API] -(0- [Distribuir Moedas]
-    [API] -(0- [Consultar extrato]
-    [API] -(0- [Trocar Moedas por Vantagem]
-    [API] -(0- [Cadastrar Vantagem]
-    [API] -(0- [Receber Email]
-    [API] -(0- [Resgatar Vantagem]
-    [API] -(0- [Acessar Sistema]
+    component [BackEnd] {
+        [Cadastrar no Sistema]
+        [Distribuir Moedas]
+        [Consultar extrato]
+        [Trocar Moedas por Vantagem]
+        [Cadastrar Vantagem]
+        [Receber Email]
+        [Resgatar Vantagem]
+        [Acessar Sistema]
+    }
 
-    [Cadastrar no Sistema] -(0- [PostgreSQL]:<<TCP/IP>>
-    [Distribuir Moedas] -(0- [PostgreSQL]:<<TCP/IP>>
-    [Consultar extrato] -(0- [PostgreSQL]:<<TCP/IP>>
-    [Trocar Moedas por Vantagem] -(0- [PostgreSQL]:<<TCP/IP>>
-    [Cadastrar Vantagem] -(0- [PostgreSQL]:<<TCP/IP>>
-    [Receber Email] -(0- [PostgreSQL]:<<TCP/IP>>
-    [Resgatar Vantagem] -(0- [PostgreSQL]:<<TCP/IP>>
-    [Acessar Sistema] -(0- [PostgreSQL]:<<TCP/IP>>
+    [FrontEnd] -(0- [Cadastrar no Sistema]
+    [FrontEnd] -(0- [Distribuir Moedas]
+    [FrontEnd] -(0- [Consultar extrato]
+    [FrontEnd] -(0- [Trocar Moedas por Vantagem]
+    [FrontEnd] -(0- [Cadastrar Vantagem]
+    [FrontEnd] -(0- [Receber Email]
+    [FrontEnd] -(0- [Resgatar Vantagem]
+    [FrontEnd] -(0- [Acessar Sistema]
 
-    [Aluno] <.. [Navegador]
-    [Professor] <.. [Navegador]
-    [EmpresaParceira] <.. [Navegador]
+    [BackEnd] --> [PostgreSQL]:<<TCP/IP>>
+
+    [Aluno] <.. [FrontEnd]
+    [Professor] <.. [FrontEnd]
+    [EmpresaParceira] <.. [FrontEnd]
 }
 
 @enduml
