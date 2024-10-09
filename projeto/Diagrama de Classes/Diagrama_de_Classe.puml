@@ -38,6 +38,18 @@ class Instituicao {
   -vantagens: List<Vantagem>
 }
 
+class Curso {
+  -id: Long
+  -nome: String
+  -alunos: List<Aluno>
+}
+
+class Departamento {
+  -id: Long
+  -nome: String
+  -professores: List<Professor>
+}
+
 class Vantagem {
   -id: Long
   -nome: String
@@ -45,7 +57,6 @@ class Vantagem {
   -fotoUrl: String
   -custoMoedas: BigDecimal
   -empresa: Empresa
-  -instituicao: Instituicao
 }
 
 class Empresa {
@@ -73,6 +84,16 @@ class Transacao {
   -quantidade: int
   -motivo: String
   -codigo: String
+  -aluno: Aluno
+  -professor: Professor
+}
+
+class Cupom {
+  -id: Long
+  -codigo: String
+  -data: Date
+  -aluno: Aluno
+  -empresa: Empresa
 }
 
 Aluno "0..*" -- "1" Instituicao
@@ -84,4 +105,11 @@ Vantagem "0..*" -- "1" Empresa
 Professor "0..*" -- "1" ContaCorrente
 Aluno "0..*" -- "1" ContaCorrente
 Empresa "0..*" -- "1" ContaCorrente
+Aluno "0..*" -- "1" Curso
+Instituicao "1" -- "0..*" Curso
+Aluno "1" -- "0..*" Cupom
+Empresa "1" -- "0..*" Cupom
+Professor "0..*" -- "1" Departamento
+Instituicao "1" -- "0..*" Departamento
+
 @enduml
