@@ -9,9 +9,10 @@ usecase "Distribuir Moedas" as CA2
 usecase "Consultar extrato" as CA3
 usecase "Trocar Moedas por Vantagem" as CA4
 usecase "Cadastrar Vantagem" as CA5
+usecase "Acessar Sistema" as CA8
+
 usecase "Enviar Cupom" as CA6
 usecase "Enviar Email" as CA7
-usecase "Acessar Sistema" as CA8
 
 Aluno --> CA8
 Professor --> CA8
