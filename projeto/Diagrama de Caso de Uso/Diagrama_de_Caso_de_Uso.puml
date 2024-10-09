@@ -10,12 +10,12 @@ usecase "Consultar extrato" as CA3
 usecase "Trocar Moedas por Vantagem" as CA4
 usecase "Cadastrar Vantagem" as CA5
 usecase "Enviar Cupom" as CA6
-usecase "Enviar Email" as CA9
-usecase "Acessar Sistema" as CA11
+usecase "Enviar Email" as CA7
+usecase "Acessar Sistema" as CA8
 
-Aluno --> CA11
-Professor --> CA11
-EmpresaParceira --> CA11
+Aluno --> CA8
+Professor --> CA8
+EmpresaParceira --> CA8
 
 Aluno --> CA1
 Aluno --> CA3
@@ -27,6 +27,6 @@ Professor --> CA3
 EmpresaParceira --> CA1
 EmpresaParceira --> CA5
 
-CA2 <-- CA9: <<include>>
+CA2 <-- CA7: <<include>>
 CA4 <-- CA6: <<include>>
 @enduml
