@@ -7,10 +7,10 @@ actor EmpresaParceira
 usecase "Cadastrar no Sistema" as CA1
 usecase "Distribuir Moedas" as CA2
 usecase "Consultar extrato" as CA3
-usecase "Trocar Moedas por Vantagem" as CA6
-usecase "Cadastrar Vantagem" as CA7
-usecase "Receber Email" as CA9
-usecase "Resgatar Vantagem" as CA10
+usecase "Trocar Moedas por Vantagem" as CA4
+usecase "Cadastrar Vantagem" as CA5
+usecase "Enviar Cupom" as CA6
+usecase "Enviar Email" as CA9
 usecase "Acessar Sistema" as CA11
 
 Aluno --> CA11
@@ -19,14 +19,14 @@ EmpresaParceira --> CA11
 
 Aluno --> CA1
 Aluno --> CA3
-Aluno --> CA6
-Aluno --> CA9
-Aluno --> CA10
+Aluno --> CA4
 
 Professor --> CA2
 Professor --> CA3
 
 EmpresaParceira --> CA1
-EmpresaParceira --> CA7
-EmpresaParceira --> CA10
+EmpresaParceira --> CA5
+
+CA2 <-- CA9: <<include>>
+CA4 <-- CA6: <<include>>
 @enduml
