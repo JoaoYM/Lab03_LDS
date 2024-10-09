@@ -32,35 +32,23 @@
 
 **Critérios de Aceitação:**
 - O aluno deve ser capaz de escolher entre as vantagens disponíveis e confirmar a troca (UC6).
-- O sistema deve descontar automaticamente as moedas e confirmar a transação.
+- O sistema deve descontar automaticamente as moedas e confirmar a transação enviando um email com o cupom para o aluno e para a empresa.
 
 ---
 
 #### História de Usuário 4: Cadastrar Vantagem
 
-**Como** empresa parceira,
+**Como** empresa,
 **Quero** cadastrar novas vantagens no sistema,
 **Para que** eu possa oferecer opções atrativas aos alunos que utilizam minhas moedas.
 
 **Critérios de Aceitação:**
-- A empresa parceira deve preencher um formulário com os detalhes da vantagem, como descrição e valor em moedas (UC7).
+- A empresa deve preencher um formulário com os detalhes da vantagem, como descrição e valor em moedas (UC7).
 - As vantagens cadastradas devem ser visíveis para os alunos após a aprovação.
 
 ---
 
-#### História de Usuário 5: Resgatar Vantagem
-
-**Como** aluno, 
-**Quero** resgatar uma vantagem disponível,
-**Para que** eu possa aproveitar o benefício que escolhi.
-
-**Critérios de Aceitação:**
-- O aluno pode visualizar as vantagens que estão disponíveis para resgate (UC10).
-- O sistema deve atualizar o status da vantagem após o resgate e enviar uma confirmação ao aluno.
-
----
-
-#### História de Usuário 6: Distribuir Moedas
+#### História de Usuário 5: Distribuir Moedas
 
 **Como** professor,
 **Quero** distribuir moedas para alunos,
@@ -69,16 +57,18 @@
 **Critérios de Aceitação:**
 - O professor deve selecionar os alunos e a quantidade de moedas a serem distribuídas (UC2).
 - O sistema deve registrar a distribuição e atualizar automaticamente o saldo dos alunos em tempo real.
+- Ao distribuir as moedas deve ser enviado um email notificando o aluno que recebeu a moeda.
 
 - ---
 
-#### História de Usuário 7: Receber E-mail
+#### História de Usuário 6: Acessar Sistema
 
-**Como** aluno,
-**Quero** receber e-mails sobre atualizações e ofertas,
-**Para que** eu esteja sempre informado sobre as novidades do sistema.
+**Como** aluno, professor e empresa,
+**Quero** acessar o sistema,
+**Para que** eu possa realizar as devidas atividades presentes no sistema.
 
 **Critérios de Aceitação:**
-- O aluno deve receber notificações por e-mail sobre transações e novas vantagens disponíveis (UC9).
-- O sistema deve permitir que o aluno se inscreva ou cancele a assinatura de notificações.
-- 
+- O aluno, professor ou empresa deve ter o cadastro feito no sistema para poder acessa-lo.
+
+- ---
+
