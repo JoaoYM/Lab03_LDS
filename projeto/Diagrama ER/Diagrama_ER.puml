@@ -1,0 +1,120 @@
+@startuml
+
+entity "Aluno" as Aluno {
+  * id : Long
+  --
+  nome : String
+  email : String
+  cpf : String
+  rg : String
+  endereco : String
+  --
+  id_instituicao : Long
+  id_curso : Long
+  id_conta_corrente : Long
+}
+
+entity "Professor" as Professor {
+  * id : Long
+  --
+  nome : String
+  email : String
+  cpf : String
+  --
+  id_departamento : Long
+  id_instituicao : Long
+  id_conta_corrente : Long
+}
+
+entity "Instituicao" as Instituicao {
+  * id : Long
+  --
+  nome : String
+  cnpj : String
+  endereco : String
+}
+
+entity "Curso" as Curso {
+  * id : Long
+  --
+  nome : String
+  --
+  id_instituicao : Long
+}
+
+entity "Departamento" as Departamento {
+  * id : Long
+  --
+  nome : String
+  --
+  id_instituicao : Long
+}
+
+entity "Vantagem" as Vantagem {
+  * id : Long
+  --
+  nome : String
+  descricao : String
+  foto_url : String
+  custo_moedas : BigDecimal
+  --
+  id_empresa : Long
+}
+
+entity "Empresa" as Empresa {
+  * id : Long
+  --
+  nome : String
+  email : String
+  cnpj : String
+  razao_social : String
+  endereco : String
+  --
+  id_conta_corrente : Long
+}
+
+entity "Conta Corrente" as ContaCorrente {
+  * id : Long
+  --
+  saldo : BigDecimal
+}
+
+entity "Transacao" as Transacao {
+  * id : Long
+  --
+  data : Date
+  quantidade : int
+  motivo : String
+  codigo : String
+  --
+  id_aluno : Long
+  id_professor : Long
+}
+
+entity "Cupom" as Cupom {
+  * id : Long
+  --
+  codigo : String
+  data : Date
+  --
+  id_aluno : Long
+  id_empresa : Long
+}
+
+' Relacionamentos
+
+Aluno }|--|| Instituicao : "Pertence a"
+Aluno }|--|| Curso : "Seleciona"
+Aluno }|--|| ContaCorrente : "Possui"
+Professor }|--|| Instituicao : "Pertence a"
+Professor }|--|| Departamento : "Pertence a"
+Professor }|--|| ContaCorrente : "Possui"
+Professor }o--o{ Transacao : "Realiza"
+Aluno }o--o{ Transacao : "Recebe"
+Vantagem }|--|| Empresa : "Pertence a"
+Empresa }|--|| ContaCorrente : "Possui"
+Aluno }o--o{ Vantagem : "Resgata"
+Aluno }o--o{ Cupom : "Gera"
+Empresa }o--o{ Cupom : "Gera"
+
+@enduml

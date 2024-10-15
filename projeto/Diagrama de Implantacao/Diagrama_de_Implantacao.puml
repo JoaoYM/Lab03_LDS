@@ -1,0 +1,33 @@
+@startuml
+node "Servidor Web" {
+    [FrontEnd]
+}
+
+node "Servidor de Aplicação" {
+    component [BackEnd] {
+        [Cadastrar no Sistema]
+        [Distribuir Moedas]
+        [Consultar extrato]
+        [Trocar Moedas por Vantagem]
+        [Cadastrar Vantagem]
+        [Receber Email]
+        [Resgatar Vantagem]
+        [Acessar Sistema]
+    }
+}
+
+database "Banco de Dados" as PostgreSQL {
+    [PostgreSQL]
+}
+
+node "Cliente" {
+    [Aluno]
+    [Professor]
+    [EmpresaParceira]
+}
+
+[Cliente] --> [FrontEnd] : HTTP
+[FrontEnd] --> [BackEnd] : HTTP (REST API)
+[BackEnd] --> PostgreSQL : <<TCP/IP>>
+
+@enduml
