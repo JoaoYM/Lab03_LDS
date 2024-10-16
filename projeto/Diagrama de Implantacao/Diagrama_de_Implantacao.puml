@@ -10,13 +10,12 @@ node "Servidor de Aplicação" {
         [Consultar extrato]
         [Trocar Moedas por Vantagem]
         [Cadastrar Vantagem]
-        [Receber Email]
-        [Resgatar Vantagem]
+        [Enviar Email]
         [Acessar Sistema]
     }
 }
 
-database "Banco de Dados" as PostgreSQL {
+database "Banco de Dados" {
     [PostgreSQL]
 }
 
@@ -28,6 +27,6 @@ node "Cliente" {
 
 [Cliente] --> [FrontEnd] : HTTP
 [FrontEnd] --> [BackEnd] : HTTP (REST API)
-[BackEnd] --> PostgreSQL : <<TCP/IP>>
+[BackEnd] --> [PostgreSQL] : <<TCP/IP>>
 
 @enduml
