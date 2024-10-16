@@ -1,6 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+const empresa = Array.from({ length: 20 }, (_, index) => ({
+  id: index + 1, // Ajustando o ID para ser único em cada linha
+  nome: `empresa${index + 1}`,
+  email: `empresa${index + 1}@gmail.com`,
+}));
+
 const ListagemEmpresa = () => {
   const [empresas, setEmpresas] = useState([]);
 
@@ -20,9 +26,9 @@ const ListagemEmpresa = () => {
   };
 
   return (
-    <div>
+    <div className="table-container">
       <h2>Listagem de Empresas</h2>
-      <table>
+      <table className="tabela-table">
         <thead>
           <tr>
             <th>ID</th>

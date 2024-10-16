@@ -26,7 +26,7 @@ const EditarEmpresa = () => {
     <div>
       <h2>Editar Empresa</h2>
       <input type="text" placeholder="Nome" value={empresa.nome} onChange={e => setEmpresa({ ...empresa, nome: e.target.value })} />
-      <input type="email" placeholder="Email" value={empresa.email} onChange={e => setEmpresa({ ...empresa, email: e.target.value })} />
+      <input type="text" placeholder="Email" value={empresa.email} onChange={e => setEmpresa({ ...empresa, email: e.target.value })} />
       <input type="text" placeholder="Descrição" value={empresa.descricao} onChange={e => setEmpresa({ ...empresa, descricao: e.target.value })} />
       <button onClick={atualizarEmpresa}>Atualizar</button>
     </div>

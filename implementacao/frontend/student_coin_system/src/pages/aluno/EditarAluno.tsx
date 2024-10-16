@@ -30,7 +30,7 @@ const EditarAluno = () => {
     <div>
       <h2>Editar Aluno</h2>
       <input type="text" placeholder="Nome" value={aluno.nome} onChange={e => setAluno({ ...aluno, nome: e.target.value })} />
-      <input type="email" placeholder="Email" value={aluno.email} onChange={e => setAluno({ ...aluno, email: e.target.value })} />
+      <input type="text" placeholder="Email" value={aluno.email} onChange={e => setAluno({ ...aluno, email: e.target.value })} />
       <input type="text" placeholder="CPF" value={aluno.cpf} onChange={e => setAluno({ ...aluno, cpf: e.target.value })} />
       <input type="text" placeholder="RG" value={aluno.rg} onChange={e => setAluno({ ...aluno, rg: e.target.value })} />
       <input type="text" placeholder="Endereço" value={aluno.endereco} onChange={e => setAluno({ ...aluno, endereco: e.target.value })} />

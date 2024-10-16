@@ -20,7 +20,7 @@ const CadastroEmpresa = () => {
     <div>
       <h2>Cadastrar Empresa Parceira</h2>
       <input type="text" placeholder="Nome da Empresa" onChange={e => setNome(e.target.value)} />
-      <input type="email" placeholder="Email" onChange={e => setEmail(e.target.value)} />
+      <input type="text" placeholder="Email" onChange={e => setEmail(e.target.value)} />
       <input type="text" placeholder="Descrição" onChange={e => setDescricao(e.target.value)} />
       <button onClick={cadastrarEmpresa}>Cadastrar</button>
     </div>

@@ -21,10 +21,10 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <div className="login-container">
       <h2>Login</h2>
       <input
-        type="email"
+        type="text"
         placeholder="Email"
         value={email}
         onChange={e => setEmail(e.target.value)}
