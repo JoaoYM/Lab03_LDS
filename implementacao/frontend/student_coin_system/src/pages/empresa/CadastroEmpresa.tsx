@@ -1,28 +1,76 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
-const CadastroEmpresa = () => {
-  const [nome, setNome] = useState('');
-  const [email, setEmail] = useState('');
-  const [descricao, setDescricao] = useState('');
+const CadastroEmpresa: React.FC = () => {
+  const [formData, setFormData] = useState({
+    nome: "",
+    email: "",
+    cnpj: "",
+    razaoSocial: "",
+  });
 
-  const cadastrarEmpresa = () => {
-    axios.post('/api/empresas', {
-      nome,
-      email,
-      descricao
-    })
-      .then(() => alert('Empresa cadastrada com sucesso!'))
-      .catch(error => console.error(error));
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      await axios.post("/api/empresas", formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      });
+      alert("Empresa cadastrada com sucesso!");
+    } catch (error) {
+      console.error("Erro ao cadastrar empresa", error);
+    }
   };
 
   return (
-    <div>
-      <h2>Cadastrar Empresa Parceira</h2>
-      <input type="text" placeholder="Nome da Empresa" onChange={e => setNome(e.target.value)} />
-      <input type="text" placeholder="Email" onChange={e => setEmail(e.target.value)} />
-      <input type="text" placeholder="Descrição" onChange={e => setDescricao(e.target.value)} />
-      <button onClick={cadastrarEmpresa}>Cadastrar</button>
+    <div className="max-w-lg mx-auto p-8">
+      <h1 className="text-2xl font-bold mb-6">Cadastro de Empresa</h1>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          type="text"
+          name="nome"
+          placeholder="Nome"
+          value={formData.nome}
+          onChange={handleInputChange}
+          className="w-full p-2 border border-gray-300 rounded"
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          value={formData.email}
+          onChange={handleInputChange}
+          className="w-full p-2 border border-gray-300 rounded"
+        />
+        <input
+          type="text"
+          name="cnpj"
+          placeholder="CNPJ"
+          value={formData.cnpj}
+          onChange={handleInputChange}
+          className="w-full p-2 border border-gray-300 rounded"
+        />
+        <input
+          type="text"
+          name="razaoSocial"
+          placeholder="Razão Social"
+          value={formData.razaoSocial}
+          onChange={handleInputChange}
+          className="w-full p-2 border border-gray-300 rounded"
+        />
+        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
+          Cadastrar
+        </button>
+      </form>
     </div>
   );
 };

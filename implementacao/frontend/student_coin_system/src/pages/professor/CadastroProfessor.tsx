@@ -2,26 +2,24 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 interface Instituicao {
-  id: number;
-  nome: string;
+    id: number;
+    nome: string;
 }
 
-interface Curso {
-  id: number;
-  nome: string;
+interface Departamento {
+    id: number;
+    nome: string;
 }
 
-const CadastroAluno: React.FC = () => {
+const CadastroProfessor: React.FC = () => {
   const [instituicoes, setInstituicoes] = useState<Instituicao[]>([]);
-  const [cursos, setCursos] = useState<Curso[]>([]);
+  const [departamentos, setDepartamentos] = useState<Departamento[]>([]);
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
     cpf: "",
-    rg: "",
-    endereco: "",
     instituicaoId: "",
-    cursoId: "",
+    departamentoId: "",
   });
 
   useEffect(() => {
@@ -44,12 +42,12 @@ const CadastroAluno: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Requisição para buscar os Cursos após seleção da Instituição
-    const fetchCursos = async () => {
+    // Requisição para buscar os Departamentos após seleção da Instituição
+    const fetchDepartamentos = async () => {
       if (formData.instituicaoId) {
         try {
           const response = await axios.get(
-            `/api/instituicoes/${formData.instituicaoId}/cursos`,
+            `/api/instituicoes/${formData.instituicaoId}/departamentos`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -57,14 +55,14 @@ const CadastroAluno: React.FC = () => {
               },
             }
           );
-          setCursos(response.data);
+          setDepartamentos(response.data);
         } catch (error) {
-          console.error("Erro ao buscar cursos", error);
+          console.error("Erro ao buscar departamentos", error);
         }
       }
     };
 
-    fetchCursos();
+    fetchDepartamentos();
   }, [formData.instituicaoId]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -77,21 +75,21 @@ const CadastroAluno: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("/api/alunos", formData, {
+      await axios.post("/api/professores", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
         },
       });
-      alert("Aluno cadastrado com sucesso!");
+      alert("Professor cadastrado com sucesso!");
     } catch (error) {
-      console.error("Erro ao cadastrar aluno", error);
+      console.error("Erro ao cadastrar professor", error);
     }
   };
 
   return (
     <div className="max-w-lg mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-6">Cadastro de Aluno</h1>
+      <h1 className="text-2xl font-bold mb-6">Cadastro de Professor</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -117,22 +115,6 @@ const CadastroAluno: React.FC = () => {
           onChange={handleInputChange}
           className="w-full p-2 border border-gray-300 rounded"
         />
-        <input
-          type="text"
-          name="rg"
-          placeholder="RG"
-          value={formData.rg}
-          onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
-        />
-        <input
-          type="text"
-          name="endereco"
-          placeholder="Endereço"
-          value={formData.endereco}
-          onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
-        />
         <select
           name="instituicaoId"
           value={formData.instituicaoId}
@@ -147,16 +129,16 @@ const CadastroAluno: React.FC = () => {
           ))}
         </select>
         <select
-          name="cursoId"
-          value={formData.cursoId}
+          name="departamentoId"
+          value={formData.departamentoId}
           onChange={handleInputChange}
           disabled={!formData.instituicaoId}
           className="w-full p-2 border border-gray-300 rounded"
         >
-          <option value="">Selecione o Curso</option>
-          {cursos.map((curso) => (
-            <option key={curso.id} value={curso.id}>
-              {curso.nome}
+          <option value="">Selecione o Departamento</option>
+          {departamentos.map((departamento) => (
+            <option key={departamento.id} value={departamento.id}>
+              {departamento.nome}
             </option>
           ))}
         </select>
@@ -168,4 +150,4 @@ const CadastroAluno: React.FC = () => {
   );
 };
 
-export default CadastroAluno;
+export default CadastroProfessor;
