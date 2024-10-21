@@ -1,20 +1,37 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Login = () => {
-  const [email, setEmail] = useState('');
-  const [senha, setSenha] = useState('');
+interface User {
+  login: string;
+  password: string;
+}
 
-  const handleLogin = () => {
-    axios.post('/api/login', { email, senha })
-      .then(response => {
-        alert('Login bem-sucedido');
-        // Redirecionar para a página principal
-      })
-      .catch(error => {
-        alert('Erro no login');
-        console.error(error);
-      });
+const initialState: User = {
+  login: '',
+  password: ''
+};
+
+const Login = () => {
+  const [dados, setDados] = useState<User>(initialState);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setDados(prevState => ({
+      ...prevState,
+      [name]: value
+    }));
+  };
+
+  const handleLogin = async () => {
+    await axios.post("http://localhost:8080/api/auth/login", dados, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then(response => {
+      // Sucesso
+    }).catch(error => {
+      console.error("Erro ao fazer login", error);
+    });
   };
 
   return (
@@ -23,16 +40,18 @@ const Login = () => {
         <h2 className="text-2xl font-bold text-center mb-6">Login</h2>
         <input
           type="text"
-          placeholder="Email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
+          name="login"
+          placeholder="Login"
+          value={dados.login}
+          onChange={handleChange}
           className="border border-gray-300 p-2 mb-4 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="password"
+          name="password"
           placeholder="Senha"
-          value={senha}
-          onChange={e => setSenha(e.target.value)}
+          value={dados.password}
+          onChange={handleChange}
           className="border border-gray-300 p-2 mb-4 w-full rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <button

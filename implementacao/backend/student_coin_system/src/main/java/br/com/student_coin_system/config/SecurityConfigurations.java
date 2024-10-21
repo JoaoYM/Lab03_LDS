@@ -28,11 +28,11 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/auth/register").hasRole("ADMIN")
                         
                         // Rotinas de gerenciamento entidades 'Especialidades' | 'Exames' | 'Funcionários'
-                        .requestMatchers("/api/**/**").hasAnyRole("ADMIN")                                              
+                        .requestMatchers("/api/**").hasAnyRole("ADMIN")                                              
                         //  Rotinas de gerenciamento entidades 'Agendamentos'
                         .requestMatchers(HttpMethod.GET, "/api/alunos/**").hasAnyRole("ALUNO", "ADMIN")
                         .requestMatchers(HttpMethod.GET, "/api/professores/**").hasAnyRole("PROFESSOR", "ADMIN")

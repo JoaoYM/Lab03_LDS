@@ -1,18 +1,22 @@
 package br.com.student_coin_system.components;
 
+import br.com.student_coin_system.entity.authentication.User;
 import br.com.student_coin_system.entity.instituicao.Curso;
 import br.com.student_coin_system.entity.instituicao.Departamento;
 import br.com.student_coin_system.entity.instituicao.Instituicao;
 import br.com.student_coin_system.entity.instituicao.Vantagem;
 import br.com.student_coin_system.entity.users.Empresa;
+import br.com.student_coin_system.enums.UserRoles;
 import br.com.student_coin_system.repository.instituicao.CursoRepository;
 import br.com.student_coin_system.repository.instituicao.DepartamentoRepository;
 import br.com.student_coin_system.repository.instituicao.InstituicaoRepository;
 import br.com.student_coin_system.repository.instituicao.VantagemRepository;
+import br.com.student_coin_system.repository.users.UserRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
@@ -32,6 +36,12 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     
     @Autowired
     private VantagemRepository vantagemRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     // Arrays pré-cadastrados
     private final String[] cursos = {
@@ -61,6 +71,9 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         criarInstituicoes();
+        if(userRepository.findByLogin("admin@teste.com") == null){
+            criarAdmin();
+        }
     }
 
     private void criarInstituicoes() {
@@ -80,6 +93,18 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 criarVantagens(instituicao);
             }
         }
+    }
+
+    private void criarAdmin() {
+        // Adicione lógica para criar um usuário administrador, se necessário
+        
+        User user = new User();
+
+        user.setLogin("admin@teste.com");
+        user.setPassword(passwordEncoder.encode("12345"));
+        user.setRole(UserRoles.ADMIN);
+
+        userRepository.save(user);
     }
 
     private void criarDepartamentos(Instituicao instituicao) {
