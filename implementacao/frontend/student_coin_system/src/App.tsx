@@ -1,4 +1,4 @@
-import './App.css';
+// import './App.css';
 import React, { useState } from 'react';
 import Login from './pages/login/Login.tsx';
 import CadastroAluno from './pages/aluno/CadastroAluno.tsx';

@@ -16,15 +16,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.student_coin_system.dto.users.ProfessorDTO;
+import br.com.student_coin_system.entity.authentication.User;
 import br.com.student_coin_system.entity.instituicao.Departamento;
 import br.com.student_coin_system.entity.users.Professor;
+import br.com.student_coin_system.enums.UserRoles;
 import br.com.student_coin_system.repository.instituicao.DepartamentoRepository;
 import br.com.student_coin_system.repository.users.ProfessorRepository;
 import br.com.student_coin_system.service.financeiro.TransferenciaService;
+import br.com.student_coin_system.service.users.UsersService;
 
 
 @RestController
-@RequestMapping("/api/professores")
+@RequestMapping("/api/professor")
 public class ProfessorController {
 
     @Autowired
@@ -35,6 +38,9 @@ public class ProfessorController {
 
     @Autowired
     private DepartamentoRepository departamentoRepository;
+
+    @Autowired
+    private UsersService usersService;
 
     @PostMapping
     public ResponseEntity<Void> cadastrarProfessor(@RequestBody Professor professor) {
@@ -49,6 +55,19 @@ public class ProfessorController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
+
+        User user = new User();
+
+        user.setLogin(professor.getEmail());
+        user.setPassword("12345");
+        user.setRole(UserRoles.PROFESSOR);
+
+        try {
+            usersService.createUser(user);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
         return ResponseEntity.ok().build();
     }
 

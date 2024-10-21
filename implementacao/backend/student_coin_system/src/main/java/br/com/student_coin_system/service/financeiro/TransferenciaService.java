@@ -48,7 +48,7 @@ public class TransferenciaService {
         }
     }
 
-    public void efetuarPagamento(Long alunoId, BigDecimal valor, String idVantagem) {
+    public void efetuarPagamento(Long alunoId, BigDecimal valor, Long idVantagem) {
         Aluno aluno       = alunoRepository.findById(alunoId).orElseThrow();
         Vantagem vantagem = aluno.getInstituicao().getVantagens().stream().filter(v -> v.getId().equals(idVantagem)).findFirst().orElseThrow();
 

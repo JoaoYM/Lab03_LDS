@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.student_coin_system.entity.instituicao.Curso;
+import br.com.student_coin_system.entity.instituicao.Departamento;
 import br.com.student_coin_system.entity.instituicao.Instituicao;
 import br.com.student_coin_system.repository.instituicao.InstituicaoRepository;
 
@@ -44,5 +46,17 @@ public class InstituicaoController {
     @DeleteMapping("/{id}")
     public void deleteInstituicao(@PathVariable Long id) {
         instituicaoRepository.deleteById(id);
+    }
+
+    @GetMapping("/{id}/cursos")
+    public List<Curso> getCursos(@PathVariable Long id) {
+        List<Curso> cursos = instituicaoRepository.findById(id).get().getCursos();
+        return cursos;
+    }
+
+    @GetMapping("/{id}/departamentos")
+    public List<Departamento> getDepartamentos(@PathVariable Long id) {
+        List<Departamento> departamentos = instituicaoRepository.findById(id).get().getDepartamentos();
+        return departamentos;
     }
 }

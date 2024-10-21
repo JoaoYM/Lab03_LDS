@@ -15,9 +15,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.student_coin_system.dto.users.EmpresaDTO;
+import br.com.student_coin_system.entity.authentication.User;
 import br.com.student_coin_system.entity.users.Empresa;
+import br.com.student_coin_system.enums.UserRoles;
 import br.com.student_coin_system.repository.users.EmpresaRepository;
 import br.com.student_coin_system.service.financeiro.TransferenciaService;
+import br.com.student_coin_system.service.users.UsersService;
 
 @RestController
 @RequestMapping("/api/empresa")
@@ -28,9 +31,25 @@ public class EmpresaController {
     @Autowired
     private EmpresaRepository empresaRepository;
 
+    @Autowired
+    private UsersService usersService;
+
     @PostMapping
     public ResponseEntity<Void> cadastrarEmpresa(@RequestBody Empresa empresa) {
         empresaRepository.save(empresa);
+
+        User user = new User();
+
+        user.setLogin(empresa.getEmail());
+        user.setPassword("12345");
+        user.setRole(UserRoles.EMPRESA);
+
+        try {
+            usersService.createUser(user);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().build();
+        }
+
         return ResponseEntity.ok().build();
     }
 

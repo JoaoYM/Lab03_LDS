@@ -10,18 +10,25 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.student_coin_system.dto.users.AlunoDTO;
+import br.com.student_coin_system.entity.authentication.User;
 import br.com.student_coin_system.entity.users.Aluno;
+import br.com.student_coin_system.enums.UserRoles;
 import br.com.student_coin_system.repository.users.AlunoRepository;
+import br.com.student_coin_system.service.users.UsersService;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
-@RequestMapping("/api/alunos")
+@RequestMapping("/api/aluno")
 public class AlunoController {
 
     @Autowired
     private AlunoRepository alunoRepository;
+
+    @Autowired
+    private UsersService usersService;
 
     @PostMapping
     public ResponseEntity<Void> cadastrarAluno(@RequestBody Aluno aluno) {
@@ -29,6 +36,18 @@ public class AlunoController {
         try{
             alunoRepository.save(aluno);
         }catch(Exception e){
+            return ResponseEntity.badRequest().build();
+        }
+
+        User user = new User();
+
+        user.setLogin(aluno.getEmail());
+        user.setPassword("12345");
+        user.setRole(UserRoles.ALUNO);
+
+        try {
+            usersService.createUser(user);
+        } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
         
