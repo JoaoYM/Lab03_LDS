@@ -15,8 +15,6 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.com.student_coin_system.components.SecurityFilterToken;
-import br.com.student_coin_system.entity.authentication.User;
-import br.com.student_coin_system.enums.UserRoles;
 
 @Configuration
 @EnableWebSecurity
@@ -32,7 +30,7 @@ public class SecurityConfigurations {
                 .authorizeHttpRequests(authorize -> authorize
                         // Permitir todas as requisições ao endpoint de login, independente do método
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                        .requestMatchers("/**").hasRole(UserRoles.ADMIN.name())
+                        .requestMatchers("/**").hasRole("ADMIN")
                         // Permitir qualquer outra requisição de login se houver outro endpoint relacionado
                         .anyRequest().authenticated() // Exigir autenticação para outros endpoints
                 )

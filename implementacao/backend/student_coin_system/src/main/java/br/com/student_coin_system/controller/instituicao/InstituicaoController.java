@@ -3,6 +3,7 @@ package br.com.student_coin_system.controller.instituicao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import br.com.student_coin_system.entity.instituicao.Departamento;
 import br.com.student_coin_system.entity.instituicao.Instituicao;
 import br.com.student_coin_system.repository.instituicao.InstituicaoRepository;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/instituicao")
 public class InstituicaoController {

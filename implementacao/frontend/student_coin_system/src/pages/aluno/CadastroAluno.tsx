@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import { decodeToken } from "../../utils/token.tsx";
 
 interface Instituicao {
   id: number;
@@ -27,8 +28,10 @@ const CadastroAluno: React.FC = () => {
   useEffect(() => {
     // Requisição para buscar as Instituições
     const fetchInstituicoes = async () => {
+
+      console.log(decodeToken(localStorage.getItem("token") || ""));
       try {
-        const response = await axios.get("/api/instituicoes", {
+        const response = await axios.get("http://localhost:8080/api/instituicao", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json",
@@ -49,7 +52,7 @@ const CadastroAluno: React.FC = () => {
       if (formData.instituicaoId) {
         try {
           const response = await axios.get(
-            `/api/instituicoes/${formData.instituicaoId}/cursos`,
+            `http://localhost:8080/api/instituicoes/${formData.instituicaoId}/cursos`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -77,7 +80,7 @@ const CadastroAluno: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("/api/alunos", formData, {
+      await axios.post("http://localhost:8080/api/aluno", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
