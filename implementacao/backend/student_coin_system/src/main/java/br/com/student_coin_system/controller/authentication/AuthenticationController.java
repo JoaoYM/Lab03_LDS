@@ -24,6 +24,7 @@ import br.com.student_coin_system.service.authentication.TokenService;
 import br.com.student_coin_system.service.users.UsersService;
 import jakarta.validation.Valid;
 
+@CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("api/auth")
 public class AuthenticationController {
@@ -41,7 +42,6 @@ public class AuthenticationController {
     private TokenService tokenService;
 
 
-    @CrossOrigin(origins = "http://localhost:3000")
     @SuppressWarnings("rawtypes")
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody @Valid AuthenticationDTO data){

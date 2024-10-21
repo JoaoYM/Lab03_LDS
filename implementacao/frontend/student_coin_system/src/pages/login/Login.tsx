@@ -11,7 +11,12 @@ const initialState: User = {
   password: ''
 };
 
-const Login = () => {
+interface LoginProps {
+  setToken: (token: string) => void;
+  setIsAuthenticated: (isAuthenticated: boolean) => void;
+}
+
+const Login: React.FC<LoginProps> = ({ setToken, setIsAuthenticated }) => {
   const [dados, setDados] = useState<User>(initialState);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -23,15 +28,22 @@ const Login = () => {
   };
 
   const handleLogin = async () => {
-    await axios.post("http://localhost:8080/api/auth/login", dados, {
-      headers: {
-        "Content-Type": "application/json",
-      },
-    }).then(response => {
-      // Sucesso
-    }).catch(error => {
-      console.error("Erro ao fazer login", error);
-    });
+    try {
+      const response = await axios.post("http://localhost:8080/api/auth/login", dados, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (response.data.token) {
+        localStorage.setItem("token", response.data.token);
+        setToken(response.data.token);
+        setIsAuthenticated(true);
+        alert("Login realizado com sucesso!");
+      }
+    } catch (error) {
+      alert("Erro ao fazer login, verifique os dados e tente novamente!");
+    }
   };
 
   return (

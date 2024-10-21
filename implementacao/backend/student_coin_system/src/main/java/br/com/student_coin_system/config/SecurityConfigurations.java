@@ -15,6 +15,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import br.com.student_coin_system.components.SecurityFilterToken;
+import br.com.student_coin_system.entity.authentication.User;
+import br.com.student_coin_system.enums.UserRoles;
 
 @Configuration
 @EnableWebSecurity
@@ -28,16 +30,11 @@ public class SecurityConfigurations {
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
+                        // Permitir todas as requisições ao endpoint de login, independente do método
                         .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth/register").hasRole("ADMIN")
-                        
-                        // Rotinas de gerenciamento entidades 'Especialidades' | 'Exames' | 'Funcionários'
-                        .requestMatchers("/api/**").hasAnyRole("ADMIN")                                              
-                        //  Rotinas de gerenciamento entidades 'Agendamentos'
-                        .requestMatchers(HttpMethod.GET, "/api/alunos/**").hasAnyRole("ALUNO", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/professores/**").hasAnyRole("PROFESSOR", "ADMIN")
-                        .requestMatchers(HttpMethod.GET, "/api/empresas/**").hasAnyRole("EMPRESAS", "ADMIN")
-                        .anyRequest().authenticated()
+                        .requestMatchers("/**").hasRole(UserRoles.ADMIN.name())
+                        // Permitir qualquer outra requisição de login se houver outro endpoint relacionado
+                        .anyRequest().authenticated() // Exigir autenticação para outros endpoints
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
