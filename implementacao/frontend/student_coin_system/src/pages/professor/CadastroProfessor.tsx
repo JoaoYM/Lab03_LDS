@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import InputMask from "react-input-mask";
 
 interface Instituicao {
-    id: number;
-    nome: string;
+  id: number;
+  nome: string;
 }
 
 interface Departamento {
-    id: number;
-    nome: string;
+  id: number;
+  nome: string;
 }
 
 const CadastroProfessor: React.FC = () => {
@@ -23,7 +24,6 @@ const CadastroProfessor: React.FC = () => {
   });
 
   useEffect(() => {
-    // Requisição para buscar as Instituições
     const fetchInstituicoes = async () => {
       try {
         const response = await axios.get("http://localhost:8080/api/instituicao", {
@@ -42,7 +42,6 @@ const CadastroProfessor: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Requisição para buscar os Departamentos após seleção da Instituição
     const fetchDepartamentos = async () => {
       if (formData.instituicaoId) {
         try {
@@ -88,16 +87,16 @@ const CadastroProfessor: React.FC = () => {
   };
 
   return (
-    <div className="max-w-lg mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-6">Cadastro de Professor</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="max-w-3xl mx-auto p-8 bg-white shadow-md rounded-lg">
+      <h1 className="text-2xl font-bold mb-6 text-center">Cadastro de Professor</h1>
+      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
         <input
           type="text"
           name="nome"
           placeholder="Nome"
           value={formData.nome}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="email"
@@ -105,21 +104,22 @@ const CadastroProfessor: React.FC = () => {
           placeholder="Email"
           value={formData.email}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <input
+        <InputMask
+          mask="999.999.999-99"
           type="text"
           name="cpf"
           placeholder="CPF"
           value={formData.cpf}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <select
           name="instituicaoId"
           value={formData.instituicaoId}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Selecione a Instituição</option>
           {instituicoes.map((instituicao) => (
@@ -133,18 +133,23 @@ const CadastroProfessor: React.FC = () => {
           value={formData.departamentoId}
           onChange={handleInputChange}
           disabled={!formData.instituicaoId}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Selecione o Departamento</option>
-          {departamentos.map((departamento) => (
+          {(departamentos || []).map((departamento) => (
             <option key={departamento.id} value={departamento.id}>
               {departamento.nome}
             </option>
           ))}
         </select>
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          Cadastrar
-        </button>
+        <div className="col-span-2">
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300"
+          >
+            Cadastrar
+          </button>
+        </div>
       </form>
     </div>
   );
