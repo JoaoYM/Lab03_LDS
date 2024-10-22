@@ -8,7 +8,7 @@ class Aluno {
   -endereco: String
   -instituicao: Instituicao
   -curso: Curso
-  -contaCorrente: ContaCorrente
+  -saldo: BigDecimal
   +cadastrar(): void
   +consultarContaCorrente(): void
   +consultarTransacoes(): List<Transacao>
@@ -22,7 +22,7 @@ class Professor {
   -cpf: String
   -departamento: Departamento
   -instituicao: Instituicao
-  -contaCorrente: ContaCorrente
+  -saldo: BigDecimal
   +consultarContaCorrente(): void
   +consultarTransacoes(): List<Transacao>
   +enviarMoedas(aluno: Aluno, quantidade: int, motivo: String): void
@@ -66,18 +66,12 @@ class Empresa {
   -cnpj: String
   -razaoSocial: String
   -endereco: String
-  -contaCorrente: ContaCorrente
+  -saldo: BigDecimal
   -vantagem: List<Vantagem>
   +cadastrar(): void
   +cadastrarVantagem(descricao: String, foto: String, custoMoedas: int): void
 }
 
-class ContaCorrente {
-  -id: Long
-  -saldo: BigDecimal
-  +adicionarMoedas(): void
-  +removerMoedas(): void
-}
 
 class Transacao {
   -data: Date
@@ -102,9 +96,6 @@ Professor "1" -- "0..*" Transacao
 Aluno "1" -- "0..*" Transacao
 Aluno "0..*" -- "0..*" Vantagem
 Vantagem "0..*" -- "1" Empresa
-Professor "0..*" -- "1" ContaCorrente
-Aluno "0..*" -- "1" ContaCorrente
-Empresa "0..*" -- "1" ContaCorrente
 Aluno "0..*" -- "1" Curso
 Instituicao "1" -- "0..*" Curso
 Aluno "1" -- "0..*" Cupom
