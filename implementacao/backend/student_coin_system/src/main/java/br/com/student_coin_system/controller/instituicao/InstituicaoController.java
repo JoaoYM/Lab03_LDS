@@ -17,6 +17,7 @@ import br.com.student_coin_system.entity.instituicao.Curso;
 import br.com.student_coin_system.entity.instituicao.Departamento;
 import br.com.student_coin_system.entity.instituicao.Instituicao;
 import br.com.student_coin_system.repository.instituicao.InstituicaoRepository;
+import jakarta.persistence.EntityNotFoundException;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -52,8 +53,8 @@ public class InstituicaoController {
 
     @GetMapping("/{id}/cursos")
     public List<Curso> getCursos(@PathVariable Long id) {
-        List<Curso> cursos = instituicaoRepository.findById(id).get().getCursos();
-        return cursos;
+        Instituicao instituicao = instituicaoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Instituição não encontrada"));
+        return instituicao.getCursos();
     }
 
     @GetMapping("/{id}/departamentos")

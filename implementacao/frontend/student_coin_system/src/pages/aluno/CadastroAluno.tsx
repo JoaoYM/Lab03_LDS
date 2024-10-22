@@ -29,7 +29,7 @@ const CadastroAluno: React.FC = () => {
     // Requisição para buscar as Instituições
     const fetchInstituicoes = async () => {
 
-      console.log(decodeToken(localStorage.getItem("token") || ""));
+      // console.log(decodeToken(localStorage.getItem("token") || ""));
       try {
         const response = await axios.get("http://localhost:8080/api/instituicao", {
           headers: {
@@ -48,11 +48,12 @@ const CadastroAluno: React.FC = () => {
 
   useEffect(() => {
     // Requisição para buscar os Cursos após seleção da Instituição
+
     const fetchCursos = async () => {
       if (formData.instituicaoId) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/instituicoes/${formData.instituicaoId}/cursos`,
+            `http://localhost:8080/api/instituicao/${formData.instituicaoId}/cursos`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -66,8 +67,9 @@ const CadastroAluno: React.FC = () => {
         }
       }
     };
-
     fetchCursos();
+
+    console.log(cursos);
   }, [formData.instituicaoId]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

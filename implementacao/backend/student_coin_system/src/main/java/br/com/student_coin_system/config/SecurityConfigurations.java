@@ -13,7 +13,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import br.com.student_coin_system.components.SecurityFilterToken;
 
 @Configuration
@@ -27,11 +26,13 @@ public class SecurityConfigurations {
         return  httpSecurity
                 .csrf(csrf -> csrf.disable())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                // Nova abordagem para CORS usando o Customizer
+                .cors(cors -> cors.configurationSource(request -> new org.springframework.web.cors.CorsConfiguration().applyPermitDefaultValues()))
+                // Nova abordagem para autorizações de requisição usando Customizer
                 .authorizeHttpRequests(authorize -> authorize
                         // Permitir todas as requisições ao endpoint de login, independente do método
-                        .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
+                        .requestMatchers("/api/auth/login").permitAll()
                         .requestMatchers("/**").hasRole("ADMIN")
-                        // Permitir qualquer outra requisição de login se houver outro endpoint relacionado
                         .anyRequest().authenticated() // Exigir autenticação para outros endpoints
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -44,7 +45,7 @@ public class SecurityConfigurations {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }
