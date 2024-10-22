@@ -8,6 +8,7 @@ entity "Aluno" as Aluno {
   cpf : String
   rg : String
   endereco : String
+  saldo : BigDecimal
   --
   id_instituicao : Long
   id_curso : Long
@@ -20,6 +21,7 @@ entity "Professor" as Professor {
   nome : String
   email : String
   cpf : String
+  saldo : BigDecimal
   --
   id_departamento : Long
   id_instituicao : Long
@@ -69,14 +71,7 @@ entity "Empresa" as Empresa {
   cnpj : String
   razao_social : String
   endereco : String
-  --
-  id_conta_corrente : Long
-}
-
-entity "Conta Corrente" as ContaCorrente {
-  * id : Long
-  --
-  saldo : BigDecimal
+  saldo: BigDecimal
 }
 
 entity "Transacao" as Transacao {
@@ -91,30 +86,26 @@ entity "Transacao" as Transacao {
   id_professor : Long
 }
 
-entity "Cupom" as Cupom {
+entity "Resgate" as Resgate {
   * id : Long
   --
   codigo : String
   data : Date
   --
   id_aluno : Long
-  id_empresa : Long
+  id_vantagem : Long
 }
 
 ' Relacionamentos
 
 Aluno }|--|| Instituicao : "Pertence a"
-Aluno }|--|| Curso : "Seleciona"
-Aluno }|--|| ContaCorrente : "Possui"
+Aluno }|--|| Curso : "Seleciona
 Professor }|--|| Instituicao : "Pertence a"
-Professor }|--|| Departamento : "Pertence a"
-Professor }|--|| ContaCorrente : "Possui"
+Professor }|--|| Departamento : "Pertence a
 Professor }o--o{ Transacao : "Realiza"
 Aluno }o--o{ Transacao : "Recebe"
 Vantagem }|--|| Empresa : "Pertence a"
-Empresa }|--|| ContaCorrente : "Possui"
-Aluno }o--o{ Vantagem : "Resgata"
-Aluno }o--o{ Cupom : "Gera"
-Empresa }o--o{ Cupom : "Gera"
+Aluno }o--o{ Resgate : "Gera"
+Vantagem }o--o{ Resgate : "Gera"
 
 @enduml

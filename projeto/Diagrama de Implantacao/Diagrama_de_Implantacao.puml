@@ -1,9 +1,10 @@
 @startuml
-node "Servidor Web" {
-    [FrontEnd]
+node "Servidor React" {
+    [FrontEnd: 3000] as FrontEnd
 }
 
 node "Servidor de Aplicação" {
+    [BackEnd: 8080] as BackEnd
     component [BackEnd] {
         [Cadastrar no Sistema]
         [Distribuir Moedas]
@@ -16,17 +17,15 @@ node "Servidor de Aplicação" {
 }
 
 database "Banco de Dados" {
-    [PostgreSQL]
+    [PostgreSQL: 5432] as PostgreSQL
 }
 
 node "Cliente" {
-    [Aluno]
-    [Professor]
-    [EmpresaParceira]
+    [navegador]
 }
 
-[Cliente] --> [FrontEnd] : HTTP
-[FrontEnd] --> [BackEnd] : HTTP (REST API)
+[Cliente] --> [FrontEnd] : HTTP (callbakcs)
+[Cliente] --> [BackEnd] : HTTP (REST API)
 [BackEnd] --> [PostgreSQL] : <<TCP/IP>>
 
 @enduml
