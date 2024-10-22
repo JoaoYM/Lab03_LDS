@@ -12,11 +12,9 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 @Entity
 @Table(name = "conta_corrente")
 public class ContaCorrente {
@@ -28,6 +26,10 @@ public class ContaCorrente {
 
     @OneToMany(mappedBy = "contaCorrente")
     private List<Historico> historico = new ArrayList<>();
+
+    public ContaCorrente() {
+        this.saldo = BigDecimal.ZERO;
+    }
 
     public void adicionarMoedas(LocalDateTime data, String pagador, String beneficiario, BigDecimal valor) {
         setSaldo(this.saldo.add(valor));

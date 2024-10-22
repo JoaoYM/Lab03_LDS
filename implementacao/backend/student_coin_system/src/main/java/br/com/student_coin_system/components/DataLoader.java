@@ -112,7 +112,8 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
             Departamento departamento = new Departamento();
             departamento.setNome(departamentos[i % departamentos.length] + " - " + instituicao.getNome());
             departamento.setProfessores(new ArrayList<>());
-
+            departamento.setInstituicao(instituicao);
+            
             departamentoRepository.save(departamento);
         }
     }
@@ -122,6 +123,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
             Curso curso = new Curso();
             curso.setNome(cursos[i % cursos.length] + " - " + instituicao.getNome());
             curso.setAlunos(new ArrayList<>());
+            curso.setInstituicao(instituicao);
 
             cursoRepository.save(curso);
         }

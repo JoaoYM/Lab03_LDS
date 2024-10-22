@@ -32,8 +32,6 @@ public class Aluno{
     @ManyToOne
     private Curso curso;
 
-    // @OneToOne
-    // private ContaCorrente contaCorrente;
     @OneToOne(cascade = CascadeType.ALL)
     private ContaCorrente contaCorrente;
 

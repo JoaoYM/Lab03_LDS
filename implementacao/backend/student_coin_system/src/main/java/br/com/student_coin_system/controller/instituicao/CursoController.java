@@ -31,6 +31,11 @@ public class CursoController {
         public Curso getCurso(@PathVariable Long id) {
             return cursoRepository.findById(id).orElse(null);
         }
+
+        @GetMapping("/{id}/instituicao")
+        public List<Curso> getCursosInstituicao(@PathVariable Long id) {
+            return cursoRepository.findByInstituicaoId(id);
+        }
     
         @PostMapping
         public Curso createCurso(@RequestBody Curso curso) {

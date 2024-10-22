@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.student_coin_system.dto.users.ProfessorDTO;
 import br.com.student_coin_system.entity.authentication.User;
+import br.com.student_coin_system.entity.financeiro.ContaCorrente;
 import br.com.student_coin_system.entity.instituicao.Departamento;
 import br.com.student_coin_system.entity.users.Professor;
 import br.com.student_coin_system.enums.UserRoles;
@@ -43,27 +44,35 @@ public class ProfessorController {
     private UsersService usersService;
 
     @PostMapping
-    public ResponseEntity<Void> cadastrarProfessor(@RequestBody Professor professor) {
+    public ResponseEntity<Void> cadastrarProfessor(@RequestBody ProfessorDTO professor) {
         try {
-            Optional<Departamento> departamento = departamentoRepository.findById(professor.getId());
-            
-            if(!departamento.isEmpty()){
-                professor.setDepartamento(departamento.get());
+            Professor novoProfessor = new Professor();
+
+            Optional<Departamento> departamentoOpt = departamentoRepository.findById(professor.getDepartamentoId());
+            if (!departamentoOpt.isPresent()) {
+                return ResponseEntity.badRequest().build();
             }
 
-            professorRepository.save(professor);
+            Departamento departamento = departamentoOpt.get();
+            novoProfessor.setNome(professor.getNome());
+            novoProfessor.setEmail(professor.getEmail());
+            novoProfessor.setCpf(professor.getCpf());
+            novoProfessor.setDepartamento(departamento);
+            
+            novoProfessor.setContaCorrente(new ContaCorrente());
+            
+            professorRepository.save(novoProfessor);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
 
         User user = new User();
-
         user.setLogin(professor.getEmail());
-        user.setPassword("12345");
-        user.setRole(UserRoles.PROFESSOR);
+        user.setPassword("12345"); // Senha padrão
+        user.setRole(UserRoles.PROFESSOR); // Definindo o papel de professor
 
         try {
-            usersService.createUser(user);
+            usersService.createUser(user); // Cria a entidade de autenticação
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
@@ -76,15 +85,23 @@ public class ProfessorController {
         Professor oldProfessor = professorRepository.findById(id).orElseThrow();
         oldProfessor.setNome(professor.getNome());
         oldProfessor.setEmail(professor.getEmail());
-        oldProfessor.setCpf(professor.getcpf());
+        oldProfessor.setCpf(professor.getCpf());
 
+        Optional<Departamento> departamentoOpt = departamentoRepository.findById(professor.getDepartamentoId());
+        if (!departamentoOpt.isPresent()) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        oldProfessor.setDepartamento(departamentoOpt.get());
+    
         try {
-            professorRepository.save(oldProfessor);
+            professorRepository.save(oldProfessor); // Atualiza os dados do professor no banco
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
     }
+    
 
     @PostMapping("/transferir")
     public ResponseEntity<Void> transferirMoedas(@RequestParam Long professorId,
@@ -93,7 +110,7 @@ public class ProfessorController {
                                                  @RequestParam String motivo) {
         transferenciaService.transferirMoedas(professorId, alunoId, quantidade, motivo);
         return ResponseEntity.ok().build();
-    }
+    }    
 
     @GetMapping
     public Iterable<Professor> getProfessores() {

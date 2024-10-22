@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { decodeToken } from "../../utils/token.tsx";
 
 interface Instituicao {
   id: number;
@@ -29,7 +28,6 @@ const CadastroAluno: React.FC = () => {
     // Requisição para buscar as Instituições
     const fetchInstituicoes = async () => {
 
-      // console.log(decodeToken(localStorage.getItem("token") || ""));
       try {
         const response = await axios.get("http://localhost:8080/api/instituicao", {
           headers: {
@@ -53,7 +51,7 @@ const CadastroAluno: React.FC = () => {
       if (formData.instituicaoId) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/instituicao/${formData.instituicaoId}/cursos`,
+            `http://localhost:8080/api/curso/${formData.instituicaoId}/instituicao`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,

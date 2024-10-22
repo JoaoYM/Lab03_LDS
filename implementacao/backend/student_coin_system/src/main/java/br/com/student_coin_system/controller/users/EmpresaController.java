@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.student_coin_system.dto.users.EmpresaDTO;
 import br.com.student_coin_system.entity.authentication.User;
+import br.com.student_coin_system.entity.financeiro.ContaCorrente;
 import br.com.student_coin_system.entity.users.Empresa;
 import br.com.student_coin_system.enums.UserRoles;
 import br.com.student_coin_system.repository.users.EmpresaRepository;
@@ -36,6 +37,7 @@ public class EmpresaController {
 
     @PostMapping
     public ResponseEntity<Void> cadastrarEmpresa(@RequestBody Empresa empresa) {
+        empresa.setContaCorrente(new ContaCorrente());
         empresaRepository.save(empresa);
 
         User user = new User();

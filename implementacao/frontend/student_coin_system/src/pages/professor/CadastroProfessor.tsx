@@ -26,7 +26,7 @@ const CadastroProfessor: React.FC = () => {
     // Requisição para buscar as Instituições
     const fetchInstituicoes = async () => {
       try {
-        const response = await axios.get("/api/instituicoes", {
+        const response = await axios.get("http://localhost:8080/api/instituicao", {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
             "Content-Type": "application/json",
@@ -47,7 +47,7 @@ const CadastroProfessor: React.FC = () => {
       if (formData.instituicaoId) {
         try {
           const response = await axios.get(
-            `/api/instituicoes/${formData.instituicaoId}/departamentos`,
+            `http://localhost:8080/api/departamento/${formData.instituicaoId}/instituicao`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -75,7 +75,7 @@ const CadastroProfessor: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("/api/professores", formData, {
+      await axios.post("http://localhost:8080/api/professor", formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
           "Content-Type": "application/json",
