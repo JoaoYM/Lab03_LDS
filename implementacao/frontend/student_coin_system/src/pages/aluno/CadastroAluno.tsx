@@ -12,18 +12,48 @@ interface Curso {
   nome: string;
 }
 
-const CadastroAluno: React.FC = () => {
+interface Aluno {
+  id: number;
+  nome: string;
+  email: string;
+  cpf: string;
+  rg: string;
+  endereco: string;
+  instituicaoId: number;
+  cursoId: number;
+}
+
+interface CadastroAlunoProps {
+  aluno?: Aluno;
+  onClose: () => void; // Função para fechar o formulário de edição
+}
+
+const CadastroAluno: React.FC<CadastroAlunoProps> = ({ aluno, onClose }) => {
   const [instituicoes, setInstituicoes] = useState<Instituicao[]>([]);
   const [cursos, setCursos] = useState<Curso[]>([]);
   const [formData, setFormData] = useState({
-    nome: "",
-    email: "",
-    cpf: "",
-    rg: "",
-    endereco: "",
-    instituicaoId: "",
-    cursoId: "",
+    nome: aluno?.nome || "",
+    email: aluno?.email || "",
+    cpf: aluno?.cpf || "",
+    rg: aluno?.rg || "",
+    endereco: aluno?.endereco || "",
+    instituicaoId: aluno?.instituicaoId || "",
+    cursoId: aluno?.cursoId || "",
   });
+
+  useEffect(() => {
+    if (aluno) {
+      setFormData({
+        nome: aluno.nome,
+        email: aluno.email,
+        cpf: aluno.cpf,
+        rg: aluno.rg,
+        endereco: aluno.endereco,
+        instituicaoId: aluno.instituicaoId,
+        cursoId: aluno.cursoId,
+      });
+    }
+  }, [aluno]);
 
   useEffect(() => {
     // Requisição para buscar as Instituições
@@ -82,21 +112,33 @@ const CadastroAluno: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:8080/api/aluno", formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-      });
-      alert("Aluno cadastrado com sucesso!");
+        if (aluno) {
+            await axios.put(`http://localhost:8080/api/aluno/${aluno.id}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            alert("Aluno atualizado com sucesso!");
+        } else {
+            await axios.post("http://localhost:8080/api/aluno", formData, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    "Content-Type": "application/json",
+                },
+            });
+            alert("Aluno cadastrado com sucesso!");
+        }
+        onClose(); // Fecha o formulário de edição ao finalizar
     } catch (error) {
-      console.error("Erro ao cadastrar aluno", error);
+        console.error("Erro ao salvar aluno", error);
+        alert("Erro ao salvar aluno.");
     }
-  };
+};
 
   return (
-    <div className="max-w-lg mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-6">Cadastro de Aluno</h1>
+     <div className="max-w-lg mx-auto p-8">
+      <h1 className="text-2xl font-bold mb-6">{aluno ? "Editar Aluno" : "Cadastrar Aluno"}</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -166,7 +208,10 @@ const CadastroAluno: React.FC = () => {
           ))}
         </select>
         <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          Cadastrar
+          {aluno ? "Salvar" : "Cadastrar"}
+        </button>
+        <button type="button" onClick={onClose} className="bg-gray-500 text-white p-2 rounded ml-2">
+          Cancelar
         </button>
       </form>
     </div>

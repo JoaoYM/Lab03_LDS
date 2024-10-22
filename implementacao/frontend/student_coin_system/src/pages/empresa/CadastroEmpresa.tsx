@@ -1,13 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 
-const CadastroEmpresa: React.FC = () => {
+interface Empresa {
+  id: number;
+  nome: string;
+  email: string;
+  cnpj: string;
+  razaoSocial: string;
+}
+
+interface CadastroEmpresaProps {
+  empresa?: Empresa;
+  onClose: () => void;
+}
+
+const CadastroEmpresa: React.FC<CadastroEmpresaProps> = ({ empresa, onClose }) => {
   const [formData, setFormData] = useState({
-    nome: "",
-    email: "",
-    cnpj: "",
-    razaoSocial: "",
+    nome: empresa?.nome || "",
+    email:empresa?.email || "",
+    cnpj: empresa?.cnpj || "",
+    razaoSocial: empresa?.razaoSocial || "",
   });
+
+  useEffect(() => {
+    if (empresa) {
+      setFormData({
+        nome: empresa.nome,
+        email: empresa.email,
+        cnpj: empresa.cnpj,
+        razaoSocial: empresa.razaoSocial,
+      });
+    }
+  }, [empresa]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -19,21 +43,33 @@ const CadastroEmpresa: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await axios.post("/api/empresas", formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-      });
-      alert("Empresa cadastrada com sucesso!");
+      if (empresa) {
+        await axios.put(`http://localhost:8080/api/empresa/${empresa.id}`, formData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        });
+        alert("Empresa atualizada com sucesso!");
+      } else {
+        await axios.post("http://localhost:8080/api/empresa", formData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        });
+        alert("Empresa cadastrada com sucesso!");
+      }
+      onClose(); // Fecha o formulário de edição ao finalizar
     } catch (error) {
       console.error("Erro ao cadastrar empresa", error);
+      alert("Erro ao cadastrar empresa.");
     }
   };
 
   return (
     <div className="max-w-lg mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-6">Cadastro de Empresa</h1>
+      <h1 className="text-2xl font-bold mb-6">{empresa ? "Editar Empresa" : "Cadastrar Empresa"}</h1>
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -68,7 +104,10 @@ const CadastroEmpresa: React.FC = () => {
           className="w-full p-2 border border-gray-300 rounded"
         />
         <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          Cadastrar
+          {empresa ? "Salvar" : "Cadastrar"}
+        </button>
+        <button type="button" onClick={onClose} className="bg-gray-500 text-white p-2 rounded ml-2">
+          Cancelar
         </button>
       </form>
     </div>

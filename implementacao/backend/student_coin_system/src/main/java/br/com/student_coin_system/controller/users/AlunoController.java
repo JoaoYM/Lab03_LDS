@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -63,7 +64,7 @@ public class AlunoController {
         oldAluno.setEmail(aluno.getEmail());
         oldAluno.setRg(aluno.getRg());
         oldAluno.setEndereco(aluno.getEndereco());
-        oldAluno.setCurso(aluno.getCurso());
+        //oldAluno.setCurso(aluno.getCurso());
         oldAluno.setContaCorrente(aluno.getContaCorrente());
         oldAluno.setInstituicao(aluno.getInstituicao());
         oldAluno.setCpf(aluno.getCpf());
@@ -86,5 +87,10 @@ public class AlunoController {
     @GetMapping
     public List<Aluno> getAlunos() {
         return alunoRepository.findAll();
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteAluno(@PathVariable Long id) {
+        alunoRepository.deleteById(id);
     }
 }
