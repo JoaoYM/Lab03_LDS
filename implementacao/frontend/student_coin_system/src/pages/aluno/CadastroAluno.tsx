@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
+interface Instituicao {
+  id: number;
+  nome: string;
+}
+
 const CadastroAluno = () => {
   const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
@@ -8,17 +13,19 @@ const CadastroAluno = () => {
   const [rg, setRg] = useState('');
   const [endereco, setEndereco] = useState('');
   const [instituicaoId, setInstituicaoId] = useState('');
-  const [instituicoes, setInstituicoes] = useState([]);
+  const [instituicoes, setInstituicoes] = useState<Instituicao[]>([]);
   const [curso, setCurso] = useState('');
 
   useEffect(() => {
-    axios.get('/api/instituicoes')
+    axios.get('http://localhost:8080/api/instituicao')
       .then(response => {
-        console.log(response.data); // Verifique se a estrutura dos dados está correta
+        console.log('Resposta da API:', response.data); // Verifique se está retornando uma lista
         setInstituicoes(response.data);
+        console.log('Instituições carregadas:', instituicoes); // Verificar o estado após setInstituicoes
       })
-      .catch(error => console.error(error));
-  }, []);
+      .catch(error => console.error('Erro ao buscar instituições:', error));
+  }, [instituicoes]);
+  
   
 
   const cadastrarAluno = () => {
