@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { decodeToken } from "../../utils/token.tsx";
+import InputMask from "react-input-mask";
 
 interface Instituicao {
   id: number;
@@ -58,8 +58,6 @@ const CadastroAluno: React.FC<CadastroAlunoProps> = ({ aluno, onClose }) => {
   useEffect(() => {
     // Requisição para buscar as Instituições
     const fetchInstituicoes = async () => {
-
-      // console.log(decodeToken(localStorage.getItem("token") || ""));
       try {
         const response = await axios.get("http://localhost:8080/api/instituicao", {
           headers: {
@@ -77,13 +75,11 @@ const CadastroAluno: React.FC<CadastroAlunoProps> = ({ aluno, onClose }) => {
   }, []);
 
   useEffect(() => {
-    // Requisição para buscar os Cursos após seleção da Instituição
-
     const fetchCursos = async () => {
       if (formData.instituicaoId) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/instituicao/${formData.instituicaoId}/cursos`,
+            `http://localhost:8080/api/curso/${formData.instituicaoId}/instituicao`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -98,8 +94,6 @@ const CadastroAluno: React.FC<CadastroAlunoProps> = ({ aluno, onClose }) => {
       }
     };
     fetchCursos();
-
-    console.log(cursos);
   }, [formData.instituicaoId]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -137,16 +131,16 @@ const CadastroAluno: React.FC<CadastroAlunoProps> = ({ aluno, onClose }) => {
 };
 
   return (
-     <div className="max-w-lg mx-auto p-8">
+    <div className="max-w-4xl mx-auto p-8 bg-white shadow-md rounded-lg">
       <h1 className="text-2xl font-bold mb-6">{aluno ? "Editar Aluno" : "Cadastrar Aluno"}</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
         <input
           type="text"
           name="nome"
           placeholder="Nome"
           value={formData.nome}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="email"
@@ -154,15 +148,16 @@ const CadastroAluno: React.FC<CadastroAlunoProps> = ({ aluno, onClose }) => {
           placeholder="Email"
           value={formData.email}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <input
+        <InputMask
+          mask="999.999.999-99"
           type="text"
           name="cpf"
           placeholder="CPF"
           value={formData.cpf}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="text"
@@ -170,7 +165,7 @@ const CadastroAluno: React.FC<CadastroAlunoProps> = ({ aluno, onClose }) => {
           placeholder="RG"
           value={formData.rg}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="text"
@@ -178,13 +173,13 @@ const CadastroAluno: React.FC<CadastroAlunoProps> = ({ aluno, onClose }) => {
           placeholder="Endereço"
           value={formData.endereco}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <select
           name="instituicaoId"
           value={formData.instituicaoId}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Selecione a Instituição</option>
           {instituicoes.map((instituicao) => (
@@ -198,7 +193,7 @@ const CadastroAluno: React.FC<CadastroAlunoProps> = ({ aluno, onClose }) => {
           value={formData.cursoId}
           onChange={handleInputChange}
           disabled={!formData.instituicaoId}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Selecione o Curso</option>
           {cursos.map((curso) => (
@@ -207,12 +202,23 @@ const CadastroAluno: React.FC<CadastroAlunoProps> = ({ aluno, onClose }) => {
             </option>
           ))}
         </select>
+<<<<<<< HEAD
         <button type="submit" className="bg-blue-500 text-white p-2 rounded">
           {aluno ? "Salvar" : "Cadastrar"}
         </button>
         <button type="button" onClick={onClose} className="bg-gray-500 text-white p-2 rounded ml-2">
           Cancelar
         </button>
+=======
+        <div className="col-span-2">
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition"
+          >
+            Cadastrar
+          </button>
+        </div>
+>>>>>>> 562914334e82d0bd626432fa7056aef7bad50ae5
       </form>
     </div>
   );

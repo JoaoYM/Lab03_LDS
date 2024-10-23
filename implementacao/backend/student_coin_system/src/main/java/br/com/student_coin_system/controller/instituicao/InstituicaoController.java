@@ -53,6 +53,7 @@ public class InstituicaoController {
 
     @GetMapping("/{id}/cursos")
     public List<Curso> getCursos(@PathVariable Long id) {
+        
         Instituicao instituicao = instituicaoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Instituição não encontrada"));
         return instituicao.getCursos();
     }

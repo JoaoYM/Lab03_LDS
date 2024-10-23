@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import InputMask from "react-input-mask";
 
 interface Empresa {
   id: number;
@@ -58,7 +59,7 @@ const CadastroEmpresa: React.FC<CadastroEmpresaProps> = ({ empresa, onClose }) =
             "Content-Type": "application/json",
           },
         });
-        alert("Empresa cadastrada com sucesso!");
+        alert("Empresa cadastrada com sucesso!");;
       }
       onClose(); // Fecha o formulário de edição ao finalizar
     } catch (error) {
@@ -68,16 +69,16 @@ const CadastroEmpresa: React.FC<CadastroEmpresaProps> = ({ empresa, onClose }) =
   };
 
   return (
-    <div className="max-w-lg mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-6">{empresa ? "Editar Empresa" : "Cadastrar Empresa"}</h1>
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="max-w-3xl mx-auto p-8 bg-white shadow-md rounded-lg">
+      <h1 className="text-2xl font-bold mb-6 text-center">{empresa ? "Editar Empresa" : "Cadastrar Empresa"}</h1>
+      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
         <input
           type="text"
           name="nome"
           placeholder="Nome"
           value={formData.nome}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="email"
@@ -85,15 +86,16 @@ const CadastroEmpresa: React.FC<CadastroEmpresaProps> = ({ empresa, onClose }) =
           placeholder="Email"
           value={formData.email}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <input
+        <InputMask
+          mask="99.999.999/9999-99"
           type="text"
           name="cnpj"
           placeholder="CNPJ"
           value={formData.cnpj}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="text"
@@ -101,14 +103,19 @@ const CadastroEmpresa: React.FC<CadastroEmpresaProps> = ({ empresa, onClose }) =
           placeholder="Razão Social"
           value={formData.razaoSocial}
           onChange={handleInputChange}
-          className="w-full p-2 border border-gray-300 rounded"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          {empresa ? "Salvar" : "Cadastrar"}
-        </button>
-        <button type="button" onClick={onClose} className="bg-gray-500 text-white p-2 rounded ml-2">
-          Cancelar
-        </button>
+        <div className="col-span-2">
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300"
+          >
+            {empresa ? "Salvar" : "Cadastrar"}
+          </button>
+          <button type="button" onClick={onClose} className="bg-gray-500 text-white p-2 rounded ml-2">
+            Cancelar
+          </button>
+        </div>
       </form>
     </div>
   );
