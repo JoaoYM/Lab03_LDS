@@ -88,8 +88,8 @@ const CadastroAluno: React.FC = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-8 bg-white shadow-md rounded-lg">
-      <h1 className="text-3xl font-bold text-center mb-8">Cadastro de Aluno</h1>
+    <div className="max-w-3xl mx-auto p-8 bg-white shadow-md rounded-lg">
+      <h1 className="text-2xl font-bold text-center mb-6">Cadastro de Aluno</h1>
       <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
         <input
           type="text"
@@ -97,7 +97,7 @@ const CadastroAluno: React.FC = () => {
           placeholder="Nome"
           value={formData.nome}
           onChange={handleInputChange}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="email"
@@ -105,7 +105,7 @@ const CadastroAluno: React.FC = () => {
           placeholder="Email"
           value={formData.email}
           onChange={handleInputChange}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <InputMask
           mask="999.999.999-99"
@@ -114,7 +114,7 @@ const CadastroAluno: React.FC = () => {
           placeholder="CPF"
           value={formData.cpf}
           onChange={handleInputChange}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="text"
@@ -122,7 +122,7 @@ const CadastroAluno: React.FC = () => {
           placeholder="RG"
           value={formData.rg}
           onChange={handleInputChange}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <input
           type="text"
@@ -130,13 +130,13 @@ const CadastroAluno: React.FC = () => {
           placeholder="Endereço"
           value={formData.endereco}
           onChange={handleInputChange}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         />
         <select
           name="instituicaoId"
           value={formData.instituicaoId}
           onChange={handleInputChange}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Selecione a Instituição</option>
           {instituicoes.map((instituicao) => (
@@ -150,7 +150,7 @@ const CadastroAluno: React.FC = () => {
           value={formData.cursoId}
           onChange={handleInputChange}
           disabled={!formData.instituicaoId}
-          className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Selecione o Curso</option>
           {cursos.map((curso) => (

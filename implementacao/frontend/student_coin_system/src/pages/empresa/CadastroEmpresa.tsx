@@ -72,7 +72,7 @@ const CadastroEmpresa: React.FC = () => {
         <div className="col-span-2">
           <button
             type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition duration-300"
+            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-300"
           >
             Cadastrar
           </button>
