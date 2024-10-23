@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.PutMapping;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/aluno")
 public class AlunoController {
 
@@ -136,7 +138,8 @@ public class AlunoController {
     }
 
     @DeleteMapping("/{id}")
-    public void deleteAluno(@PathVariable Long id) {
+    public ResponseEntity<Void> deletarAluno(@PathVariable Long id) {
         alunoRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 }

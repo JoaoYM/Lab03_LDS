@@ -28,7 +28,7 @@ public class Departamento {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToMany(mappedBy = "departamento")
+    @ManyToMany
     private List<Professor> professores = new ArrayList<>();
 
     @ManyToMany
