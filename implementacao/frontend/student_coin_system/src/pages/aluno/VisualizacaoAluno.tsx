@@ -88,13 +88,15 @@ const VisualizacaoAluno: React.FC = () => {
         ))}
       </ul>
   
-      {/* Exibe o formulário de edição */}
-      {showEditForm && editingAluno && (
-        <CadastroAluno
-          aluno={editingAluno}
-          onClose={() => setShowEditForm(false)}
-        />
-      )}
+        <div className="container mx-auto">
+            {/* Exibe o formulário de edição */}
+            {showEditForm && editingAluno && (
+                <CadastroAluno
+                aluno={editingAluno}
+                onClose={() => setShowEditForm(false)}
+                />
+            )}
+        </div>
   
       {/* Modal de confirmação de deleção */}
       {deletingAluno && (

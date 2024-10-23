@@ -83,13 +83,15 @@ const VisualizacaoEmpresa: React.FC = () => {
         ))}
       </ul>
 
-      {/* Exibe o formulário de edição */}
-      {showEditForm && editingEmpresa && (
-        <CadastroEmpresa
-          empresa={editingEmpresa}
-          onClose={() => setShowEditForm(false)}
-        />
-      )}
+        <div className="container mx-auto">
+            {/* Exibe o formulário de edição */}
+            {showEditForm && editingEmpresa && (
+                <CadastroEmpresa
+                empresa={editingEmpresa}
+                onClose={() => setShowEditForm(false)}
+                />
+            )}
+        </div>
 
       {/* Modal de confirmação de deleção */}
       {deletingEmpresa && (
