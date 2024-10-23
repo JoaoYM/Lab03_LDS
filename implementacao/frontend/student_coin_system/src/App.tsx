@@ -1,12 +1,12 @@
 import './App.css';
 import React, { useState, useEffect } from 'react';
 import Login from './pages/login/Login.tsx';
-import CadastroAluno from './pages/aluno/CadastroAluno.tsx';
-import CadastroEmpresa from './pages/empresa/CadastroEmpresa.tsx';
-import CadastroProfessor from './pages/professor/CadastroProfessor.tsx';
+import GerenciarAluno from './pages/aluno/GerenciarAluno.tsx';
+import GerenciarEmpresa from './pages/empresa/GerenciarEmpresa.tsx';
+import GerenciarProfessor from './pages/professor/GerenciarProfessor.tsx';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'login' | 'cadastroProfessor' | 'cadastroAluno' | 'cadastroEmpresa'>('login');
+  const [currentPage, setCurrentPage] = useState<'login' | 'gerenciamentoProfessor' | 'gerenciamentoAluno' | 'gerenciamentoEmpresa'>('login');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState<string | null>(null);
 
@@ -30,18 +30,18 @@ function App() {
         <nav className="p-4 bg-gray-800">
           <ul className="flex space-x-4">
             <li>
-              <button onClick={() => setCurrentPage('cadastroAluno')} className="text-white">
-                Cadastrar Aluno
+              <button onClick={() => setCurrentPage('gerenciamentoAluno')} className="text-white">
+                Gerenciar Aluno
               </button>
             </li>
             <li>
-              <button onClick={() => setCurrentPage('cadastroEmpresa')} className="text-white">
-                Cadastrar Empresa
+              <button onClick={() => setCurrentPage('gerenciamentoEmpresa')} className="text-white">
+                Gerenciar Empresa
               </button>
             </li>
             <li>
-              <button onClick={() => setCurrentPage('cadastroProfessor')} className="text-white">
-                Cadastrar Professor
+              <button onClick={() => setCurrentPage('gerenciamentoProfessor')} className="text-white">
+                Gerenciar Professor
               </button>
             </li>
           </ul>
@@ -51,9 +51,9 @@ function App() {
       <div id="body" className="container mx-auto p-4">
         {/* Renderização condicional dos componentes */}
         {currentPage === 'login' && ( <Login setToken={setToken} setIsAuthenticated={setIsAuthenticated} />)}
-        {currentPage === 'cadastroAluno' && <CadastroAluno />}
-        {currentPage === 'cadastroEmpresa' && <CadastroEmpresa />}
-        {currentPage === 'cadastroProfessor' && <CadastroProfessor />}
+        {currentPage === 'gerenciamentoAluno' && <GerenciarAluno />}
+        {currentPage === 'gerenciamentoEmpresa' && <GerenciarEmpresa />}
+        {currentPage === 'gerenciamentoProfessor' && <GerenciarProfessor />}
       </div>
     </div>
   );
