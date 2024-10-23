@@ -202,23 +202,14 @@ const CadastroAluno: React.FC<CadastroAlunoProps> = ({ aluno, onClose }) => {
             </option>
           ))}
         </select>
-<<<<<<< HEAD
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          {aluno ? "Salvar" : "Cadastrar"}
-        </button>
-        <button type="button" onClick={onClose} className="bg-gray-500 text-white p-2 rounded ml-2">
-          Cancelar
-        </button>
-=======
         <div className="col-span-2">
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition"
-          >
-            Cadastrar
+          <button type="submit" className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition">
+            {aluno ? "Salvar" : "Cadastrar"}
+          </button>
+          <button type="button" onClick={onClose} className="bg-gray-500 text-white p-2 rounded ml-2">
+            Cancelar
           </button>
         </div>
->>>>>>> 562914334e82d0bd626432fa7056aef7bad50ae5
       </form>
     </div>
   );

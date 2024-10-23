@@ -110,11 +110,7 @@ public class AlunoController {
         oldAluno.setEmail(aluno.getEmail());
         oldAluno.setRg(aluno.getRg());
         oldAluno.setEndereco(aluno.getEndereco());
-<<<<<<< HEAD
-        //oldAluno.setCurso(aluno.getCurso());
-=======
         oldAluno.setCurso(curso);
->>>>>>> 562914334e82d0bd626432fa7056aef7bad50ae5
         oldAluno.setContaCorrente(aluno.getContaCorrente());
         oldAluno.setInstituicao(instituicao);
         oldAluno.setCpf(aluno.getCpf());

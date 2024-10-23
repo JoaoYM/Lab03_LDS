@@ -46,11 +46,7 @@ const CadastroProfessor: React.FC = () => {
       if (formData.instituicaoId) {
         try {
           const response = await axios.get(
-<<<<<<< HEAD
-            `http://localhost:8080/api/instituicao/${formData.instituicaoId}/departamentos`,
-=======
             `http://localhost:8080/api/departamento/${formData.instituicaoId}/instituicao`,
->>>>>>> 562914334e82d0bd626432fa7056aef7bad50ae5
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
