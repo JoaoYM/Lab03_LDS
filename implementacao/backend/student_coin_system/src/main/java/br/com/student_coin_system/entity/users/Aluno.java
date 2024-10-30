@@ -26,7 +26,7 @@ public class Aluno{
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long   id;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Instituicao instituicao;
 
     @ManyToOne
