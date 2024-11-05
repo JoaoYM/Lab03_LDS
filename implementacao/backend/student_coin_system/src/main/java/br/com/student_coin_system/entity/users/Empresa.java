@@ -36,11 +36,9 @@ public class Empresa{
     
     private String razaoSocial;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Vantagem> vantagem = new ArrayList<>();
     
-    // @OneToOne
-    // private ContaCorrente contaCorrente;
     @OneToOne(cascade = CascadeType.ALL)
     private ContaCorrente contaCorrente;
 }

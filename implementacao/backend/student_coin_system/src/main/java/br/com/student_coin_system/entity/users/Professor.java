@@ -28,8 +28,6 @@ public class Professor{
     @ManyToOne
     private Departamento departamento;
 
-    // @OneToOne
-    // private ContaCorrente contaCorrente;
     @OneToOne(cascade = CascadeType.ALL)
     private ContaCorrente contaCorrente;
 
