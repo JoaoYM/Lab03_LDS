@@ -22,16 +22,12 @@ import br.com.student_coin_system.entity.financeiro.ContaCorrente;
 import br.com.student_coin_system.entity.users.Empresa;
 import br.com.student_coin_system.enums.UserRoles;
 import br.com.student_coin_system.repository.users.EmpresaRepository;
-import br.com.student_coin_system.service.financeiro.TransferenciaService;
 import br.com.student_coin_system.service.users.UsersService;
 
 @RestController
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/empresa")
 public class EmpresaController {
-    @Autowired
-    private TransferenciaService transferenciaService;
-
     @Autowired
     private EmpresaRepository empresaRepository;
 
@@ -83,15 +79,6 @@ public class EmpresaController {
     @GetMapping("/{id}")
     public Empresa getEmpresa(@PathVariable Long id) {
         return empresaRepository.findById(id).orElse(null);
-    }
-
-    @PostMapping("/transferir")
-    public ResponseEntity<Void> transferirMoedas(@RequestParam Long professorId,
-                                                 @RequestParam Long alunoId,
-                                                 @RequestParam BigDecimal quantidade,
-                                                 @RequestParam String motivo) {
-        transferenciaService.transferirMoedas(professorId, alunoId, quantidade, motivo);
-        return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")

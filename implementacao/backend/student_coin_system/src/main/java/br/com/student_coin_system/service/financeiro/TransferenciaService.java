@@ -9,6 +9,7 @@ import br.com.student_coin_system.entity.financeiro.Historico;
 import br.com.student_coin_system.entity.instituicao.Vantagem;
 import br.com.student_coin_system.entity.users.Aluno;
 import br.com.student_coin_system.entity.users.Professor;
+import br.com.student_coin_system.repository.instituicao.VantagemRepository;
 import br.com.student_coin_system.repository.users.AlunoRepository;
 import br.com.student_coin_system.repository.users.ProfessorRepository;
 import br.com.student_coin_system.service.notification.EmailService;
@@ -22,6 +23,9 @@ public class TransferenciaService {
 
     @Autowired
     private ProfessorRepository professorRepository;
+
+    @Autowired
+    private VantagemRepository vantagemRepository;
 
     @Autowired
     private EmailService emailService;
@@ -43,6 +47,24 @@ public class TransferenciaService {
 
             // Notificar aluno por email
             emailService.enviarNotificacao(aluno.getEmail(), "Você recebeu moedas!", motivo);
+        } else {
+            throw new RuntimeException("Saldo insuficiente");
+        }
+    }
+
+    public void trocarMoedas(Long alunoId, Long vantagemId, BigDecimal quantidade, String motivo) {
+        Aluno aluno       = alunoRepository.findById(alunoId).orElseThrow();
+        Vantagem vantagem = vantagemRepository.findById(vantagemId).orElseThrow();
+
+        if (aluno.getContaCorrente().getSaldo().compareTo(quantidade) >= 0) {
+            aluno.getContaCorrente().removerMoedas(LocalDateTime.now(), "Sistema", aluno.getNome(), quantidade);
+
+            // Atualizar histórico
+            aluno.getContaCorrente().getHistorico().add(new Historico(LocalDateTime.now(), aluno.getNome(), vantagem.getNome(), BigDecimal.ZERO, quantidade, aluno.getContaCorrente().getSaldo().subtract(quantidade), aluno.getContaCorrente()));
+            alunoRepository.save(aluno);
+
+            // Notificar aluno por email
+            emailService.enviarNotificacao(aluno.getEmail(), "Você trocou moedas por uma vantagem!", motivo);
         } else {
             throw new RuntimeException("Saldo insuficiente");
         }
