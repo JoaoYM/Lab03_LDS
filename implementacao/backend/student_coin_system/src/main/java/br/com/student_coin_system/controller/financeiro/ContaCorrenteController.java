@@ -12,17 +12,24 @@ import br.com.student_coin_system.repository.financeiro.ContaCorrenteRepository;
 import br.com.student_coin_system.repository.users.AlunoRepository;
 import br.com.student_coin_system.repository.users.EmpresaRepository;
 import br.com.student_coin_system.repository.users.ProfessorRepository;
+import br.com.student_coin_system.service.financeiro.TransferenciaService;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
 @RequestMapping("/api/conta-corrente")
 public class ContaCorrenteController {
+   
+    @Autowired
+    private TransferenciaService transferenciaService;
 
     @Autowired
     AlunoRepository       alunoRepository;
@@ -58,6 +65,24 @@ public class ContaCorrenteController {
 
         return null;
     }
+
+    @PostMapping("/transferirMoedas")
+    public ResponseEntity<Void> transferirMoedas(@RequestParam Long professorId,
+                                                 @RequestParam Long alunoId,
+                                                 @RequestParam BigDecimal quantidade,
+                                                 @RequestParam String motivo) {
+        transferenciaService.transferirMoedas(professorId, alunoId, quantidade, motivo);
+        return ResponseEntity.ok().build();
+    } 
+
+    @PostMapping("/trocarMoedas")
+    public ResponseEntity<Void> trocarMoedas(@RequestParam Long alunoId,
+                                                 @RequestParam Long vantagemId,
+                                                 @RequestParam BigDecimal quantidade,
+                                                 @RequestParam String motivo) {
+        transferenciaService.trocarMoedas(alunoId, vantagemId, quantidade, motivo);
+        return ResponseEntity.ok().build();
+    } 
 
     @GetMapping("/contas")
     public List<ContaCorrente> getContas() {

@@ -24,7 +24,6 @@ import br.com.student_coin_system.entity.users.Professor;
 import br.com.student_coin_system.enums.UserRoles;
 import br.com.student_coin_system.repository.instituicao.DepartamentoRepository;
 import br.com.student_coin_system.repository.users.ProfessorRepository;
-import br.com.student_coin_system.service.financeiro.TransferenciaService;
 import br.com.student_coin_system.service.users.UsersService;
 
 
@@ -32,10 +31,6 @@ import br.com.student_coin_system.service.users.UsersService;
 @CrossOrigin(origins = "*")
 @RequestMapping("/api/professor")
 public class ProfessorController {
-
-    @Autowired
-    private TransferenciaService transferenciaService;
-
     @Autowired
     private ProfessorRepository professorRepository;
 
@@ -102,17 +97,7 @@ public class ProfessorController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
-    }
-    
-
-    @PostMapping("/transferir")
-    public ResponseEntity<Void> transferirMoedas(@RequestParam Long professorId,
-                                                 @RequestParam Long alunoId,
-                                                 @RequestParam BigDecimal quantidade,
-                                                 @RequestParam String motivo) {
-        transferenciaService.transferirMoedas(professorId, alunoId, quantidade, motivo);
-        return ResponseEntity.ok().build();
-    }    
+    }   
 
     @GetMapping
     public Iterable<Professor> getProfessores() {
