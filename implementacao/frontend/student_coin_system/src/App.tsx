@@ -25,36 +25,7 @@ function App() {
 
   return (
     <div className="App">
-      {/* Criação de um simples menu de navegação */}
-      {isAuthenticated && (
-        <nav className="p-4 bg-gray-800">
-          <ul className="flex space-x-4">
-            <li>
-              <button onClick={() => setCurrentPage('gerenciamentoAluno')} className="text-white">
-                Gerenciar Aluno
-              </button>
-            </li>
-            <li>
-              <button onClick={() => setCurrentPage('gerenciamentoEmpresa')} className="text-white">
-                Gerenciar Empresa
-              </button>
-            </li>
-            <li>
-              <button onClick={() => setCurrentPage('gerenciamentoProfessor')} className="text-white">
-                Gerenciar Professor
-              </button>
-            </li>
-          </ul>
-        </nav>
-      )}
-
-      <div id="body" className="container mx-auto p-4">
-        {/* Renderização condicional dos componentes */}
-        {currentPage === 'login' && ( <Login setToken={setToken} setIsAuthenticated={setIsAuthenticated} />)}
-        {currentPage === 'gerenciamentoAluno' && <GerenciarAluno />}
-        {currentPage === 'gerenciamentoEmpresa' && <GerenciarEmpresa />}
-        {currentPage === 'gerenciamentoProfessor' && <GerenciarProfessor />}
-      </div>
+      
     </div>
   );
 }
