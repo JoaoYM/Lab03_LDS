@@ -91,7 +91,7 @@ const GerenciarAluno: React.FC = () => {
                   <td className="p-4">{aluno.nome}</td>
                   <td className="p-4">{aluno.email}</td>
                   <td className="p-4">{aluno.curso?.nome}</td>
-                  <td className="p-4">{aluno.curso?.instituicao?.nome}</td>
+                  <td className="p-4">{aluno.instituicao?.nome}</td>
                   <td className="p-4 flex space-x-2">
                     <button
                       onClick={() => handleEdit(aluno)}

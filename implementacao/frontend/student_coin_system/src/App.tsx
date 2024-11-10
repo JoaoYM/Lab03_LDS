@@ -4,9 +4,10 @@ import Login from './pages/login/Login.tsx';
 import GerenciarAluno from './pages/aluno/GerenciarAluno.tsx';
 import GerenciarEmpresa from './pages/empresa/GerenciarEmpresa.tsx';
 import GerenciarProfessor from './pages/professor/GerenciarProfessor.tsx';
+import GerenciarVantagem from './pages/empresa/vantagem/GerenciarVantagem.tsx';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'login' | 'gerenciamentoProfessor' | 'gerenciamentoAluno' | 'gerenciamentoEmpresa'>('login');
+  const [currentPage, setCurrentPage] = useState<'login' | 'gerenciamentoProfessor' | 'gerenciamentoAluno' | 'gerenciamentoEmpresa' | 'gerenciamentoVantagem'>('login');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState<string | null>(null);
 
@@ -44,6 +45,11 @@ function App() {
                 Gerenciar Professor
               </button>
             </li>
+            <li>
+              <button onClick={() => setCurrentPage('gerenciamentoVantagem')} className="text-white">
+                Gerenciar Vantagem
+              </button>
+            </li>
           </ul>
         </nav>
       )}
@@ -54,6 +60,7 @@ function App() {
         {currentPage === 'gerenciamentoAluno' && <GerenciarAluno />}
         {currentPage === 'gerenciamentoEmpresa' && <GerenciarEmpresa />}
         {currentPage === 'gerenciamentoProfessor' && <GerenciarProfessor />}
+        {currentPage === 'gerenciamentoVantagem' && <GerenciarVantagem />}
       </div>
     </div>
   );

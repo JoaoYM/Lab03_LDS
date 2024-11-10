@@ -26,6 +26,24 @@ const CadastroAluno: React.FC = () => {
   });
 
   useEffect(() => {
+    const fetchCursos = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/curso", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "application/json",
+          },
+        });
+        setCursos(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar cursos", error);
+      }
+    };
+
+    fetchCursos();
+  }, []);
+
+  useEffect(() => {
     const fetchInstituicoes = async () => {
       try {
         const response = await axios.get("http://localhost:8080/api/instituicao", {
@@ -43,6 +61,7 @@ const CadastroAluno: React.FC = () => {
     fetchInstituicoes();
   }, []);
 
+  /*
   useEffect(() => {
     const fetchCursos = async () => {
       if (formData.instituicaoId) {
@@ -64,6 +83,7 @@ const CadastroAluno: React.FC = () => {
     };
     fetchCursos();
   }, [formData.instituicaoId]);
+*/
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
