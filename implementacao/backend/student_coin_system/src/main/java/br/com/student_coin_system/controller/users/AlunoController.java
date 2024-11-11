@@ -1,6 +1,7 @@
 package br.com.student_coin_system.controller.users;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -57,16 +58,18 @@ public class AlunoController {
         novoAluno.setRg(alunoDTO.getRg());
         novoAluno.setEndereco(alunoDTO.getEndereco());
 
-        // Buscar o curso pelo ID informado
-        Curso curso = cursoRepository.findById(alunoDTO.getCursoId())
-                .orElseThrow(() -> new IllegalArgumentException("Curso não encontrado"));
+        // Buscar os cursos pela relação de IDs informada
+        List<Curso> cursos = alunoDTO.getCursosIds().stream()
+                .map(cursoId -> cursoRepository.findById(cursoId)
+                .orElseThrow(() -> new IllegalArgumentException("Curso não encontrado")))
+                .collect(Collectors.toList());
 
         // Buscar a instituição pelo ID informado
         Instituicao instituicao = instituicaoRepository.findById(alunoDTO.getInstituicaoId())
                 .orElseThrow(() -> new IllegalArgumentException("Instituição não encontrada"));
 
         // Associar o curso e a instituição ao aluno
-        novoAluno.setCurso(curso);
+        novoAluno.setCurso(cursos);
         novoAluno.setInstituicao(instituicao);
 
         // Criar uma nova conta corrente para o aluno
@@ -100,9 +103,11 @@ public class AlunoController {
 
         Aluno oldAluno = alunoRepository.findById(id).orElseThrow();
 
-        // Buscar o curso pelo ID informado
-        Curso curso = cursoRepository.findById(aluno.getCursoId())
-                .orElseThrow(() -> new IllegalArgumentException("Curso não encontrado"));
+        // Buscar os cursos pela relação de IDs informada
+        List<Curso> cursos = aluno.getCursosIds().stream()
+                .map(cursoId -> cursoRepository.findById(cursoId)
+                .orElseThrow(() -> new IllegalArgumentException("Curso não encontrado")))
+                .collect(Collectors.toList());
 
         // Buscar a instituição pelo ID informado
         Instituicao instituicao = instituicaoRepository.findById(aluno.getInstituicaoId())
@@ -112,7 +117,7 @@ public class AlunoController {
         oldAluno.setEmail(aluno.getEmail());
         oldAluno.setRg(aluno.getRg());
         oldAluno.setEndereco(aluno.getEndereco());
-        oldAluno.setCurso(curso);
+        oldAluno.setCurso(cursos);;
         oldAluno.setContaCorrente(aluno.getContaCorrente());
         oldAluno.setInstituicao(instituicao);
         oldAluno.setCpf(aluno.getCpf());
@@ -130,6 +135,12 @@ public class AlunoController {
     public ResponseEntity<Aluno> getAluno(@PathVariable Long id) {
         Aluno aluno = alunoRepository.findById(id).orElseThrow();
         return ResponseEntity.ok(aluno);
+    }
+
+    @GetMapping("/alunos/cursos")
+    public ResponseEntity<List<Aluno>> getAlunosByCursos(@RequestBody List<Long> cursoIds) {
+        List<Aluno> alunos = alunoRepository.findByCursoIdIn(cursoIds);
+        return ResponseEntity.ok(alunos);
     }
 
     @GetMapping
