@@ -82,7 +82,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
                 Instituicao instituicao = new Instituicao();
                 instituicao.setNome("Universidade Exemplar " + i);
                 instituicao.setCnpj("12.345.678/000" + (i + 8) + "-99");
-                instituicao.setCursos(new ArrayList<>());
+                // instituicao.setCursos(new ArrayList<>());
                 instituicao.setDepartamentos(new ArrayList<>());
                 instituicao.setVantagens(new ArrayList<>());
 
@@ -123,7 +123,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
             Curso curso = new Curso();
             curso.setNome(cursos[i % cursos.length] + " - " + instituicao.getNome());
             curso.setAlunos(new ArrayList<>());
-            curso.setInstituicao(instituicao);
+            // curso.setInstituicao(instituicao);
 
             cursoRepository.save(curso);
         }

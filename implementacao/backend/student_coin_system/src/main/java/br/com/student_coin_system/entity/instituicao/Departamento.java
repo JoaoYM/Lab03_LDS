@@ -11,7 +11,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,7 +31,7 @@ public class Departamento {
     private List<Professor> professores = new ArrayList<>();
 
     @ManyToMany
-    private List<Aluno> alunos = new ArrayList<>();
+    private List<Curso> cursos = new ArrayList<>();
 
     @ManyToOne
     private Instituicao instituicao;

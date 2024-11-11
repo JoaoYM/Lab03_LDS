@@ -22,10 +22,7 @@ public class Instituicao {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @OneToMany
-    private List<Curso> cursos               = new ArrayList<>();
-    
+   
     @OneToMany
     private List<Departamento> departamentos = new ArrayList<>();
     
