@@ -1,7 +1,7 @@
 // src/pages/Home.js
 import React from "react";
-import Header from "../../header/Header";
-import BoxItem from "../../box/BoxItem";
+import Header from "../../header/Header.tsx";
+import BoxItem from "../../box/BoxItem.tsx";
 
 const Home = () => {
   const vantagens = [

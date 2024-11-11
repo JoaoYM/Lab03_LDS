@@ -1,29 +1,37 @@
-// src/Router.js
 import React from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import HomeAluno from "../pages/components/home/aluno/Home";
-import HomeAdmin from "../pages/components/home/admin/Home";
-import HomeProfessor from "../pages/components/home/professor/Home";
-import HomeEmpresa from "../pages/components/home/empresa/Home";
+import { Route, Routes } from "react-router-dom";
+import HomePage from "../pages/home/HomePage.tsx";
+import HomeAluno from "../pages/components/home/aluno/Home.tsx";
+import HomeAdmin from "../pages/components/home/admin/Home.tsx";
+import HomeProfessor from "../pages/components/home/professor/Home.tsx";
+import HomeEmpresa from "../pages/components/home/empresa/Home.tsx";
+import GerenciarAluno from "../pages/aluno/GerenciarAluno.tsx";
+import GerenciarEmpresa from "../pages/empresa/GerenciarEmpresa.tsx";
+import GerenciarProfessor from "../pages/professor/GerenciarProfessor.tsx";
+import Login from "../pages/login/Login.tsx";
 
-import GerenciarAluno from "../pages/aluno/GerenciarAluno";
-import GerenciarEmpresa from "../pages/empresa/GerenciarEmpresa";
-import GerenciarProfessor from "../pages/professor/GerenciarProfessor";
-
-function Router() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/admin" element={<HomeAdmin />} />
-        <Route path="/aluno" element={<HomeAluno />} />
-        <Route path="/professor" element={<HomeProfessor />} />
-        <Route path="/empresa" element={<HomeEmpresa />} />
-        <Route path="/gerenciar-aluno" element={<GerenciarAluno />} />
-        <Route path="/gerenciar-empresa" element={<GerenciarEmpresa />} />
-        <Route path="/gerenciar-professor" element={<GerenciarProfessor />} />
-      </Routes>
-    </Router>
-  );
+interface AppRouterProps {
+  isAuthenticated: boolean;
+  setToken: React.Dispatch<React.SetStateAction<string | null>>;
+  setIsAuthenticated: React.Dispatch<React.SetStateAction<boolean>>;
+  setUserType: React.Dispatch<React.SetStateAction<"admin" | "aluno" | "professor" | "empresa" | null>>;
+  userType: "admin" | "aluno" | "professor" | "empresa" | null;
 }
 
-export default Router;
+const AppRouter: React.FC<AppRouterProps> = ({ isAuthenticated, setToken, setIsAuthenticated, setUserType, userType }) => {
+  return (
+    <Routes>
+      <Route path="/" element={<HomePage isAuthenticated={isAuthenticated} userType={userType} />} />
+      <Route path="/login" element={<Login setToken={setToken} setIsAuthenticated={setIsAuthenticated} setUserType={setUserType}/>} />
+      <Route path="/admin" element={<HomeAdmin />} />
+      <Route path="/aluno" element={<HomeAluno />} />
+      <Route path="/professor" element={<HomeProfessor />} />
+      <Route path="/empresa" element={<HomeEmpresa />} />
+      <Route path="/gerenciar-aluno" element={<GerenciarAluno />} />
+      <Route path="/gerenciar-empresa" element={<GerenciarEmpresa />} />
+      <Route path="/gerenciar-professor" element={<GerenciarProfessor />} />
+    </Routes>
+  );
+};
+
+export default AppRouter;

@@ -1,31 +1,52 @@
+// src/App.tsx
 import './App.css';
 import React, { useState, useEffect } from 'react';
-import Login from './pages/login/Login.tsx';
-import GerenciarAluno from './pages/aluno/GerenciarAluno.tsx';
-import GerenciarEmpresa from './pages/empresa/GerenciarEmpresa.tsx';
-import GerenciarProfessor from './pages/professor/GerenciarProfessor.tsx';
+import { BrowserRouter as Router } from 'react-router-dom';
+import AppRouter from './router/Router.tsx';
+import { decodeToken } from './utils/token.tsx';
+
+interface JwtPayload {
+  exp: number;
+  role: "admin" | "aluno" | "professor" | "empresa";
+}
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'login' | 'gerenciamentoProfessor' | 'gerenciamentoAluno' | 'gerenciamentoEmpresa'>('login');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState<string | null>(null);
+  const [userType, setUserType] = useState<"admin" | "aluno" | "professor" | "empresa" | null>(null);
 
   useEffect(() => {
-    // Verifica se o token está armazenado e se ainda é válido
-    const storedToken = localStorage.getItem('token'); // ou onde você armazena o token
-    if (storedToken) {
-      const payload = JSON.parse(atob(storedToken.split('.')[1])); // decodifica o token para verificar a expiração
-      const isExpired = Date.now() >= payload.exp * 1000;
+    // Verifica se o token está armazenado e ainda válido
+    const token = localStorage.getItem('token');
+
+    if (token) {
+      setToken(token);
+      const decodedToken = decodeToken(token);
+      const isExpired = decodedToken ? Date.now() >= decodedToken.exp * 1000 : true;
+
       if (!isExpired) {
-        setToken(storedToken);
         setIsAuthenticated(true);
+        const decodedToken = decodeToken(token);
+        if (decodedToken) {
+          setUserType(decodedToken.role as "admin" | "aluno" | "professor" | "empresa"); // Assume que o token contém o campo "role" para identificar o tipo de usuário
+        }
+      } else {
+        localStorage.removeItem('token');
       }
     }
   }, []);
 
   return (
     <div className="App">
-      
+      <Router>
+        <AppRouter
+          isAuthenticated={isAuthenticated}
+          setToken={setToken}
+          setIsAuthenticated={setIsAuthenticated}
+          setUserType={setUserType}
+          userType={userType}
+        />
+      </Router>
     </div>
   );
 }

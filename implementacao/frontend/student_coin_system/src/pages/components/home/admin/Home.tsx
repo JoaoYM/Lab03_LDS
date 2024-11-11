@@ -1,6 +1,6 @@
 // src/pages/Home.js
 import React from "react";
-import Header from "../../header/Header";
+import Header from "../../header/Header.tsx";
 import { Link } from "react-router-dom"; // Certifique-se de ter o React Router configurado
 
 const Home = () => {

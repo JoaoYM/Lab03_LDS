@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import {decodeToken} from '../../utils/token.tsx';
+import { useNavigate } from 'react-router-dom';
 
 interface User {
   login: string;
@@ -14,10 +16,12 @@ const initialState: User = {
 interface LoginProps {
   setToken: (token: string) => void;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
+  setUserType: (userType: "admin" | "aluno" | "professor" | "empresa" | null) => void;
 }
 
-const Login: React.FC<LoginProps> = ({ setToken, setIsAuthenticated }) => {
+const Login: React.FC<LoginProps> = ({ setToken, setIsAuthenticated, setUserType }) => {
   const [dados, setDados] = useState<User>(initialState);
+  const navigator = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -36,10 +40,17 @@ const Login: React.FC<LoginProps> = ({ setToken, setIsAuthenticated }) => {
       });
 
       if (response.data.token) {
-        localStorage.setItem("token", response.data.token);
-        setToken(response.data.token);
+        const token = response.data.token;
+        localStorage.setItem("token", token);
+        setToken(token);
         setIsAuthenticated(true);
-        alert("Login realizado com sucesso!");
+        
+        // Decodifica o token para obter o userType
+        const decodedToken: any = decodeToken(token);
+        const role = decodedToken.role;
+        setUserType(role);  // Define o tipo de usuário
+
+        navigator("/");
       }
     } catch (error) {
       alert("Erro ao fazer login, verifique os dados e tente novamente!");
