@@ -5,9 +5,10 @@ import GerenciarAluno from './pages/aluno/GerenciarAluno.tsx';
 import GerenciarEmpresa from './pages/empresa/GerenciarEmpresa.tsx';
 import GerenciarProfessor from './pages/professor/GerenciarProfessor.tsx';
 import GerenciarVantagem from './pages/empresa/vantagem/GerenciarVantagem.tsx';
+import VantagensAluno from './pages/aluno/vantagem/VantagensAluno.tsx';
 
 function App() {
-  const [currentPage, setCurrentPage] = useState<'login' | 'gerenciamentoProfessor' | 'gerenciamentoAluno' | 'gerenciamentoEmpresa' | 'gerenciamentoVantagem'>('login');
+  const [currentPage, setCurrentPage] = useState<'login' | 'gerenciamentoProfessor' | 'gerenciamentoAluno' | 'gerenciamentoEmpresa' | 'gerenciamentoVantagem' | 'vantagensAluno'>('login');
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [token, setToken] = useState<string | null>(null);
 
@@ -36,6 +37,11 @@ function App() {
               </button>
             </li>
             <li>
+              <button onClick={() => setCurrentPage('vantagensAluno')} className="text-white">
+                Vantagens Aluno
+              </button>
+            </li>
+            <li>
               <button onClick={() => setCurrentPage('gerenciamentoEmpresa')} className="text-white">
                 Gerenciar Empresa
               </button>
@@ -58,6 +64,7 @@ function App() {
         {/* Renderização condicional dos componentes */}
         {currentPage === 'login' && ( <Login setToken={setToken} setIsAuthenticated={setIsAuthenticated} />)}
         {currentPage === 'gerenciamentoAluno' && <GerenciarAluno />}
+        {currentPage === 'vantagensAluno' && <VantagensAluno />}
         {currentPage === 'gerenciamentoEmpresa' && <GerenciarEmpresa />}
         {currentPage === 'gerenciamentoProfessor' && <GerenciarProfessor />}
         {currentPage === 'gerenciamentoVantagem' && <GerenciarVantagem />}

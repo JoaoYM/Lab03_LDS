@@ -11,21 +11,12 @@ interface Empresa {
   nome: string;
 }
 
-interface Vantagem {
-  id: string;
-  nome: string;
-  descricao: string;
-  fotoUrl: string;
-  custoMoedas: number;
-  empresaId: string;
-  instituicaoId: string;
-}
-
 interface AtualizarVantagemProps {
   vantagem: any;
+  onVantagemUpdated: () => void;
 }
 
-const AtualizarVantagem: React.FC<AtualizarVantagemProps> = ({ vantagem }) => {
+const AtualizarVantagem: React.FC<AtualizarVantagemProps> = ({ vantagem, onVantagemUpdated }) => {
   const [formData, setFormData] = useState({
     nome: "",
     descricao: "",
@@ -41,8 +32,8 @@ const AtualizarVantagem: React.FC<AtualizarVantagemProps> = ({ vantagem }) => {
       descricao: vantagem.descricao,
       fotoUrl: vantagem.fotoUrl,
       custoMoedas: vantagem.custoMoedas,
-      empresaId: vantagem.empresaId,
-      instituicaoId: vantagem.instituicaoId,
+      empresaId: vantagem.empresa?.id || "", // Corrigido para buscar id do objeto vantagem
+      instituicaoId: vantagem.instituicao?.id || "",
     });
   }, [vantagem]);
 
@@ -100,9 +91,9 @@ const AtualizarVantagem: React.FC<AtualizarVantagemProps> = ({ vantagem }) => {
         }
       });
       alert("Vantagem atualizada com sucesso!");
+      onVantagemUpdated();  
     } catch (error) {
       console.error("Erro ao atualizar vantagem", error);
-    } finally {
     }
   };
 
@@ -161,8 +152,9 @@ const AtualizarVantagem: React.FC<AtualizarVantagemProps> = ({ vantagem }) => {
           <select
             name="empresaId"
             value={formData.empresaId}
-            onChange={(e) => setFormData({ ...formData, empresaId: e.target.value })} // Correção)}
+            onChange={handleInputChange}
             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           >
             <option value="">Selecione a Empresa</option>
             {empresas.map((empresa) => (
@@ -173,12 +165,13 @@ const AtualizarVantagem: React.FC<AtualizarVantagemProps> = ({ vantagem }) => {
           </select>
         </div>
         <div>
-          <label className="block text-gray-700">Instituicao:</label>
+          <label className="block text-gray-700">Instituição:</label>
           <select
             name="instituicaoId"
             value={formData.instituicaoId}
-            onChange={(e) => setFormData({ ...formData, instituicaoId: e.target.value })} // Correção)}
+            onChange={handleInputChange}
             className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            required
           >
             <option value="">Selecione a Instituição</option>
             {instituicoes.map((instituicao) => (
@@ -188,7 +181,7 @@ const AtualizarVantagem: React.FC<AtualizarVantagemProps> = ({ vantagem }) => {
             ))}
           </select>
         </div>
-        <div>
+        <div className="col-span-2">
           <button type="submit" className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-300">
             Atualizar
           </button>

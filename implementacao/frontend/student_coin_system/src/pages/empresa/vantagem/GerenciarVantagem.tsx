@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 import CadastroVantagem from "./CadastroVantagem.tsx";
 import AtualizarVantagem from "./AtualizarVantagem.tsx";
 
@@ -9,7 +8,7 @@ const GerenciarVantagem: React.FC = () => {
   const [isCreating, setIsCreating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedVantagem, setSelectedVantagem] = useState(null);
-  const navigate = useNavigate();
+  const editSectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     fetchVantagens();
@@ -39,6 +38,7 @@ const GerenciarVantagem: React.FC = () => {
     setSelectedVantagem(vantagem);
     setIsCreating(false);
     setIsEditing(true);
+    editSectionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const handleDelete = async (id: number) => {
@@ -68,9 +68,9 @@ const GerenciarVantagem: React.FC = () => {
         </button>
       </div>
 
-      <div className="mb-6">
-        {isCreating && <CadastroVantagem />}
-        {isEditing && <AtualizarVantagem vantagem={selectedVantagem} />}
+      <div className="mb-6" ref={editSectionRef}>
+        {isCreating && <CadastroVantagem onVantagemSaved={fetchVantagens} />}
+        {isEditing && <AtualizarVantagem vantagem={selectedVantagem} onVantagemUpdated={fetchVantagens} />}
       </div>
 
       <div className="p-6 bg-white rounded-lg shadow-md">
@@ -94,8 +94,8 @@ const GerenciarVantagem: React.FC = () => {
                   <td className="p-4">{vantagem.nome}</td>
                   <td className="p-4">{vantagem.descricao}</td>
                   <td className="p-4">{vantagem.custoMoedas}</td>
-                  <td className="p-4">{vantagem.empresa?.Nome}</td>
-                  <td className="p-4">{vantagem.instituicao?.Nome}</td>
+                  <td className="p-4">{vantagem.empresa?.nome}</td>
+                  <td className="p-4">{vantagem.instituicao?.nome}</td>
                   <td className="p-4 flex space-x-2">
                     <button
                       onClick={() => handleEdit(vantagem)}

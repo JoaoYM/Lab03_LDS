@@ -11,7 +11,11 @@ interface Empresa {
   nome: string;
 }
 
-const CadastroVantagem: React.FC = () => {
+interface CadastroVantagemProps {
+  onVantagemSaved: () => void;
+}
+
+const CadastroVantagem: React.FC<CadastroVantagemProps> = ({ onVantagemSaved }) => {
   const [formData, setFormData] = useState({
     nome: "",
     descricao: "",
@@ -81,6 +85,7 @@ const CadastroVantagem: React.FC = () => {
         },
       });
       alert("Vantagem cadastrada com sucesso!");
+      onVantagemSaved(); 
     } catch (error) {
       console.error("Erro ao cadastrar vantagem", error);
     }
