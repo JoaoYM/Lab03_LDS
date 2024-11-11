@@ -51,13 +51,6 @@ public class InstituicaoController {
         instituicaoRepository.deleteById(id);
     }
 
-    // @GetMapping("/{id}/cursos")
-    // public List<Curso> getCursos(@PathVariable Long id) {
-        
-    //     Instituicao instituicao = instituicaoRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Instituição não encontrada"));
-    //     return instituicao.getCursos();
-    // }
-
     @GetMapping("/{id}/departamentos")
     public List<Departamento> getDepartamentos(@PathVariable Long id) {
         List<Departamento> departamentos = instituicaoRepository.findById(id).get().getDepartamentos();
