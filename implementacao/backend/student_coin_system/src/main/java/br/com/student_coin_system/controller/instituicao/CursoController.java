@@ -32,7 +32,7 @@ public class CursoController {
             return cursoRepository.findById(id).orElse(null);
         }
 
-        @GetMapping("/{id}/departamento")
+        @GetMapping("/curso/departamento")
         public List<Curso> getCursosDepartamento(@PathVariable List<Long> departamentoIds) {
             return cursoRepository.findByDepartamentosIdIn(departamentoIds);
         }
