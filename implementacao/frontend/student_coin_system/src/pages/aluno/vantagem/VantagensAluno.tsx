@@ -46,13 +46,28 @@ interface Aluno {
     contaCorrente: ContaCorrente;
 }
 
+// Simulação de uma instituiçãoId do aluno logado para o exemplo
+const instituicaoDoAlunoLogado = 1;
+
 const VantagensAluno: React.FC = () => {
     const [vantagens, setVantagens] = useState<Vantagem[]>([]);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [token, setToken] = useState<string | null>(null);
     const [userType, setUserType] = useState<"admin" | "aluno" | "professor" | "empresa" | null>(null);
     const [aluno, setAluno] = useState<Aluno | null>(null);
+    const [instituicaoId, setInstituicaoId] = useState<number | null>(null);
 
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+    
+        if (token) {
+          const decodedToken: any = decodeToken(token);
+          if (decodedToken && decodedToken.instituicaoId) {
+            setInstituicaoId(decodedToken.instituicaoId); // Define o instituicaoId a partir do token
+          }
+        }
+      }, []);
+/*
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -68,7 +83,8 @@ const VantagensAluno: React.FC = () => {
             }
         }
     }, []);
-
+    */
+/*
     useEffect(() => {
         const fetchAluno = async () => {
             try {
@@ -86,19 +102,38 @@ const VantagensAluno: React.FC = () => {
 
         fetchAluno();
     }, []);
+*/
+/*
+useEffect(() => {
+    if (instituicaoId !== null) {
+      // Faz a requisição com o filtro instituicaoId
+      axios
+        .get(`http://localhost:8080/api/vantagens?instituicaoId=${instituicaoId}`)
+        .then((response) => {
+          setVantagens(response.data);
+        })
+        .catch((error) => {
+          console.error("Erro ao buscar vantagens:", error);
+        });
+    }
+  }, [instituicaoId]);
+*/
 
     useEffect(() => {
         const fetchVantagens = async () => {
-            if (aluno && aluno.instituicao) {
+            //if (aluno && aluno.instituicao) {
+            if (instituicaoId !== null) {
                 try {
                     const response = await axios.get("http://localhost:8080/api/vantagem", {
                         headers: {
-                            Authorization: `Bearer ${localStorage.getItem("token")}`
+                           Authorization: `Bearer ${localStorage.getItem("token")}`
                         }
                     });
 
                     const vantagensFiltradas = response.data.filter((vantagem: Vantagem) =>
-                        vantagem.instituicao?.id === aluno.instituicao?.id
+                        //vantagem.instituicao?.id === aluno.instituicao?.id
+                        vantagem.instituicao?.id === instituicaoId
+
                     );
 
                     setVantagens(vantagensFiltradas);
@@ -106,10 +141,11 @@ const VantagensAluno: React.FC = () => {
                     console.error("Erro ao buscar as vantagens", error);
                 }
             }
+            //}
         };
 
         fetchVantagens();
-    }, [aluno]);
+    }, []);
 
     const obterVantagem = (id: number) => {
         console.log(`Vantagem ${id} obtida!`);

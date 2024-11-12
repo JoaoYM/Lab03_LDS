@@ -9,6 +9,8 @@ import GerenciarAluno from "../pages/aluno/GerenciarAluno.tsx";
 import GerenciarEmpresa from "../pages/empresa/GerenciarEmpresa.tsx";
 import GerenciarProfessor from "../pages/professor/GerenciarProfessor.tsx";
 import Login from "../pages/login/Login.tsx";
+import VantagemAluno from "../pages/aluno/vantagem/VantagensAluno.tsx";
+import GerenciarVantagem from "../pages/empresa/vantagem/GerenciarVantagem.tsx";
 
 interface AppRouterProps {
   isAuthenticated: boolean;
@@ -30,6 +32,8 @@ const AppRouter: React.FC<AppRouterProps> = ({ isAuthenticated, setToken, setIsA
       <Route path="/gerenciar-aluno" element={<GerenciarAluno />} />
       <Route path="/gerenciar-empresa" element={<GerenciarEmpresa />} />
       <Route path="/gerenciar-professor" element={<GerenciarProfessor />} />
+      <Route path="/gerenciar-empresa-vantagem" element={<GerenciarVantagem />} />
+      <Route path="/gerenciar-aluno-vantagem" element={<VantagemAluno />} />
     </Routes>
   );
 };
