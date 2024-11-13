@@ -27,9 +27,6 @@ public class Curso {
 
     @ManyToMany
     private List<Professor> professores = new ArrayList<>();
-
-    @ManyToMany
-    private List<Departamento> departamentos = new ArrayList<>();
    
     private String nome;
 }

@@ -32,11 +32,6 @@ public class DepartamentoController {
         return departamentoRepository.findById(id).orElse(null);
     }
 
-    @GetMapping("/{id}/instituicao")
-    public List<Departamento> getDepartamentosInstituicao(@PathVariable Long id) {
-        return departamentoRepository.findByInstituicaoId(id);
-    }
-
     @PostMapping
     public Departamento createDepartamento(@RequestBody Departamento departamento) {
         return departamentoRepository.save(departamento);

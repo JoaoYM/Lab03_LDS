@@ -3,14 +3,12 @@ package br.com.student_coin_system.entity.instituicao;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.student_coin_system.entity.users.Aluno;
 import br.com.student_coin_system.entity.users.Professor;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,9 +30,6 @@ public class Departamento {
 
     @ManyToMany
     private List<Curso> cursos = new ArrayList<>();
-
-    @ManyToOne
-    private Instituicao instituicao;
 
     private String nome;
 }

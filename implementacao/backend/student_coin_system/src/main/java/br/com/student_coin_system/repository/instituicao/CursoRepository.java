@@ -9,5 +9,4 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CursoRepository extends JpaRepository<Curso, Long> {
-    List<Curso> findByDepartamentosIdIn(List<Long> departamentoIds);
 }

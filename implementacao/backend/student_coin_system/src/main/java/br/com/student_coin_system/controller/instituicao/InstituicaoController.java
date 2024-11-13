@@ -1,6 +1,7 @@
 package br.com.student_coin_system.controller.instituicao;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -13,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.student_coin_system.dto.instituicao.InstituicaoDTO;
 import br.com.student_coin_system.entity.instituicao.Curso;
 import br.com.student_coin_system.entity.instituicao.Departamento;
 import br.com.student_coin_system.entity.instituicao.Instituicao;
 import br.com.student_coin_system.repository.instituicao.InstituicaoRepository;
-import jakarta.persistence.EntityNotFoundException;
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -27,8 +28,13 @@ public class InstituicaoController {
     InstituicaoRepository instituicaoRepository;
 
     @GetMapping
-    public List<Instituicao> getInstituicoes() {
-        return instituicaoRepository.findAll();
+    public List<InstituicaoDTO> getInstituicoes() {
+
+        List<Instituicao> instituicoes = instituicaoRepository.findAll();
+        
+        return instituicoes.stream()
+                .map(instituicao -> new InstituicaoDTO(instituicao.getId(), instituicao.getNome()))
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
@@ -55,5 +61,14 @@ public class InstituicaoController {
     public List<Departamento> getDepartamentos(@PathVariable Long id) {
         List<Departamento> departamentos = instituicaoRepository.findById(id).get().getDepartamentos();
         return departamentos;
+    }
+
+    @GetMapping("/{id}/cursos")
+    public List<Curso> getCursos(@PathVariable Long id) {
+        List<Departamento> departamentos = instituicaoRepository.findById(id).get().getDepartamentos();
+        return departamentos.stream()
+                .map(departamento -> departamento.getCursos())
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
     }
 }
