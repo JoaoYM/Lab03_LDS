@@ -53,6 +53,9 @@ public class SecurityConfigurations {
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((requests) -> requests
                 .requestMatchers("/api/auth/login").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/aluno").hasAnyRole("PROFESSOR", "ADMIN")
+                .requestMatchers(HttpMethod.GET, "/api/professor/**").hasAnyRole("PROFESSOR", "ADMIN")
+                .requestMatchers(HttpMethod.POST, "/api/conta-corrente/transferirMoedas").hasAnyRole("PROFESSOR", "ADMIN")
                 .requestMatchers("/**").hasRole("ADMIN"))
                 
         ;

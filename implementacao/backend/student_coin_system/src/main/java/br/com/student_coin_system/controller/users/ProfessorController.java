@@ -55,6 +55,8 @@ public class ProfessorController {
             novoProfessor.setDepartamento(departamento);
             
             novoProfessor.setContaCorrente(new ContaCorrente());
+
+            novoProfessor.getContaCorrente().setSaldo(java.math.BigDecimal.valueOf(1000));
             
             professorRepository.save(novoProfessor);
         } catch (Exception e) {
@@ -105,6 +107,11 @@ public class ProfessorController {
     @GetMapping("/{id}")
     public Professor getProfessor(@PathVariable Long id) {
         return professorRepository.findById(id).orElse(null);
+    }
+
+    @GetMapping("/login/{email}")
+    public Professor getProfessorByEmail(@PathVariable String email) {
+        return professorRepository.findByEmail(email);
     }
 
     @DeleteMapping("/{id}")

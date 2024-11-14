@@ -3,6 +3,7 @@ package br.com.student_coin_system.controller.financeiro;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.student_coin_system.dto.financeiro.TransferenciaDTO;
 import br.com.student_coin_system.entity.financeiro.ContaCorrente;
 import br.com.student_coin_system.entity.financeiro.Historico;
 import br.com.student_coin_system.entity.users.Aluno;
@@ -19,46 +20,48 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping("/api/conta-corrente")
 public class ContaCorrenteController {
-   
+
     @Autowired
     private TransferenciaService transferenciaService;
 
     @Autowired
-    AlunoRepository       alunoRepository;
+    AlunoRepository alunoRepository;
 
     @Autowired
-    ProfessorRepository   professorRepository;
-    
+    ProfessorRepository professorRepository;
+
     @Autowired
-    EmpresaRepository     empresaRepository;
+    EmpresaRepository empresaRepository;
 
     @Autowired
     ContaCorrenteRepository contaCorrenteRepository;
-        
+
     @GetMapping("/historico")
     public List<Historico> getHistoricoConta(@RequestParam Long id, @RequestParam String role) {
 
-        if(role.equals("aluno")){
+        if (role.equals("aluno")) {
             Optional<Aluno> aluno = alunoRepository.findById(id);
-            if(aluno.isPresent()){
+            if (aluno.isPresent()) {
                 return aluno.get().getContaCorrente().getHistorico();
             }
-        }else if(role.equals("professor")){
+        } else if (role.equals("professor")) {
             Optional<Professor> professor = professorRepository.findById(id);
-            if(professor.isPresent()){
+            if (professor.isPresent()) {
                 return professor.get().getContaCorrente().getHistorico();
             }
-        }else if(role.equals("empresa")){
+        } else if (role.equals("empresa")) {
             Optional<Empresa> empresa = empresaRepository.findById(id);
-            if(empresa.isPresent()){
+            if (empresa.isPresent()) {
                 return empresa.get().getContaCorrente().getHistorico();
             }
         }
@@ -67,22 +70,23 @@ public class ContaCorrenteController {
     }
 
     @PostMapping("/transferirMoedas")
-    public ResponseEntity<Void> transferirMoedas(@RequestParam Long professorId,
-                                                 @RequestParam Long alunoId,
-                                                 @RequestParam BigDecimal quantidade,
-                                                 @RequestParam String motivo) {
-        transferenciaService.transferirMoedas(professorId, alunoId, quantidade, motivo);
-        return ResponseEntity.ok().build();
-    } 
+    public ResponseEntity<Void> transferirMoedas(@RequestBody TransferenciaDTO transferencia) {
+        
+        List <ContaCorrente> contas = transferenciaService.transferirMoedas(transferencia.getProfessorId(), transferencia.getAlunoId(),
+                transferencia.getQuantidade(), transferencia.getMotivo());
 
-    @PostMapping("/trocarMoedas")
-    public ResponseEntity<Void> trocarMoedas(@RequestParam Long alunoId,
-                                                 @RequestParam Long vantagemId,
-                                                 @RequestParam BigDecimal quantidade,
-                                                 @RequestParam String motivo) {
-        transferenciaService.trocarMoedas(alunoId, vantagemId, quantidade, motivo);
+        contaCorrenteRepository.saveAll(contas);
         return ResponseEntity.ok().build();
-    } 
+    }
+
+    // @PostMapping("/trocarMoedas")
+    // public ResponseEntity<Void> trocarMoedas(@RequestParam Long alunoId,
+    //         @RequestParam Long vantagemId,
+    //         @RequestParam BigDecimal quantidade,
+    //         @RequestParam String motivo) {
+    //     transferenciaService.trocarMoedas(alunoId, vantagemId, quantidade, motivo);
+    //     return ResponseEntity.ok().build();
+    // }
 
     @GetMapping("/contas")
     public List<ContaCorrente> getContas() {
