@@ -35,11 +35,12 @@ public class Historico {
     @JoinColumn(name = "conta_corrente_id", nullable = false)
     private ContaCorrente contaCorrente;
 
-    public Historico(String pagador, String beneficiario, BigDecimal entrada, BigDecimal saida, BigDecimal saldoFinal) {
+    public Historico(String pagador, String beneficiario, BigDecimal entrada, BigDecimal saida, BigDecimal saldoFinal, ContaCorrente contaCorrente) {
         this.pagador = pagador;
         this.beneficiario = beneficiario;
         this.entrada = entrada;
         this.saida = saida;
         this.saldoFinal = saldoFinal;
+        this.contaCorrente = contaCorrente;
     }
 }

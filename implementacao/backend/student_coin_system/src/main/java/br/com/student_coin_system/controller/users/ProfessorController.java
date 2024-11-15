@@ -65,11 +65,11 @@ public class ProfessorController {
 
         User user = new User();
         user.setLogin(professor.getEmail());
-        user.setPassword("12345"); // Senha padrão
-        user.setRole(UserRoles.PROFESSOR); // Definindo o papel de professor
+        user.setPassword("12345"); 
+        user.setRole(UserRoles.PROFESSOR); 
 
         try {
-            usersService.createUser(user); // Cria a entidade de autenticação
+            usersService.createUser(user);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
@@ -92,7 +92,7 @@ public class ProfessorController {
         oldProfessor.setDepartamento(departamentoOpt.get());
     
         try {
-            professorRepository.save(oldProfessor); // Atualiza os dados do professor no banco
+            professorRepository.save(oldProfessor);
         } catch (Exception e) {
             return ResponseEntity.badRequest().build();
         }
@@ -110,8 +110,20 @@ public class ProfessorController {
     }
 
     @GetMapping("/login/{email}")
-    public Professor getProfessorByEmail(@PathVariable String email) {
-        return professorRepository.findByEmail(email);
+    public ProfessorDTO getProfessorByEmail(@PathVariable String email) {
+        
+        Professor professor = professorRepository.findByEmail(email);
+
+        ProfessorDTO professorDTO = new ProfessorDTO();
+
+        professorDTO.setId(professor.getId());
+        professorDTO.setNome(professor.getNome());
+        professorDTO.setEmail(professor.getEmail());
+        professorDTO.setCpf(professor.getCpf());
+        professorDTO.setDepartamentoId(professor.getDepartamento().getId());
+        professorDTO.setContaCorrenteId(professor.getContaCorrente().getId());
+        
+        return professorDTO;
     }
 
     @DeleteMapping("/{id}")

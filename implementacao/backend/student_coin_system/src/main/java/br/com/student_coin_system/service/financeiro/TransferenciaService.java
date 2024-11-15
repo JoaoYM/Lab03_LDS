@@ -61,14 +61,14 @@ public class TransferenciaService {
             contaProfessor.setHistorico(new ArrayList<Historico>());
         }
 
-        contaProfessor.getHistorico().add(historicoService.debito(professor.getNome(), aluno.getNome(), quantidade, professor.getContaCorrente().getSaldo()));
+        contaProfessor.getHistorico().add(historicoService.gerarHistorico(professor.getNome(), aluno.getNome(), BigDecimal.ZERO , quantidade, contaProfessor));
         
         // Atualizar histórico do aluno
         if (contaAluno.getHistorico() == null) {
             contaAluno.setHistorico(new ArrayList<Historico>());
         }
 
-        contaAluno.getHistorico().add(historicoService.credito(professor.getNome(), aluno.getNome(), quantidade, aluno.getContaCorrente().getSaldo()));
+        contaAluno.getHistorico().add(historicoService.gerarHistorico(professor.getNome(), aluno.getNome(), quantidade, BigDecimal.ZERO, contaAluno));
 
         return List.of(contaProfessor, contaAluno);
     }
