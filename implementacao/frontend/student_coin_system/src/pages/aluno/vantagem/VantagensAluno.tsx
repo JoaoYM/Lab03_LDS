@@ -122,7 +122,7 @@ useEffect(() => {
     useEffect(() => {
         const fetchVantagens = async () => {
             //if (aluno && aluno.instituicao) {
-            if (instituicaoId !== null) {
+            //if (instituicaoId !== null) {
                 try {
                     const response = await axios.get("http://localhost:8080/api/vantagem", {
                         headers: {
@@ -132,7 +132,8 @@ useEffect(() => {
 
                     const vantagensFiltradas = response.data.filter((vantagem: Vantagem) =>
                         //vantagem.instituicao?.id === aluno.instituicao?.id
-                        vantagem.instituicao?.id === instituicaoId
+                        //vantagem.instituicao?.id === instituicaoId
+                        vantagem.instituicao?.id === instituicaoDoAlunoLogado
 
                     );
 
@@ -140,7 +141,7 @@ useEffect(() => {
                 } catch (error) {
                     console.error("Erro ao buscar as vantagens", error);
                 }
-            }
+            //}
             //}
         };
 
