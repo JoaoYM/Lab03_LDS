@@ -1,22 +1,32 @@
 import React, { useState } from "react";
 import axios from "axios";
+import InputMask from "react-input-mask";
 
 interface AtualizarEmpresaProps {
   empresa: any; // Tipagem pode ser ajustada com base no seu modelo de empresa
 }
 
 const AtualizarEmpresa: React.FC<AtualizarEmpresaProps> = ({ empresa }) => {
-  const [nome, setNome] = useState(empresa.nome);
-  const [email, setEmail] = useState(empresa.email);
-  const [cnpj, setCnpj] = useState(empresa.cnpj);
-  const [razaoSocial, setRazaoSocial] = useState(empresa.razaoSocial);
+  const [formData, setFormData] = useState({
+    nome: empresa.nome,
+    email: empresa.email,
+    cnpj: empresa.cnpj,
+    razaoSocial: empresa.razaoSocial,
+  });
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await axios.put(
         `http://localhost:8080/api/empresa/${empresa.id}`,
-        { nome, email, cnpj, razaoSocial },
+        formData,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -31,47 +41,64 @@ const AtualizarEmpresa: React.FC<AtualizarEmpresaProps> = ({ empresa }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label>Nome:</label>
-        <input
-          type="text"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          className="border p-2 w-full"
-        />
-      </div>
-      <div>
-        <label>Email:</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="border p-2 w-full"
-        />
-      </div>
-      <div>
-        <label>CNPJ:</label>
-        <input
-          type="text"
-          value={cnpj}
-          onChange={(e) => setCnpj(e.target.value)}
-          className="border p-2 w-full"
-        />
-      </div>
-      <div>
-        <label>Razão Social:</label>
-        <input
-          type="text"
-          value={razaoSocial}
-          onChange={(e) => setRazaoSocial(e.target.value)}
-          className="border p-2 w-full"
-        />
-      </div>
-      <button type="submit" className="bg-green-500 text-white p-2 rounded">
-        Atualizar
-      </button>
-    </form>
+    <div className="max-w-3xl mx-auto p-8 bg-white shadow-md rounded-lg">
+      <h1 className="text-2xl font-bold mb-6 text-center">Editar Empresa</h1>
+      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
+        <div>
+          <label className="block text-gray-700">Nome:</label>
+          <input
+            type="text"
+            name="nome"
+            placeholder="Nome"
+            value={formData.nome}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">Email:</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">CNPJ:</label>
+          <InputMask
+            mask="99.999.999/9999-99"
+            type="text"
+            name="cnpj"
+            placeholder="CNPJ"
+            value={formData.cnpj}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">Razão Social:</label>
+          <input
+            type="text"
+            name="razaoSocial"
+            placeholder="Razão Social"
+            value={formData.razaoSocial}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="col-span-2">
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-300"
+          >
+            Atualizar
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 
