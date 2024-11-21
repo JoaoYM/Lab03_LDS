@@ -70,7 +70,7 @@ const GerenciarProfessor: React.FC = () => {
           </tr>
         </thead>
         <tbody>
-          {professores.map((professor: any) => (
+          {/* {professores.map((professor: any) => (
             <tr key={professor.id}>
               <td>{professor.nome}</td>
               <td>{professor.email}</td>
@@ -81,7 +81,7 @@ const GerenciarProfessor: React.FC = () => {
                 <button onClick={() => handleDelete(professor.id)} className="bg-red-500 text-white p-2 rounded">Delete</button>
               </td>
             </tr>
-          ))}
+          ))} */}
         </tbody>
       </table>
     </div>

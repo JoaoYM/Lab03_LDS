@@ -1,35 +1,45 @@
 // src/components/Header.js
 import React, { useState } from "react";
+import { Link } from 'react-router-dom';
 
-const Header = ({ userType }) => {
+const Header = ({ role, id }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
   return (
-    <header className="bg-blue-600 text-white p-4 flex justify-between items-center">
+    <header className="bg-gradient-to-r from-blue-500 to-blue-700 text-white p-4 flex justify-between items-center shadow-lg">
       <nav className="space-x-4">
-        {userType !== "Admin" && (
+        {role !== "admin" && (
           <>
             <a href="/" className="hover:underline">Home</a>
-            {userType !== "professor" && (
+            {role !== "professor" && (
               <a href="/vantagens" className="hover:underline">Minhas Vantagens</a>
             )}
-            <a href="/transacoes" className="hover:underline">Minhas Transações</a>
+            <Link
+              to={{
+                pathname: "/historico-conta",
+                search: `id=${id}&role=${role}`,
+              }}
+              className="hover:underline"
+            >
+              Minhas Transações
+            </Link>  
           </>
         )}
       </nav>
-        <div className="relative">
-          <button 
-            className="bg-blue-800 px-4 py-2 rounded-full" 
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-          >
-            User Icon ▼
-          </button>
-          {dropdownOpen && (
-            <div className="absolute right-0 mt-2 bg-white text-black rounded shadow-lg">
-              <a href="/perfil" className="block px-4 py-2 hover:bg-gray-200">Meu Perfil</a>
-              <a href="/login" className="block px-4 py-2 hover:bg-gray-200">Sair</a>
-            </div>
-          )}
-        </div>
+      <div className="relative">
+        <button
+          className="bg-blue-800 px-4 py-2 rounded-full"
+          onClick={() => setDropdownOpen(!dropdownOpen)}
+        >
+          User Icon ▼
+        </button>
+        {dropdownOpen && (
+          <div className="absolute right-0 mt-2 bg-white text-black rounded shadow-lg w-48">
+            <a href="/perfil" className="block px-4 py-2 hover:bg-gray-200">Meu Perfil</a>
+            <a href="/login" className="block px-4 py-2 hover:bg-gray-200">Sair</a>
+          </div>
+        )}
+      </div>
     </header>
   );
 };

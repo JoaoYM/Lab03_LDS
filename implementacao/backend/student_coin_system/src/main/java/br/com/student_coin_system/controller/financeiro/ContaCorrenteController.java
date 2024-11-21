@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.student_coin_system.dto.financeiro.TransferenciaDTO;
+import br.com.student_coin_system.entity.exception.SaldoInsuficienteException;
 import br.com.student_coin_system.entity.financeiro.ContaCorrente;
 import br.com.student_coin_system.entity.financeiro.Historico;
 import br.com.student_coin_system.entity.users.Aluno;
@@ -16,6 +17,7 @@ import br.com.student_coin_system.repository.users.ProfessorRepository;
 import br.com.student_coin_system.service.financeiro.TransferenciaService;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,10 +71,31 @@ public class ContaCorrenteController {
         return null;
     }
 
-    @PostMapping("/transferirMoedas")
-    public ResponseEntity<Void> transferirMoedas(@RequestBody TransferenciaDTO transferencia) {
+    // @PostMapping("/transferirMoedas")
+    // public ResponseEntity<String> transferirMoedas(@RequestBody TransferenciaDTO transferencia) {
         
-        List <ContaCorrente> contas = transferenciaService.transferirMoedas(transferencia.getProfessorId(), transferencia.getAlunoId(),
+    //     List<ContaCorrente> contas = new ArrayList<>();
+
+    //     try {
+    //         contas = transferenciaService.transferirMoedas(transferencia.getProfessorId(), transferencia.getAlunoId(),
+    //             transferencia.getQuantidade(), transferencia.getMotivo());
+
+    //         contaCorrenteRepository.saveAll(contas);
+    //         return ResponseEntity.ok().build();
+    //     } catch (Exception e) {
+    //         e.printStackTrace();
+    //     } 
+
+      
+    //     return ResponseEntity.badRequest().build();
+    // }
+
+    @PostMapping("/transferirMoedas")
+    public ResponseEntity<String> transferirMoedas(@RequestBody TransferenciaDTO transferencia) {
+        List<ContaCorrente> contas = new ArrayList<>();
+
+        // Deixe o tratamento de exceções para o ControllerAdvice
+        contas = transferenciaService.transferirMoedas(transferencia.getProfessorId(), transferencia.getAlunoId(),
                 transferencia.getQuantidade(), transferencia.getMotivo());
 
         contaCorrenteRepository.saveAll(contas);

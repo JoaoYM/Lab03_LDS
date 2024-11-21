@@ -10,17 +10,25 @@ interface Instituicao {
 interface Departamento {
   id: number;
   nome: string;
+  cursos: Curso[];
+}
+
+interface Curso {
+  id: number;
+  nome: string;
 }
 
 const CadastroProfessor: React.FC = () => {
   const [instituicoes, setInstituicoes] = useState<Instituicao[]>([]);
   const [departamentos, setDepartamentos] = useState<Departamento[]>([]);
+  const [cursos, setCursos] = useState<Curso[]>([]);
   const [formData, setFormData] = useState({
     nome: "",
     email: "",
     cpf: "",
     instituicaoId: "",
     departamentoId: "",
+    cursoId: [], 
   });
 
   useEffect(() => {
@@ -32,6 +40,8 @@ const CadastroProfessor: React.FC = () => {
             "Content-Type": "application/json",
           },
         });
+
+        console.log(JSON.stringify(response.data));
         setInstituicoes(response.data);
       } catch (error) {
         console.error("Erro ao buscar instituições", error);
@@ -46,7 +56,7 @@ const CadastroProfessor: React.FC = () => {
       if (formData.instituicaoId) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/departamento/${formData.instituicaoId}/instituicao`,
+            `http://localhost:8080/api/instituicao/${formData.instituicaoId}/departamentos`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -63,6 +73,13 @@ const CadastroProfessor: React.FC = () => {
 
     fetchDepartamentos();
   }, [formData.instituicaoId]);
+
+  useEffect(() => {
+    if (formData.departamentoId) {
+      setCursos(departamentos.find((d) => d.id === Number(formData.departamentoId))?.cursos || []);
+    }
+  }, [formData.departamentoId]);
+
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
@@ -122,7 +139,7 @@ const CadastroProfessor: React.FC = () => {
           className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">Selecione a Instituição</option>
-          {instituicoes.map((instituicao) => (
+          {Array.isArray(instituicoes) && instituicoes.map((instituicao) => (
             <option key={instituicao.id} value={instituicao.id}>
               {instituicao.nome}
             </option>
@@ -142,6 +159,22 @@ const CadastroProfessor: React.FC = () => {
             </option>
           ))}
         </select>
+
+        <select
+          name="cursoId"
+          value={formData.cursoId}
+          onChange={handleInputChange}
+          disabled={!formData.departamentoId}
+          multiple
+          className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="">Selecione o Curso</option>
+          {(cursos || []).map((curso) => (
+            <option key={curso.id} value={curso.id}>
+              {curso.nome}
+            </option>
+          ))}
+        </select>
+
         <div className="col-span-2">
           <button
             type="submit"

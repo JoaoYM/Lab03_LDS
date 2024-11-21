@@ -7,6 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.student_coin_system.components.exception.GlobalExceptionHandler;
+import br.com.student_coin_system.entity.exception.SaldoInsuficienteException;
 import br.com.student_coin_system.entity.financeiro.ContaCorrente;
 import br.com.student_coin_system.entity.financeiro.Historico;
 import br.com.student_coin_system.entity.users.Aluno;
@@ -43,6 +45,11 @@ public class TransferenciaService {
        
         Professor professor = professorRepository.findById(professorId).orElseThrow();
         Aluno aluno         = alunoRepository.findById(alunoId).orElseThrow();
+
+        if (professor.getContaCorrente().getSaldo().compareTo(quantidade) < 0) {
+            // Lança a exceção com a mensagem
+            throw new SaldoInsuficienteException("Saldo insuficiente para a transferência.");
+        }
 
         ContaCorrente contaProfessor = contaCorrenteService.removerMoedas(professor, quantidade);
         ContaCorrente contaAluno     = contaCorrenteService.adicionarMoedas(aluno, quantidade);

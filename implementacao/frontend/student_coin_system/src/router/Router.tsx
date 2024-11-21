@@ -8,6 +8,7 @@ import HomeEmpresa from "../pages/components/home/empresa/Home.tsx";
 import GerenciarAluno from "../pages/aluno/GerenciarAluno.tsx";
 import GerenciarEmpresa from "../pages/empresa/GerenciarEmpresa.tsx";
 import GerenciarProfessor from "../pages/professor/GerenciarProfessor.tsx";
+import HistoricoConta from "../pages/components/financeiro/HistoricoConta.tsx";
 import Login from "../pages/login/Login.tsx";
 import VantagemAluno from "../pages/aluno/vantagem/VantagensAluno.tsx";
 import GerenciarVantagem from "../pages/empresa/vantagem/GerenciarVantagem.tsx";
@@ -34,6 +35,7 @@ const AppRouter: React.FC<AppRouterProps> = ({ isAuthenticated, setToken, setIsA
       <Route path="/gerenciar-professor" element={<GerenciarProfessor />} />
       <Route path="/gerenciar-empresa-vantagem" element={<GerenciarVantagem />} />
       <Route path="/gerenciar-aluno-vantagem" element={<VantagemAluno />} />
+      <Route path="/historico-conta" element={<HistoricoConta id={0} role={""}/>} />
     </Routes>
   );
 };

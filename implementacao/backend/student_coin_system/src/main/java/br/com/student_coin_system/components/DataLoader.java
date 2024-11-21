@@ -76,7 +76,7 @@ public class DataLoader implements ApplicationListener<ContextRefreshedEvent> {
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
       
-        criarInstituicoes();
+        // criarInstituicoes();
 
         if(userRepository.findByLogin("admin@teste.com") == null){
             criarAdmin();

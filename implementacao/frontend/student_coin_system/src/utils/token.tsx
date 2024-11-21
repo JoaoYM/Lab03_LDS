@@ -3,6 +3,7 @@ import {jwtDecode} from 'jwt-decode';
 interface TokenPayload {
   role: string;
   exp: number;
+  sub: string;
 }
 
 export const decodeToken = (token: string): TokenPayload | null => {

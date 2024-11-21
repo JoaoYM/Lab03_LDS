@@ -5,11 +5,18 @@ import InputMask from "react-input-mask";
 interface Instituicao {
   id: number;
   nome: string;
+  departamentos: Departamento[];
 }
 
 interface Curso {
   id: number;
   nome: string;
+}
+
+interface Departamento {
+  id: number;
+  nome: string;
+  cursos: Curso[];
 }
 
 const CadastroAluno: React.FC = () => {
@@ -22,7 +29,7 @@ const CadastroAluno: React.FC = () => {
     rg: "",
     endereco: "",
     instituicaoId: "",
-    cursoId: "",
+    cursosIds: [] as string[],  // Define cursosIds como array de strings
   });
 
   useEffect(() => {
@@ -67,7 +74,7 @@ const CadastroAluno: React.FC = () => {
       if (formData.instituicaoId) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/curso/${formData.instituicaoId}/instituicao`,
+            `http://localhost:8080/api/instituicao/${formData.instituicaoId}/cursos`,
             {
               headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -85,12 +92,29 @@ const CadastroAluno: React.FC = () => {
   }, [formData.instituicaoId]);
 */
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const handleInputChange = (
+      e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
+      const { name, value, options } = e.target as HTMLSelectElement;
+
+      if (name === "cursosIds") {
+        // Obtém as opções selecionadas para permitir múltiplos cursos
+        const selectedValues = Array.from(options)
+          .filter(option => option.selected)
+          .map(option => option.value);
+        
+        setFormData({
+          ...formData,
+          cursosIds: selectedValues,
+        });
+      } else {
+        setFormData({
+          ...formData,
+          [name]: value,
+        });
+      }
+    };
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -166,13 +190,13 @@ const CadastroAluno: React.FC = () => {
           ))}
         </select>
         <select
-          name="cursoId"
-          value={formData.cursoId}
+          name="cursosIds"
+          value={formData.cursosIds}
           onChange={handleInputChange}
+          multiple
           disabled={!formData.instituicaoId}
           className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
-          <option value="">Selecione o Curso</option>
           {cursos.map((curso) => (
             <option key={curso.id} value={curso.id}>
               {curso.nome}
