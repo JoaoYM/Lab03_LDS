@@ -193,10 +193,10 @@ const CadastroAluno: React.FC = () => {
           name="cursosIds"
           value={formData.cursosIds}
           onChange={handleInputChange}
-          multiple
           disabled={!formData.instituicaoId}
           className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
+          <option value="">Selecione o Curso</option>
           {cursos.map((curso) => (
             <option key={curso.id} value={curso.id}>
               {curso.nome}

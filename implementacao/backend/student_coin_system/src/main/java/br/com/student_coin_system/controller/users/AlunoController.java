@@ -137,6 +137,12 @@ public class AlunoController {
         return ResponseEntity.ok(aluno);
     }
 
+    @GetMapping("/email/{email}")
+    public ResponseEntity<Aluno> getAlunoByEmail(@PathVariable String email) {
+        Aluno aluno = alunoRepository.findByEmail(email);
+        return ResponseEntity.ok(aluno);
+    }
+
     @GetMapping("/alunos/cursos")
     public ResponseEntity<List<Aluno>> getAlunosByCursos(@RequestBody List<Long> cursoIds) {
         List<Aluno> alunos = alunoRepository.findByCursoIdIn(cursoIds);

@@ -36,6 +36,7 @@ interface ContaCorrente {
 }
 
 interface Aluno {
+    id: number;
     nome: string;
     email: string;
     cpf: string;
@@ -46,27 +47,21 @@ interface Aluno {
     contaCorrente: ContaCorrente;
 }
 
-// Simulação de uma instituiçãoId do aluno logado para o exemplo
-const instituicaoDoAlunoLogado = 1;
-
 const VantagensAluno: React.FC = () => {
     const [vantagens, setVantagens] = useState<Vantagem[]>([]);
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [token, setToken] = useState<string | null>(null);
-    const [userType, setUserType] = useState<"admin" | "aluno" | "professor" | "empresa" | null>(null);
     const [aluno, setAluno] = useState<Aluno | null>(null);
-    const [instituicaoId, setInstituicaoId] = useState<number | null>(null);
 
-    useEffect(() => {
-        const token = localStorage.getItem("token");
-    
-        if (token) {
-          const decodedToken: any = decodeToken(token);
-          if (decodedToken && decodedToken.instituicaoId) {
-            setInstituicaoId(decodedToken.instituicaoId); // Define o instituicaoId a partir do token
-          }
-        }
-      }, []);
+   useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+        const decodedToken: any = decodeToken(token);
+        console.log("Decoded Token:", decodedToken);
+        setToken(decodedToken);
+    }
+}, []);
+
+
 /*
     useEffect(() => {
         const token = localStorage.getItem('token');
@@ -82,78 +77,107 @@ const VantagensAluno: React.FC = () => {
                 localStorage.removeItem('token');
             }
         }
+        console.log(userType);
     }, []);
-    */
-/*
+
+    useEffect(() => {
+        if (instituicaoId !== null) {
+            // Faz a requisição com o filtro instituicaoId
+            axios
+            .get(`http://localhost:8080/api/vantagens?instituicaoId=${instituicaoId}`)
+            .then((response) => {
+                setVantagens(response.data);
+                })
+            .catch((error) => {
+                console.error("Erro ao buscar vantagens:", error);
+            });
+        }
+    }, [instituicaoId]);
+*/
+
     useEffect(() => {
         const fetchAluno = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/aluno`, {
+                const response = await axios.get(`http://localhost:8080/api/aluno/email/${token?.sub}`, {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                        Authorization: `Bearer ${localStorage.getItem("token")?.trim()}`,
+
                         "Content-Type": "application/json",
                     },
                 });
                 setAluno(response.data);
+                console.log(response);
             } catch (error) {
                 console.error("Erro ao buscar aluno", error);
             }
         };
 
-        fetchAluno();
-    }, []);
-*/
-/*
-useEffect(() => {
-    if (instituicaoId !== null) {
-      // Faz a requisição com o filtro instituicaoId
-      axios
-        .get(`http://localhost:8080/api/vantagens?instituicaoId=${instituicaoId}`)
-        .then((response) => {
-          setVantagens(response.data);
-        })
-        .catch((error) => {
-          console.error("Erro ao buscar vantagens:", error);
-        });
-    }
-  }, [instituicaoId]);
-*/
+        if (token) {
+            fetchAluno();
+        }
+    }, [token]);
 
     useEffect(() => {
         const fetchVantagens = async () => {
-            //if (aluno && aluno.instituicao) {
-            //if (instituicaoId !== null) {
+            if (aluno && aluno.instituicao) {
                 try {
                     const response = await axios.get("http://localhost:8080/api/vantagem", {
                         headers: {
-                           Authorization: `Bearer ${localStorage.getItem("token")}`
-                        }
+                            Authorization: `Bearer ${localStorage.getItem("token")?.trim()}`,
+                        },
                     });
 
                     const vantagensFiltradas = response.data.filter((vantagem: Vantagem) =>
-                        //vantagem.instituicao?.id === aluno.instituicao?.id
-                        //vantagem.instituicao?.id === instituicaoId
-                        vantagem.instituicao?.id === instituicaoDoAlunoLogado
-
+                        vantagem.instituicao?.id === aluno.instituicao?.id
                     );
 
                     setVantagens(vantagensFiltradas);
                 } catch (error) {
                     console.error("Erro ao buscar as vantagens", error);
                 }
-            //}
-            //}
+            }
         };
 
         fetchVantagens();
-    }, []);
+    }, [aluno]);
 
-    const obterVantagem = (id: number) => {
-        console.log(`Vantagem ${id} obtida!`);
+    // const obterVantagem = (id: number) => {
+    //     console.log(`Vantagem ${id} obtida!`);
+    // };
+
+    const obterVantagem = async (vantagemId: number) => {
+        try {
+            const response = await axios.post(`http://localhost:8080/api/conta-corrente/resgatar-vantagem`,
+                null,
+                {
+                    params: { alunoId: aluno?.id, vantagemId },
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")?.trim()}`,
+                    },
+                }
+            );
+            alert(response.data); // Mensagem de sucesso
+    
+            // Atualize os dados do aluno após a operação
+            setTimeout(async () => {
+                const alunoAtualizado = await axios.get(`http://localhost:8080/api/aluno/email/${token?.sub}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
+                    },
+                });
+                setAluno(alunoAtualizado.data);
+            }, 500); // Delay de 500ms para garantir consistência
+            
+        } catch (error) {
+            console.error("Erro ao resgatar a vantagem:", error);
+            alert(error.response?.data?.message || error.message || "Erro ao resgatar a vantagem.");
+        }
+        
     };
+    
 
     return (
-        <div className="p-6">
+        <div className="p-6 bg-blue-300 rounded-lg">
             <h1 className="text-center text-3xl font-bold mb-8 text-gray-800">Vantagens Disponíveis</h1>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
                 {vantagens.map((vantagem) => (
