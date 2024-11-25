@@ -2,13 +2,55 @@
 actor Aluno
 actor Professor
 actor EmpresaParceira
-
 participant FrontEnd
 participant BackEnd
 database PostgreSQL as BD
 
+== Cadastro no Sistema ==
+Aluno -> FrontEnd: Acessar Tela de Cadastro
+FrontEnd -> BackEnd: Enviar Dados de Cadastro
+BackEnd -> BD: Inserir Aluno no Banco
+BD --> BackEnd: Confirmação
+BackEnd --> FrontEnd: Cadastro Confirmado
 
-== Cadastrar Vantagem (pela Empresa)==
+EmpresaParceira -> FrontEnd: Acessar Tela de Cadastro
+FrontEnd -> BackEnd: Enviar Dados de Cadastro
+BackEnd -> BD: Inserir EmpresaParceira no Banco
+BD --> BackEnd: Confirmação
+BackEnd --> FrontEnd: Cadastro Confirmado
+
+== Distribuição de Moedas ==
+Professor -> FrontEnd: Solicitar Distribuição de Moedas
+FrontEnd -> BackEnd: Requisição de Distribuição
+BackEnd -> BD: Atualizar Saldo de Moedas do Aluno
+BD --> BackEnd: Confirmação de Atualização
+BackEnd -> FrontEnd: Confirmação de Distribuição
+FrontEnd -> Professor: Distribuição Confirmada
+
+== Consultar Extrato ==
+Aluno -> FrontEnd: Solicitar Consulta de Extrato
+FrontEnd -> BackEnd: Requisição de Extrato
+BackEnd -> BD: Consultar Movimentações de Moedas
+BD --> BackEnd: Retornar Extrato
+BackEnd --> FrontEnd: Extrato de Movimentações
+FrontEnd -> Aluno: Exibir Extrato
+
+Professor -> FrontEnd: Solicitar Consulta de Extrato
+FrontEnd -> BackEnd: Requisição de Extrato
+BackEnd -> BD: Consultar Movimentações de Moedas
+BD --> BackEnd: Retornar Extrato
+BackEnd --> FrontEnd: Extrato de Movimentações
+FrontEnd -> Professor: Exibir Extrato
+
+== Troca de Moedas por Vantagem ==
+Aluno -> FrontEnd: Solicitar Troca por Vantagem
+FrontEnd -> BackEnd: Requisição de Troca
+BackEnd -> BD: Validar Saldo e Registrar Vantagem
+BD --> BackEnd: Confirmação de Vantagem
+BackEnd --> FrontEnd: Confirmação de Troca
+FrontEnd -> Aluno: Troca Confirmada
+
+== Cadastrar Vantagem ==
 EmpresaParceira -> FrontEnd: Acessar Tela de Cadastro de Vantagem
 FrontEnd -> BackEnd: Enviar Dados da Vantagem
 BackEnd -> BD: Inserir Vantagem no Banco
@@ -16,20 +58,9 @@ BD --> BackEnd: Confirmação de Cadastro
 BackEnd --> FrontEnd: Cadastro de Vantagem Confirmado
 FrontEnd -> EmpresaParceira: Vantagem Cadastrada
 
-== Listagem de Vantagens (para Aluno) ==
-Aluno -> FrontEnd: Acessar Tela de Listagem de Vantagens
-FrontEnd -> BackEnd: Solicitar os Dados das Vantagens
-BackEnd -> BD: Pegar os dados das Vantagens no Banco
-BD --> BackEnd: Enviar os dados das Vantagens existentes
-BackEnd --> FrontEnd: Receber os dados das Vantagens
-FrontEnd -> Aluno: Listar as Vantagens na tela
-
-== Troca de Moedas por Vantagem (pelo Aluno) ==
-Aluno -> FrontEnd: Solicitar Troca por Vantagem
-FrontEnd -> BackEnd: Requisição de Troca
-BackEnd -> BD: Validar Saldo e Registrar Vantagem
-BD --> BackEnd: Confirmação de Vantagem
-BackEnd --> FrontEnd: Confirmação de Troca
-FrontEnd -> Aluno: Troca Confirmada
+== Enviar Email ==
+BackEnd -> Aluno: Enviar Email de Confirmação ou Notificação
+BackEnd -> Professor: Enviar Email de Confirmação ou Notificação
+BackEnd -> EmpresaParceira: Enviar Email de Confirmação ou Notificação
 
 @enduml

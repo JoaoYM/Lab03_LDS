@@ -54,64 +54,35 @@ const GerenciarAluno: React.FC = () => {
   };
 
   return (
-    <div className="max-w-5xl mx-auto p-8 bg-gray-50 shadow-md rounded-lg">
-      {/* Seção para Criar ou Editar Alunos */}
-      <div className="flex justify-center mb-8">
-        <button
-          onClick={handleCreate}
-          className="bg-blue-500 text-white px-4 py-3 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md"
-        >
-          Criar Novo Aluno
-        </button>
-      </div>
-
-      <div className="mb-8">
-        {isCreating && <CadastroAluno />}
-        {isEditing && <AtualizarAluno aluno={selectedAluno} />}
-      </div>
-
-      {/* Seção para Visualizar Alunos */}
-      <div className="bg-white p-8 shadow-lg rounded-lg">
-        <h1 className="text-2xl font-bold mb-6 text-center">Visualização dos Alunos</h1>
-
-        <div className="overflow-x-auto">
-          <table className="table-auto w-full border-collapse bg-white shadow-lg rounded-lg">
-            <thead>
-              <tr className="bg-blue-500 text-white">
-                <th className="p-4 text-center">Nome</th>
-                <th className="p-4 text-center">Email</th>
-                <th className="p-4 text-center">Curso</th>
-                <th className="p-4 text-center">Instituição</th>
-                <th className="p-4 text-center">Ações</th>
-              </tr>
-            </thead>
-            <tbody>
-              {alunos.map((aluno: any) => (
-                <tr key={aluno.id} className="border-b">
-                  <td className="p-4">{aluno.nome}</td>
-                  <td className="p-4">{aluno.email}</td>
-                  <td className="p-4">{aluno.curso?.nome}</td>
-                  <td className="p-4">{aluno.instituicao?.nome}</td>
-                  <td className="p-4 flex space-x-2">
-                    <button
-                      onClick={() => handleEdit(aluno)}
-                      className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition duration-300"
-                    >
-                      Editar
-                    </button>
-                    <button
-                      onClick={() => handleDelete(aluno.id)}
-                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-300"
-                    >
-                      Deletar
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <div>
+      <button onClick={handleCreate} className="bg-blue-500 text-white p-2 rounded">Create</button>
+      {isCreating && <CadastroAluno />}
+      {isEditing && <AtualizarAluno aluno={selectedAluno} />}
+      <table className="table-auto w-full mt-4">
+        <thead>
+          <tr>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Curso</th>
+            <th>Instituição</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {alunos.map((aluno: any) => (
+            <tr key={aluno.id}>
+              <td>{aluno.nome}</td>
+              <td>{aluno.email}</td>
+              <td>{aluno.curso.nome}</td>
+              <td>{aluno.curso.instituicao.nome}</td>
+              <td>
+                <button onClick={() => handleEdit(aluno)} className="bg-yellow-500 text-white p-2 rounded">Edit</button>
+                <button onClick={() => handleDelete(aluno.id)} className="bg-red-500 text-white p-2 rounded">Delete</button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

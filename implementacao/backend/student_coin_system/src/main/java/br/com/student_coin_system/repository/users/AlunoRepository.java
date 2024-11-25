@@ -12,6 +12,4 @@ public interface AlunoRepository extends JpaRepository<Aluno, Long> {
 
     List<Aluno> findByCursoIdIn(List<Long> cursoIds);
     // Você pode adicionar métodos personalizados aqui, se necessário
-
-    Aluno findByEmail(String email);
 }

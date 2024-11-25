@@ -2,16 +2,11 @@
 import React from "react";
 import Header from "../../header/Header.tsx";
 import BoxItem from "../../box/BoxItem.tsx";
-import { Link } from "react-router-dom";
 
 const Home = () => {
   const vantagens = [
     { nome: "Desconto em Eletrônicos", descricao: "15% de desconto em toda a loja." },
     // Adicionar outras vantagens...
-  ];
-
-  const gerenciarVantagens = [
-    { name: "Gerenciar Vantagens", path: "/gerenciar-empresa-vantagem" },
   ];
 
   return (
@@ -28,16 +23,6 @@ const Home = () => {
               actionText="Ver Detalhes"
               onAction={() => alert(`Detalhes de: ${vantagem.nome}`)}
             />
-          ))}
-
-          {gerenciarVantagens.map((option, index) => (
-            <Link
-              key={index}
-              to={option.path}
-              className="p-4 border rounded shadow-sm bg-white hover:bg-gray-200"
-            >
-              <h2 className="text-lg font-semibold">{option.name}</h2>
-            </Link>
           ))}
         </div>
       </main>

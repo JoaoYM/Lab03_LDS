@@ -115,19 +115,4 @@ public class ContaCorrenteController {
     public List<ContaCorrente> getContas() {
         return contaCorrenteRepository.findAll();
     }
-
-    @PostMapping("/resgatar-vantagem")
-    public ResponseEntity<String> resgatarVantagem(
-        @RequestParam Long alunoId,
-        @RequestParam Long vantagemId
-    ) {
-        try {
-            String mensagem = transferenciaService.resgatarVantagem(alunoId, vantagemId);
-            return ResponseEntity.ok(mensagem);
-        } catch (SaldoInsuficienteException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().body("Erro ao resgatar vantagem: " + e.getMessage());
-        }
-    }
 }

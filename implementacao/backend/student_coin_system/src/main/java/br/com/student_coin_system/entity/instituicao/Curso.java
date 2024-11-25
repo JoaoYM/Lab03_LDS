@@ -9,9 +9,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
 
@@ -27,9 +25,6 @@ public class Curso {
     @ManyToMany
     private List<Aluno> alunos = new ArrayList<>();
 
-    @ManyToOne
-    //@JoinColumn(name = "instituicao_id", nullable = false)
-    private Instituicao instituicao;
     @ManyToMany
     private List<Professor> professores = new ArrayList<>();
    
