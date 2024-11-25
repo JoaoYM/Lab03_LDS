@@ -224,3 +224,20 @@ input[type="text"], input[type="password"] {
 .tabela-table a:hover {
   text-decoration: underline;
 }
+
+input[type="text"], input[type="password"], input[type="email"], input[type="number"] {
+  padding: 10px;
+  width: 300px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+
+select{
+  padding: 10px;
+  width: 300px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
