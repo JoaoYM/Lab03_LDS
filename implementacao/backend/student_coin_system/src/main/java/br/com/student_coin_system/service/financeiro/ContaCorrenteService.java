@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.student_coin_system.entity.financeiro.ContaCorrente;
 import br.com.student_coin_system.entity.users.Aluno;
+import br.com.student_coin_system.entity.users.Empresa;
 import br.com.student_coin_system.entity.users.Professor;
 import br.com.student_coin_system.repository.financeiro.ContaCorrenteRepository;
 
@@ -34,5 +35,26 @@ public class ContaCorrenteService {
         contaAluno.setSaldo(saldo);
         
         return contaAluno;
+    }
+
+
+    public ContaCorrente debitarValorVantagem(Aluno aluno, BigDecimal quantidade) {
+       
+        ContaCorrente contaAluno = aluno.getContaCorrente();
+        BigDecimal saldo         = contaAluno.getSaldo().subtract(quantidade);
+        
+        contaAluno.setSaldo(saldo);
+
+        return contaAluno;
+    }
+
+    public ContaCorrente creditarValorVantagem(Empresa empresa, BigDecimal quantidade) {
+        
+        ContaCorrente contaEmpresa = empresa.getContaCorrente();
+        BigDecimal saldo           = contaEmpresa.getSaldo().add(quantidade);
+
+        contaEmpresa.setSaldo(saldo);
+        
+        return contaEmpresa;
     }
 }
