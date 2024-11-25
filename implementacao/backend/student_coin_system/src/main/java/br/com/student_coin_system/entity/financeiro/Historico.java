@@ -2,6 +2,9 @@ package br.com.student_coin_system.entity.financeiro;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -33,6 +36,7 @@ public class Historico {
 
     @ManyToOne
     @JoinColumn(name = "conta_corrente_id", nullable = false)
+    @JsonBackReference
     private ContaCorrente contaCorrente;
 
     public Historico(String pagador, String beneficiario, BigDecimal entrada, BigDecimal saida, BigDecimal saldoFinal, ContaCorrente contaCorrente) {

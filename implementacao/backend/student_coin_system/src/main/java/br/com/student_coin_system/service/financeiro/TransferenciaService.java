@@ -1,6 +1,7 @@
 package br.com.student_coin_system.service.financeiro;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,4 +116,53 @@ public class TransferenciaService {
     //         throw new RuntimeException("Saldo insuficiente");
     //     }
     // }
+
+    public String resgatarVantagem(Long alunoId, Long vantagemId) {
+        Optional<Aluno> alunoOpt = alunoRepository.findById(alunoId);
+        Optional<Vantagem> vantagemOpt = vantagemRepository.findById(vantagemId);
+    
+        if (alunoOpt.isEmpty() || vantagemOpt.isEmpty()) {
+            throw new IllegalArgumentException("Aluno ou Vantagem não encontrada.");
+        }
+    
+        Aluno aluno = alunoOpt.get();
+        Vantagem vantagem = vantagemOpt.get();
+        ContaCorrente conta = aluno.getContaCorrente();
+    
+        BigDecimal custo = vantagem.getCustoMoedas();
+        BigDecimal saldo = conta.getSaldo();
+        if (saldo.compareTo(custo) < 0) {
+            throw new SaldoInsuficienteException("Saldo insuficiente para resgatar a vantagem.");
+        } 
+        else {
+            BigDecimal novoSaldo = conta.getSaldo().subtract(custo);
+            conta.setSaldo(novoSaldo);
+
+            // Nao consegui resolver o erro de criar o historico
+            /*
+            Historico historico = new Historico(
+                aluno.getNome(),
+                vantagem.getEmpresa().getNome(),
+                BigDecimal.ZERO,
+                custo,
+                novoSaldo,
+                conta
+            );
+            conta.getHistorico().add(historico);
+            */
+
+            aluno.getContaCorrente().getHistorico().add(new Historico(aluno.getNome(), vantagem.getNome(), BigDecimal.ZERO, custo, aluno.getContaCorrente().getSaldo().subtract(custo), aluno.getContaCorrente()));
+            alunoRepository.save(aluno);
+        
+            // Adicione logs para inspecionar os dados
+            System.out.println("Conta antes de salvar: " + conta);
+        
+            contaCorrenteRepository.save(conta);
+        
+            System.out.println("Conta após salvar: " + conta);
+        
+            return "Vantagem resgatada com sucesso.";
+        }
+    }
+    
 }

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class AlunoDTO {
+    private Long   id;
     private String nome;
     private String email;
     private String cpf;
@@ -18,6 +19,7 @@ public class AlunoDTO {
     private String endereco;
     private Long instituicaoId;
     private List<Long> cursosIds;
+    private Long contaCorrenteId;
     private ContaCorrente contaCorrente;
 
     public AlunoDTO(String nome, String email, String nDocumento, String rg, String endereco) {
