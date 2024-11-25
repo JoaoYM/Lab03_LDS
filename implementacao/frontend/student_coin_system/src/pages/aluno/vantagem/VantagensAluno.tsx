@@ -169,8 +169,7 @@ const VantagensAluno: React.FC = () => {
             }, 500); // Delay de 500ms para garantir consistência
             
         } catch (error) {
-            console.error("Erro ao resgatar a vantagem:", error);
-            alert(error.response?.data?.message || error.message || "Erro ao resgatar a vantagem.");
+            alert(error.response?.data || "Erro ao resgatar a vantagem.");
         }
         
     };
