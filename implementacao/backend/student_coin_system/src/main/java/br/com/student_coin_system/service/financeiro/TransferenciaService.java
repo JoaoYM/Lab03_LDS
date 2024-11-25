@@ -3,7 +3,6 @@ package br.com.student_coin_system.service.financeiro;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,6 @@ import br.com.student_coin_system.components.exception.GlobalExceptionHandler;
 import br.com.student_coin_system.entity.exception.SaldoInsuficienteException;
 import br.com.student_coin_system.entity.financeiro.ContaCorrente;
 import br.com.student_coin_system.entity.financeiro.Historico;
-import br.com.student_coin_system.entity.instituicao.Vantagem;
 import br.com.student_coin_system.entity.users.Aluno;
 import br.com.student_coin_system.entity.users.Professor;
 import br.com.student_coin_system.repository.instituicao.VantagemRepository;
@@ -20,13 +18,9 @@ import br.com.student_coin_system.repository.users.AlunoRepository;
 import br.com.student_coin_system.repository.users.ProfessorRepository;
 import br.com.student_coin_system.service.notification.EmailService;
 import jakarta.transaction.Transactional;
-import br.com.student_coin_system.repository.financeiro.ContaCorrenteRepository;
 
 @Service
 public class TransferenciaService {
-
-    @Autowired
-    private ContaCorrenteRepository contaCorrenteRepository;
 
     @Autowired
     private AlunoRepository alunoRepository;
@@ -121,48 +115,4 @@ public class TransferenciaService {
     //         throw new RuntimeException("Saldo insuficiente");
     //     }
     // }
-
-    public String resgatarVantagem(Long alunoId, Long vantagemId) {
-        Optional<Aluno> alunoOpt = alunoRepository.findById(alunoId);
-        Optional<Vantagem> vantagemOpt = vantagemRepository.findById(vantagemId);
-    
-        if (alunoOpt.isEmpty() || vantagemOpt.isEmpty()) {
-            throw new IllegalArgumentException("Aluno ou Vantagem não encontrada.");
-        }
-    
-        Aluno aluno = alunoOpt.get();
-        Vantagem vantagem = vantagemOpt.get();
-        ContaCorrente conta = aluno.getContaCorrente();
-    
-        BigDecimal custo = vantagem.getCustoMoedas();
-        if (conta.getSaldo().compareTo(custo) < 0) {
-            throw new SaldoInsuficienteException("Saldo insuficiente para resgatar a vantagem.");
-        }
-    
-        BigDecimal novoSaldo = conta.getSaldo().subtract(custo);
-        conta.setSaldo(novoSaldo);
-
-        // Nao consegui resolver o erro de criar o historico
-        /*
-        Historico historico = new Historico(
-            aluno.getNome(),
-            vantagem.getEmpresa().getNome(),
-            BigDecimal.ZERO,
-            custo,
-            novoSaldo,
-            conta
-        );
-        conta.getHistorico().add(historico);
-        */
-    
-        // Adicione logs para inspecionar os dados
-        System.out.println("Conta antes de salvar: " + conta);
-    
-        contaCorrenteRepository.save(conta);
-    
-        System.out.println("Conta após salvar: " + conta);
-    
-        return "Vantagem resgatada com sucesso.";
-    }
-    
 }

@@ -165,6 +165,7 @@ const CadastroProfessor: React.FC = () => {
           value={formData.cursoId}
           onChange={handleInputChange}
           disabled={!formData.departamentoId}
+          multiple
           className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500">
           <option value="">Selecione o Curso</option>
           {(cursos || []).map((curso) => (
