@@ -117,10 +117,7 @@ public class ContaCorrenteController {
     }
 
     @PostMapping("/resgatar-vantagem")
-    public ResponseEntity<String> resgatarVantagem(
-        @RequestParam Long alunoId,
-        @RequestParam Long vantagemId
-    ) {
+    public ResponseEntity<String> resgatarVantagem(@RequestParam Long alunoId, @RequestParam Long vantagemId) {
         try {
             String mensagem = transferenciaService.resgatarVantagem(alunoId, vantagemId);
             return ResponseEntity.ok(mensagem);

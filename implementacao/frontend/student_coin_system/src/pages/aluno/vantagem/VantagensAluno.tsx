@@ -52,17 +52,16 @@ const VantagensAluno: React.FC = () => {
     const [token, setToken] = useState<string | null>(null);
     const [aluno, setAluno] = useState<Aluno | null>(null);
 
-   useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (token) {
-        const decodedToken: any = decodeToken(token);
-        console.log("Decoded Token:", decodedToken);
-        setToken(decodedToken);
-    }
-}, []);
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            const decodedToken: any = decodeToken(token);
+            console.log("Decoded Token:", decodedToken);
+            setToken(decodedToken);
+        }
+    }, []);
 
-
-/*
+    /*
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
@@ -93,14 +92,14 @@ const VantagensAluno: React.FC = () => {
             });
         }
     }, [instituicaoId]);
-*/
+    */
 
     useEffect(() => {
         const fetchAluno = async () => {
             try {
                 const response = await axios.get(`http://localhost:8080/api/aluno/email/${token?.sub}`, {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")?.trim()}`,
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
 
                         "Content-Type": "application/json",
                     },
@@ -123,7 +122,7 @@ const VantagensAluno: React.FC = () => {
                 try {
                     const response = await axios.get("http://localhost:8080/api/vantagem", {
                         headers: {
-                            Authorization: `Bearer ${localStorage.getItem("token")?.trim()}`,
+                            Authorization: `Bearer ${localStorage.getItem("token")}`,
                         },
                     });
 
@@ -152,7 +151,7 @@ const VantagensAluno: React.FC = () => {
                 {
                     params: { alunoId: aluno?.id, vantagemId },
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem("token")?.trim()}`,
+                        Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },
                 }
             );
@@ -174,7 +173,6 @@ const VantagensAluno: React.FC = () => {
         
     };
     
-
     return (
         <div className="p-6 bg-blue-300 rounded-lg">
             <h1 className="text-center text-3xl font-bold mb-8 text-gray-800">Vantagens Disponíveis</h1>

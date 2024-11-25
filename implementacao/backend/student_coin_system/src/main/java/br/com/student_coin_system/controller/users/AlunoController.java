@@ -1,5 +1,6 @@
 package br.com.student_coin_system.controller.users;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,16 +14,23 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.student_coin_system.dto.users.AlunoDTO;
+import br.com.student_coin_system.dto.users.ProfessorDTO;
 import br.com.student_coin_system.entity.authentication.User;
 import br.com.student_coin_system.entity.financeiro.ContaCorrente;
 import br.com.student_coin_system.entity.instituicao.Curso;
 import br.com.student_coin_system.entity.instituicao.Instituicao;
 import br.com.student_coin_system.entity.users.Aluno;
+import br.com.student_coin_system.entity.users.Empresa;
+import br.com.student_coin_system.entity.users.Professor;
 import br.com.student_coin_system.enums.UserRoles;
 import br.com.student_coin_system.repository.instituicao.CursoRepository;
 import br.com.student_coin_system.repository.instituicao.InstituicaoRepository;
 import br.com.student_coin_system.repository.users.AlunoRepository;
 import br.com.student_coin_system.service.users.UsersService;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -158,5 +166,22 @@ public class AlunoController {
     public ResponseEntity<Void> deletarAluno(@PathVariable Long id) {
         alunoRepository.deleteById(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/login/{email}")
+    public AlunoDTO getAlunoByEmail2(@PathVariable String email) {
+        
+        Aluno aluno = alunoRepository.findByEmail(email);
+
+        AlunoDTO alunoDTO = new AlunoDTO();
+
+        alunoDTO.setId(aluno.getId());
+        alunoDTO.setNome(aluno.getNome());
+        alunoDTO.setEmail(aluno.getEmail());
+        alunoDTO.setCpf(aluno.getCpf());
+        alunoDTO.setRg(aluno.getRg());
+        alunoDTO.setContaCorrenteId(aluno.getContaCorrente().getId());
+        
+        return alunoDTO;
     }
 }
