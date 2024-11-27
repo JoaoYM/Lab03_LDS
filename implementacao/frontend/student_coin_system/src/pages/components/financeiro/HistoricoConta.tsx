@@ -43,7 +43,6 @@ const HistoricoConta: React.FC = () => {
     const storedToken = localStorage.getItem("token");
     if (storedToken) {
       const decodedToken: any = decodeToken(storedToken);
-      console.log("Decoded Token:", decodedToken);
       setToken(decodedToken);
     }
   }, []);

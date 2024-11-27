@@ -61,7 +61,6 @@ const Home = () => {
             "Content-Type": "application/json",
           },
         });
-        console.log(response.data);
         setProfessor(response.data);
       } catch (error) {
         console.error("Erro ao buscar professor: ", error);

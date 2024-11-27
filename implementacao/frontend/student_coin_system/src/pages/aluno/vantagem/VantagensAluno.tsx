@@ -56,7 +56,6 @@ const VantagensAluno: React.FC = () => {
         const token = localStorage.getItem("token");
         if (token) {
             const decodedToken: any = decodeToken(token);
-            console.log("Decoded Token:", decodedToken);
             setToken(decodedToken);
         }
     }, []);
@@ -72,7 +71,6 @@ const VantagensAluno: React.FC = () => {
                     },
                 });
                 setAluno(response.data);
-                console.log(response);
             } catch (error) {
                 console.error("Erro ao buscar aluno", error);
             }
