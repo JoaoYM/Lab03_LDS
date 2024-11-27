@@ -82,7 +82,6 @@ const AtualizarVantagem: React.FC<AtualizarVantagemProps> = ({ vantagem, onVanta
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     try {
       await axios.put(`http://localhost:8080/api/vantagem/${vantagem.id}`, formData, {
         headers: {
