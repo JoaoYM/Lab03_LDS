@@ -57,6 +57,7 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.GET, "/api/professor/**").hasAnyRole("PROFESSOR", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/conta-corrente/transferirMoedas").hasAnyRole("PROFESSOR", "ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/historico-conta/**").hasAnyRole("PROFESSOR", "ADMIN", "ALUNO", "EMPRESA")
+                .requestMatchers(HttpMethod.GET, "/api/aluno/login/**").hasAnyRole("ADMIN", "ALUNO")
                 .requestMatchers("/**").hasRole("ADMIN"))
                 
         ;
