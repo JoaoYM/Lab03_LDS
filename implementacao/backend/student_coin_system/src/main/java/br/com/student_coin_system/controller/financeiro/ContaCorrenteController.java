@@ -71,25 +71,6 @@ public class ContaCorrenteController {
         return null;
     }
 
-    // @PostMapping("/transferirMoedas")
-    // public ResponseEntity<String> transferirMoedas(@RequestBody TransferenciaDTO transferencia) {
-        
-    //     List<ContaCorrente> contas = new ArrayList<>();
-
-    //     try {
-    //         contas = transferenciaService.transferirMoedas(transferencia.getProfessorId(), transferencia.getAlunoId(),
-    //             transferencia.getQuantidade(), transferencia.getMotivo());
-
-    //         contaCorrenteRepository.saveAll(contas);
-    //         return ResponseEntity.ok().build();
-    //     } catch (Exception e) {
-    //         e.printStackTrace();
-    //     } 
-
-      
-    //     return ResponseEntity.badRequest().build();
-    // }
-
     @PostMapping("/transferirMoedas")
     public ResponseEntity<String> transferirMoedas(@RequestBody TransferenciaDTO transferencia) {
         List<ContaCorrente> contas = new ArrayList<>();
@@ -102,14 +83,6 @@ public class ContaCorrenteController {
         return ResponseEntity.ok().build();
     }
 
-    // @PostMapping("/trocarMoedas")
-    // public ResponseEntity<Void> trocarMoedas(@RequestParam Long alunoId,
-    //         @RequestParam Long vantagemId,
-    //         @RequestParam BigDecimal quantidade,
-    //         @RequestParam String motivo) {
-    //     transferenciaService.trocarMoedas(alunoId, vantagemId, quantidade, motivo);
-    //     return ResponseEntity.ok().build();
-    // }
 
     @GetMapping("/contas")
     public List<ContaCorrente> getContas() {
@@ -127,4 +100,5 @@ public class ContaCorrenteController {
             return ResponseEntity.internalServerError().body("Erro ao resgatar vantagem: " + e.getMessage());
         }
     }
+
 }
