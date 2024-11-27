@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.student_coin_system.dto.users.EmpresaDTO;
 import br.com.student_coin_system.entity.authentication.User;
 import br.com.student_coin_system.entity.financeiro.ContaCorrente;
+import br.com.student_coin_system.entity.users.Aluno;
 import br.com.student_coin_system.entity.users.Empresa;
 import br.com.student_coin_system.enums.UserRoles;
 import br.com.student_coin_system.repository.users.EmpresaRepository;
@@ -74,13 +75,19 @@ public class EmpresaController {
         return empresaRepository.findAll();
     }
 
+        @GetMapping("/email/{email}")
+    public ResponseEntity<Empresa> getEmpresaByEmail(@PathVariable String email) {
+        Empresa empresa = empresaRepository.findByEmail(email);
+        return ResponseEntity.ok(empresa);
+    }
+
     @GetMapping("/{id}")
     public Empresa getEmpresa(@PathVariable Long id) {
         return empresaRepository.findById(id).orElse(null);
     }
 
     @GetMapping("/login/{email}")
-    public EmpresaDTO getEmpresaByEmail(@PathVariable String email) {
+    public EmpresaDTO getEmpresaByEmail2(@PathVariable String email) {
 
         Empresa empresa = empresaRepository.findByEmail(email);
 

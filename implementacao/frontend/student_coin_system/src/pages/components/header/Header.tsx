@@ -14,6 +14,9 @@ const Header = ({ role, id }) => {
             {role === "aluno" && (
               <a href="/gerenciar-aluno-vantagem" className="hover:underline">Minhas Vantagens</a>
             )}
+            {role === "empresa" && (
+              <a href="/gerenciar-empresa-vantagem" className="hover:underline">Gerenciar Vantagens</a>
+            )}
             <Link
               to={{
                 pathname: "/historico-conta",
