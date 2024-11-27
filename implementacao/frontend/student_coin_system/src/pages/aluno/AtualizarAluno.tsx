@@ -49,43 +49,50 @@ const AtualizarAluno: React.FC<AtualizarAlunoProps> = ({ aluno }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label>Nome:</label>
-        <input
-          type="text"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          className="border p-2 w-full"
-        />
-      </div>
-      <div>
-        <label>Email:</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="border p-2 w-full"
-        />
-      </div>
-      <div>
-        <label>Curso:</label>
-        <select
-          value={curso}
-          onChange={(e) => setCurso(Number(e.target.value))}
-          className="border p-2 w-full"
-        >
-          {cursos.map((curso: any) => (
-            <option key={curso.id} value={curso.id}>
-              {curso.nome}
-            </option>
-          ))}
-        </select>
-      </div>
-      <button type="submit" className="bg-green-500 text-white p-2 rounded">
-        Atualizar
-      </button>
-    </form>
+    <div className="max-w-3xl mx-auto p-8 bg-white shadow-md rounded-lg">
+      <h1 className="text-2xl font-bold mb-6 text-center">Editar Aluno</h1>
+      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
+        <div>
+          <label className="block text-gray-700">Nome:</label>
+          <input
+            type="text"
+            name="nome"
+            value={nome}
+            onChange={(e) => setNome(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">Email:</label>
+          <input
+            type="email"
+            name="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">Curso:</label>
+          <select
+            value={curso}
+            onChange={(e) => setCurso(Number(e.target.value))}
+            className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            {cursos.map((curso: any) => (
+              <option key={curso.id} value={curso.id}>
+                {curso.nome}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-span-2">
+          <button type="submit" className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-300">
+            Atualizar
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

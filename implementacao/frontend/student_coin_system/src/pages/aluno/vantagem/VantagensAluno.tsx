@@ -61,43 +61,10 @@ const VantagensAluno: React.FC = () => {
         }
     }, []);
 
-    /*
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            setToken(token);
-            const decodedToken = decodeToken(token);
-            const isExpired = decodedToken ? Date.now() >= decodedToken.exp * 1000 : true;
-
-            if (!isExpired) {
-                setIsAuthenticated(true);
-                setUserType(decodedToken?.role as "admin" | "aluno" | "professor" | "empresa");
-            } else {
-                localStorage.removeItem('token');
-            }
-        }
-        console.log(userType);
-    }, []);
-
-    useEffect(() => {
-        if (instituicaoId !== null) {
-            // Faz a requisição com o filtro instituicaoId
-            axios
-            .get(`http://localhost:8080/api/vantagens?instituicaoId=${instituicaoId}`)
-            .then((response) => {
-                setVantagens(response.data);
-                })
-            .catch((error) => {
-                console.error("Erro ao buscar vantagens:", error);
-            });
-        }
-    }, [instituicaoId]);
-    */
-
     useEffect(() => {
         const fetchAluno = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/api/aluno/email/${token?.sub}`, {
+                const response = await axios.get(`http://localhost:8080/api/aluno/login/${token?.sub}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
 
@@ -140,10 +107,6 @@ const VantagensAluno: React.FC = () => {
         fetchVantagens();
     }, [aluno]);
 
-    // const obterVantagem = (id: number) => {
-    //     console.log(`Vantagem ${id} obtida!`);
-    // };
-
     const obterVantagem = async (vantagemId: number) => {
         try {
             const response = await axios.post(`http://localhost:8080/api/conta-corrente/resgatar-vantagem`,
@@ -159,7 +122,7 @@ const VantagensAluno: React.FC = () => {
     
             // Atualize os dados do aluno após a operação
             setTimeout(async () => {
-                const alunoAtualizado = await axios.get(`http://localhost:8080/api/aluno/email/${token?.sub}`, {
+                const alunoAtualizado = await axios.get(`http://localhost:8080/api/aluno/login/${token?.sub}`, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem("token")}`,
                     },

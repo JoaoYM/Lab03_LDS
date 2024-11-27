@@ -7,7 +7,7 @@
 //       <nav className="space-x-4">
 //         <a href="/" className="hover:underline">Home</a>
 //         {userType !== "Professor" && (
-//           <a href="/vantagens" className="hover:underline">Minhas Vantagens</a>
+//           <a href="/vantagens-aluno" className="hover:underline">Minhas Vantagens</a>
 //         )}
 //         <a href="/historico-conta" className="hover:underline">Minhas Transações</a>
 //       </nav>

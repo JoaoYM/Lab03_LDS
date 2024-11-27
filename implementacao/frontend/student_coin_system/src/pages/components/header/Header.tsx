@@ -12,7 +12,7 @@ const Header = ({ role, id }) => {
           <>
             <a href="/" className="hover:underline">Home</a>
             {role !== "professor" && (
-              <a href="/vantagens" className="hover:underline">Minhas Vantagens</a>
+              <a href="/gerenciar-aluno-vantagem" className="hover:underline">Minhas Vantagens</a>
             )}
             <Link
               to={{
