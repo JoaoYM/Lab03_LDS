@@ -87,7 +87,10 @@ const HistoricoConta: React.FC = () => {
           );
 
           setHistorico(response.data);
-          setSaldo(response.data[response.data.length - 1].saldoFinal);
+
+          if (response.data.length > 0){
+            setSaldo(response.data[response.data.length - 1].saldoFinal);
+          }
         } catch (error) {
           console.error("Erro ao buscar histórico: ", error);
         }
@@ -115,7 +118,7 @@ const HistoricoConta: React.FC = () => {
               </tr>
             </thead>
             <tbody>
-              {historico.map((item) => (
+              {historico.length && historico.map((item) => (
                 <tr key={item.id} className="border-b border-gray-200 hover:bg-gray-100">
                   <td className="py-3 px-6 text-left text-gray-700">{new Date(item.dataOperacao).toLocaleDateString()}</td>
                   <td className="py-3 px-6 text-left text-gray-700">{item.pagador}</td>

@@ -1,25 +1,18 @@
 package br.com.student_coin_system.dto.users;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
 public class EmpresaDTO {
+    
+    private Long   id;
     private String nome;
     private String email;
     private String cnpj;
-
-    public EmpresaDTO(String nome, String email, String cnpj) {
-        this.nome  = nome;
-        this.email = email;
-        this.cnpj  = cnpj;
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getCnpj() {
-        return cnpj;
-    }
+    private String razaoSocial;
+    private Long contaCorrenteId;
 }

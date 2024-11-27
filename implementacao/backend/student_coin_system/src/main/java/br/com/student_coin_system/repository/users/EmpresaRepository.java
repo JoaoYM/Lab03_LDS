@@ -6,5 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmpresaRepository extends JpaRepository<Empresa, Long> {
-    // Você pode adicionar métodos personalizados aqui, se necessário
+
+    Empresa findByEmail(String email);
 }

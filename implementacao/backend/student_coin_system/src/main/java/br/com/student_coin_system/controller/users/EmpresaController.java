@@ -79,6 +79,23 @@ public class EmpresaController {
         return empresaRepository.findById(id).orElse(null);
     }
 
+    @GetMapping("/login/{email}")
+    public EmpresaDTO getEmpresaByEmail(@PathVariable String email) {
+
+        Empresa empresa = empresaRepository.findByEmail(email);
+
+        EmpresaDTO empresaDTO = new EmpresaDTO();
+
+        empresaDTO.setId(empresa.getId());
+        empresaDTO.setNome(empresa.getNome());
+        empresaDTO.setEmail(empresa.getEmail());
+        empresaDTO.setCnpj(empresa.getCnpj());
+        empresaDTO.setRazaoSocial(empresa.getRazaoSocial());
+        empresaDTO.setContaCorrenteId(empresa.getContaCorrente().getId());
+
+        return empresaDTO;
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletarEmpresa(@PathVariable Long id) {
         empresaRepository.deleteById(id);

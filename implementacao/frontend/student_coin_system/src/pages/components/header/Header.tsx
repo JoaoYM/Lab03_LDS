@@ -11,7 +11,7 @@ const Header = ({ role, id }) => {
         {role !== "admin" && (
           <>
             <a href="/" className="hover:underline">Home</a>
-            {role !== "professor" && (
+            {role === "aluno" && (
               <a href="/gerenciar-aluno-vantagem" className="hover:underline">Minhas Vantagens</a>
             )}
             <Link
