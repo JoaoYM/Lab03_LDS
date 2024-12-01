@@ -8,10 +8,11 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class HistoricoDTO {
-    private Long            id;
-    private Date dataOperacao;
-    private String          pagador;
-    private String beneficiario;
+    private Long       id;
+    private Date       dataOperacao;
+    private String     pagador;
+    private String     beneficiario;
+    private String     motivo;
     private BigDecimal entrada;
     private BigDecimal saida;
     private BigDecimal saldoFinal;
