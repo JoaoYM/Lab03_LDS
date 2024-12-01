@@ -10,5 +10,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface HistoricoRepository extends JpaRepository<Historico, Long> {
 
-    List<Historico> findByContaCorrenteId(Long id);
+    // List<Historico> findByContaCorrenteId(Long id);
+    List<Historico> findByContaCorrenteIdOrderByDataOperacaoDesc(Long contaCorrenteId);
 }

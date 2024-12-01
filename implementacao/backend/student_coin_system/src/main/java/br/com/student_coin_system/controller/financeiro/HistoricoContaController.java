@@ -23,19 +23,22 @@ public class HistoricoContaController {
 
     @GetMapping("/conta/{id}")
     public List<HistoricoDTO> getHistoricoConta(@PathVariable Long id) {
+        // Buscar histórico ordenado
+        List<Historico> historico = historicoRepository.findByContaCorrenteIdOrderByDataOperacaoDesc(id);
 
-        List<Historico> historico = historicoRepository.findByContaCorrenteId(id);
-
+        // Mapear para DTO
         return historico.stream().map(h -> {
             HistoricoDTO dto = new HistoricoDTO();
             dto.setId(h.getId());
             dto.setBeneficiario(h.getBeneficiario());
             dto.setPagador(h.getPagador());
             dto.setEntrada(h.getEntrada());
+            dto.setMotivo(h.getMotivo());
             dto.setSaida(h.getSaida());
             dto.setSaldoFinal(h.getSaldoFinal());
             dto.setDataOperacao(new java.sql.Date(java.sql.Timestamp.valueOf(h.getDataOperacao()).getTime()));
             return dto;
         }).toList();
     }
+
 }

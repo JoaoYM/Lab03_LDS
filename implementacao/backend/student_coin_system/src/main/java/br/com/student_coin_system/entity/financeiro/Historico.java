@@ -30,6 +30,7 @@ public class Historico {
     private LocalDateTime dataOperacao = LocalDateTime.now();
     private String pagador;
     private String beneficiario;
+    private String motivo;
     private BigDecimal entrada;
     private BigDecimal saida;
     private BigDecimal saldoFinal;
@@ -39,12 +40,13 @@ public class Historico {
     @JsonBackReference
     private ContaCorrente contaCorrente;
 
-    public Historico(String pagador, String beneficiario, BigDecimal entrada, BigDecimal saida, BigDecimal saldoFinal, ContaCorrente contaCorrente) {
+    public Historico(String pagador, String beneficiario, String motivo, BigDecimal entrada, BigDecimal saida, BigDecimal saldoFinal, ContaCorrente contaCorrente) {
         this.pagador = pagador;
         this.beneficiario = beneficiario;
         this.entrada = entrada;
         this.saida = saida;
         this.saldoFinal = saldoFinal;
         this.contaCorrente = contaCorrente;
+        this.motivo = motivo;
     }
 }

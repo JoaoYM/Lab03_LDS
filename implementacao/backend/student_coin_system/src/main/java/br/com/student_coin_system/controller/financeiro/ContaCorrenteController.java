@@ -75,9 +75,12 @@ public class ContaCorrenteController {
     public ResponseEntity<String> transferirMoedas(@RequestBody TransferenciaDTO transferencia) {
         List<ContaCorrente> contas = new ArrayList<>();
 
-        // Deixe o tratamento de exceções para o ControllerAdvice
-        contas = transferenciaService.transferirMoedas(transferencia.getProfessorId(), transferencia.getAlunoId(),
-                transferencia.getQuantidade(), transferencia.getMotivo());
+        contas = transferenciaService.transferirMoedas(
+            transferencia.getProfessorId(), 
+            transferencia.getAlunoId(), 
+            transferencia.getMotivo(),
+            transferencia.getQuantidade()
+        );
 
         contaCorrenteRepository.saveAll(contas);
         return ResponseEntity.ok().build();
