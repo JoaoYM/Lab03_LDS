@@ -28,7 +28,8 @@ public class VantagemController {
     }
 
     @PutMapping("/{id}")
-    public void updateVantagem(@RequestBody Vantagem vantagem) {
+    public void updateVantagem(@RequestBody Vantagem vantagem, @PathVariable Long id) {
+        vantagem.setId(id);
         vantagemRepository.save(vantagem);
     }
 

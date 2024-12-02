@@ -32,8 +32,8 @@ const AtualizarVantagem: React.FC<AtualizarVantagemProps> = ({ vantagem, onVanta
       descricao: vantagem.descricao,
       fotoUrl: vantagem.fotoUrl,
       custoMoedas: vantagem.custoMoedas,
-      empresaId: vantagem.empresa?.id || "", // Corrigido para buscar id do objeto vantagem
-      instituicaoId: vantagem.instituicao?.id || "",
+      empresaId: vantagem.empresa?.id, // Corrigido para buscar id do objeto vantagem
+      instituicaoId: vantagem.instituicao?.id,
     });
   }, [vantagem]);
 
