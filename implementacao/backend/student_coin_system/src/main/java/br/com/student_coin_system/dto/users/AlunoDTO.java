@@ -18,10 +18,11 @@ public class AlunoDTO {
     private String cpf;
     private String rg;
     private Endereço endereco;
-    private Long instituicaoId;
+    private String instituicaoNome;
+    private Long   instituicaoId;
     private List<Long> cursosIds;
+    private List<String> cursosNomes;
     private Long contaCorrenteId;
-    private ContaCorrente contaCorrente;
 
     public AlunoDTO(String nome, String email, String nDocumento, String rg, Endereço endereco) {
         this.nome     = nome;

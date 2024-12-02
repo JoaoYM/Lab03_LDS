@@ -21,10 +21,10 @@ import br.com.student_coin_system.entity.instituicao.Instituicao;
 import br.com.student_coin_system.entity.users.Aluno;
 import br.com.student_coin_system.entity.utils.Endereço;
 import br.com.student_coin_system.enums.UserRoles;
+import br.com.student_coin_system.repository.financeiro.ContaCorrenteRepository;
 import br.com.student_coin_system.repository.instituicao.CursoRepository;
 import br.com.student_coin_system.repository.instituicao.InstituicaoRepository;
 import br.com.student_coin_system.repository.users.AlunoRepository;
-import br.com.student_coin_system.repository.users.EnderecoRepository;
 import br.com.student_coin_system.service.users.UsersService;
 
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,7 +46,7 @@ public class AlunoController {
     private InstituicaoRepository instituicaoRepository;
 
     @Autowired
-    private EnderecoRepository enderecoRepository;
+    private ContaCorrenteRepository contaCorrenteRepository;
 
     @Autowired
     private UsersService usersService;
@@ -155,9 +155,7 @@ public class AlunoController {
         oldAluno.getEndereco().setNumero(aluno.getEndereco().getNumero());
         oldAluno.getEndereco().setLogradouro(aluno.getEndereco().getLogradouro());
         oldAluno.getEndereco().setBairro(aluno.getEndereco().getBairro());
-  
-        oldAluno.setCurso(cursos);;
-        oldAluno.setContaCorrente(aluno.getContaCorrente());
+        oldAluno.setCurso(cursos);
         oldAluno.setInstituicao(instituicao);
         oldAluno.setCpf(aluno.getCpf());
 
@@ -189,8 +187,28 @@ public class AlunoController {
     }
 
     @GetMapping
-    public List<Aluno> getAlunos() {
-        return alunoRepository.findAll();
+    public List<AlunoDTO> getAlunos() {
+        
+        List<Aluno> alunos       = alunoRepository.findAll();
+        List<AlunoDTO> alunosDto = new ArrayList<>();
+
+        for (Aluno aluno : alunos) {
+            AlunoDTO alunoDto = new AlunoDTO();
+            alunoDto.setId(aluno.getId());
+            alunoDto.setNome(aluno.getNome());
+            alunoDto.setEmail(aluno.getEmail());
+            alunoDto.setCpf(aluno.getCpf());
+            alunoDto.setRg(aluno.getRg());
+            alunoDto.setContaCorrenteId(aluno.getContaCorrente().getId());
+            alunoDto.setEndereco(aluno.getEndereco());
+            alunoDto.setInstituicaoId(aluno.getInstituicao().getId());
+            alunoDto.setCursosIds(aluno.getCurso().stream().map(Curso::getId).collect(Collectors.toList()));
+            alunoDto.setCursosNomes(aluno.getCurso().stream().map(Curso::getNome).collect(Collectors.toList()));
+            alunoDto.setInstituicaoNome(aluno.getInstituicao().getNome());
+            alunosDto.add(alunoDto);
+        }
+
+        return alunosDto;
     }
 
     @DeleteMapping("/{id}")
