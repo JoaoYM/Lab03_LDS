@@ -39,11 +39,6 @@ public class VantagemController {
     }
 
     @PutMapping("/{id}")
-<<<<<<< HEAD
-    public void updateVantagem(@RequestBody Vantagem vantagem, @PathVariable Long id) {
-        vantagem.setId(id);
-        vantagemRepository.save(vantagem);
-=======
     public void updateVantagem(@PathVariable Long id, @RequestBody VantagemDTO vantagem) {
 
         // Recuperação da entidade a ser atualizada
@@ -62,7 +57,6 @@ public class VantagemController {
         oldVantagem.setFotoUrl(vantagem.getFotoUrl());
 
         vantagemRepository.save(oldVantagem);
->>>>>>> 01c80de46fea34d37f96850df4bc62877b9e18d6
     }
 
     @DeleteMapping("/{id}")
