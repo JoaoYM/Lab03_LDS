@@ -9,7 +9,7 @@ import br.com.student_coin_system.entity.financeiro.Historico;
 
 @Service
 public class HistoricoService {
-    public Historico gerarHistorico(String pagador, String beneficiario, BigDecimal entrada, BigDecimal saida, ContaCorrente contaCorrente) {
-        return new Historico(pagador, beneficiario, entrada, saida, contaCorrente.getSaldo(), contaCorrente);
+    public Historico gerarHistorico(String pagador, String beneficiario, String motivo, BigDecimal entrada, BigDecimal saida, ContaCorrente contaCorrente) {
+        return new Historico(pagador, beneficiario, motivo, entrada, saida, contaCorrente.getSaldo(), contaCorrente);
     }
 }

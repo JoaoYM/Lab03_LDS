@@ -49,7 +49,7 @@ public class TransferenciaService {
     private EmailService emailService;
 
     @Transactional
-    public List<ContaCorrente> transferirMoedas(Long professorId, Long alunoId, BigDecimal quantidade, String motivo) {
+    public List<ContaCorrente> transferirMoedas(Long professorId, Long alunoId, String motivo, BigDecimal quantidade) {
        
         Professor professor = professorRepository.findById(professorId).orElseThrow();
         Aluno aluno         = alunoRepository.findById(alunoId).orElseThrow();
@@ -63,27 +63,27 @@ public class TransferenciaService {
         ContaCorrente contaAluno     = contaCorrenteService.adicionarMoedas(aluno, quantidade);
 
         // Salvar Histórico da Transação
-        List<ContaCorrente> contas = salvarTransacaoProfessorAluno(contaProfessor, contaAluno, professor, aluno, quantidade);
+        List<ContaCorrente> contas = salvarTransacaoProfessorAluno(contaProfessor, contaAluno, motivo, professor, aluno, quantidade);
         
         return contas;
     }
 
     @Transactional
-    public List<ContaCorrente> salvarTransacaoProfessorAluno(ContaCorrente contaProfessor, ContaCorrente contaAluno, Professor professor, Aluno aluno, BigDecimal quantidade) {
+    public List<ContaCorrente> salvarTransacaoProfessorAluno(ContaCorrente contaProfessor, ContaCorrente contaAluno, String motivo, Professor professor, Aluno aluno, BigDecimal quantidade) {
         
         // Atualizar histórico do professor
         if (contaProfessor.getHistorico() == null) {
             contaProfessor.setHistorico(new ArrayList<Historico>());
         }
 
-        contaProfessor.getHistorico().add(historicoService.gerarHistorico(professor.getNome(), aluno.getNome(), BigDecimal.ZERO , quantidade, contaProfessor));
+        contaProfessor.getHistorico().add(historicoService.gerarHistorico(professor.getNome(), aluno.getNome(), motivo, BigDecimal.ZERO , quantidade, contaProfessor));
         
         // Atualizar histórico do aluno
         if (contaAluno.getHistorico() == null) {
             contaAluno.setHistorico(new ArrayList<Historico>());
         }
 
-        contaAluno.getHistorico().add(historicoService.gerarHistorico(professor.getNome(), aluno.getNome(), quantidade, BigDecimal.ZERO, contaAluno));
+        contaAluno.getHistorico().add(historicoService.gerarHistorico(professor.getNome(), aluno.getNome(), motivo, quantidade, BigDecimal.ZERO, contaAluno));
 
         return List.of(contaProfessor, contaAluno);
     }
@@ -113,14 +113,14 @@ public class TransferenciaService {
                 contaAluno.setHistorico(new ArrayList<Historico>());
             }
 
-            contaAluno.getHistorico().add(historicoService.gerarHistorico(aluno.getNome(), empresa.getNome(), BigDecimal.ZERO , vantagem.getCustoMoedas(), contaAluno));
+            contaAluno.getHistorico().add(historicoService.gerarHistorico(aluno.getNome(), empresa.getNome(), "Resgate: " + vantagem.getNome(), BigDecimal.ZERO , vantagem.getCustoMoedas(), contaAluno));
            
-            // Atualizar histórico do aluno
+            // Atualizar histórico da empresa
             if (contaEmpresa.getHistorico() == null) {
                 contaEmpresa.setHistorico(new ArrayList<Historico>());
             }
            
-            contaEmpresa.getHistorico().add(historicoService.gerarHistorico(aluno.getNome(), empresa.getNome(), vantagem.getCustoMoedas(), BigDecimal.ZERO, contaEmpresa));
+            contaEmpresa.getHistorico().add(historicoService.gerarHistorico(aluno.getNome(), empresa.getNome(), "Resgate: " + vantagem.getNome(), vantagem.getCustoMoedas(), BigDecimal.ZERO, contaEmpresa));
            
             // --------------------------------------------//
             // Atualizar Conta Corrente de Aluno e Empresa //

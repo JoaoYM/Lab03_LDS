@@ -1,4 +1,3 @@
-// src/components/Transferencia.tsx
 import React, { useState } from "react";
 import axios from "axios";
 
@@ -66,45 +65,54 @@ const Transferencia: React.FC<TransferComponentProps> = ({ professorId, alunoId,
   };
 
   return (
-    <div className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center">
-      <div className="bg-white p-6 rounded-lg shadow-lg w-96 relative">
-        <button onClick={onClose} className="absolute top-2 right-2 text-gray-500 hover:text-gray-700">
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+      <div className="bg-white p-8 rounded-lg shadow-2xl w-96 relative">
+        <button
+          onClick={onClose}
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl"
+        >
           &times;
         </button>
-        <h2 className="text-2xl font-bold mb-4 text-center">Transferir Moedas</h2>
-        {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
-        
-        <label className="block text-sm font-medium text-gray-700">Quantidade</label>
+        <h2 className="text-3xl font-semibold mb-6 text-center text-gray-900">
+          Transferir Moedas
+        </h2>
+        {error && <p className="text-red-600 text-sm mb-4">{error}</p>}
+
+        <label className="block text-lg font-medium text-gray-800">Quantidade</label>
         <input
           type="text"
           value={quantidade}
           onChange={handleQuantityChange}
           placeholder="Digite a quantidade (R$)"
-          className={`mt-1 mb-4 p-2 border rounded w-full ${error ? "border-red-500" : "border-gray-300"}`}
+          className={`mt-2 mb-4 p-3 border rounded-lg w-full text-gray-700 focus:outline-none focus:ring ${
+            error ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:ring-blue-300"
+          }`}
         />
-        
-        <label className="block text-sm font-medium text-gray-700">Motivo</label>
+
+        <label className="block text-lg font-medium text-gray-800">Motivo</label>
         <textarea
           value={motivo}
           onChange={(e) => setMotivo(e.target.value)}
           placeholder="Digite o motivo da transferência"
-          className={`mt-1 mb-4 p-2 border rounded w-full h-24 resize-none ${error && !motivo ? "border-red-500" : "border-gray-300"}`}
+          className={`mt-2 mb-4 p-3 border rounded-lg w-full h-28 resize-none text-gray-700 focus:outline-none focus:ring ${
+            error && !motivo ? "border-red-500 focus:ring-red-300" : "border-gray-300 focus:ring-blue-300"
+          }`}
         />
 
         <div className="flex justify-end space-x-4">
           <button
             onClick={onClose}
-            className="px-4 py-2 bg-gray-300 rounded hover:bg-gray-400 focus:outline-none"
+            className="px-5 py-2 bg-gray-300 text-gray-700 rounded-lg hover:bg-gray-400 focus:outline-none focus:ring focus:ring-gray-300"
           >
             Cancelar
           </button>
           <button
             onClick={handleTransfer}
             disabled={!quantidade || parseFloat(quantidade.replace(/[^\d]/g, "")) <= 0 || !motivo.trim()}
-            className={`px-4 py-2 rounded text-white focus:outline-none ${
+            className={`px-5 py-2 rounded-lg text-white focus:outline-none focus:ring ${
               !quantidade || parseFloat(quantidade.replace(/[^\d]/g, "")) <= 0 || !motivo.trim()
-                ? "bg-blue-300 cursor-not-allowed"
-                : "bg-blue-500 hover:bg-blue-600"
+                ? "bg-blue-300 cursor-not-allowed focus:ring-blue-200"
+                : "bg-blue-600 hover:bg-blue-700 focus:ring-blue-500"
             }`}
           >
             Transferir
