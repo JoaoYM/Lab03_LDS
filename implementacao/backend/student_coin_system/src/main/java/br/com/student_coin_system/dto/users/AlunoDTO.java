@@ -3,6 +3,7 @@ package br.com.student_coin_system.dto.users;
 import java.util.List;
 
 import br.com.student_coin_system.entity.financeiro.ContaCorrente;
+import br.com.student_coin_system.entity.utils.Endereço;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,13 +17,13 @@ public class AlunoDTO {
     private String email;
     private String cpf;
     private String rg;
-    private String endereco;
+    private Endereço endereco;
     private Long instituicaoId;
     private List<Long> cursosIds;
     private Long contaCorrenteId;
     private ContaCorrente contaCorrente;
 
-    public AlunoDTO(String nome, String email, String nDocumento, String rg, String endereco) {
+    public AlunoDTO(String nome, String email, String nDocumento, String rg, Endereço endereco) {
         this.nome     = nome;
         this.email    = email;
         this.cpf      = nDocumento;

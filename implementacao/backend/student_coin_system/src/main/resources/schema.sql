@@ -24,19 +24,31 @@ CREATE TABLE IF NOT EXISTS conta_corrente (
     limite DECIMAL(10, 2)
 );
 
+CREATE TABLE IF NOT EXISTS endereco (
+    id SERIAL PRIMARY KEY,
+    logradouro VARCHAR(255) NOT NULL,
+    numero VARCHAR(20) NOT NULL,
+    bairro VARCHAR(100) NOT NULL,
+    complemento VARCHAR(255),
+    cidade VARCHAR(100) NOT NULL,
+    estado VARCHAR(100) NOT NULL,
+    cep VARCHAR(10) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS aluno (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
     cpf VARCHAR(14) NOT NULL UNIQUE,
     rg VARCHAR(20) NOT NULL,
-    endereco VARCHAR(255) NOT NULL,
+    endereco_id BIGINT,
     instituicao_id BIGINT,
     curso_id BIGINT,
     conta_corrente_id BIGINT,
     FOREIGN KEY (instituicao_id) REFERENCES instituicao(id),
     FOREIGN KEY (curso_id) REFERENCES curso(id),
-    FOREIGN KEY (conta_corrente_id) REFERENCES conta_corrente(id)
+    FOREIGN KEY (conta_corrente_id) REFERENCES conta_corrente(id),
+    FOREIGN KEY (endereco_id) REFERENCES endereco(id)
 );
 
 CREATE TABLE IF NOT EXISTS empresa (

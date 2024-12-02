@@ -14,23 +14,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.student_coin_system.dto.users.AlunoDTO;
-import br.com.student_coin_system.dto.users.ProfessorDTO;
 import br.com.student_coin_system.entity.authentication.User;
 import br.com.student_coin_system.entity.financeiro.ContaCorrente;
 import br.com.student_coin_system.entity.instituicao.Curso;
 import br.com.student_coin_system.entity.instituicao.Instituicao;
 import br.com.student_coin_system.entity.users.Aluno;
-import br.com.student_coin_system.entity.users.Empresa;
-import br.com.student_coin_system.entity.users.Professor;
+import br.com.student_coin_system.entity.utils.Endereço;
 import br.com.student_coin_system.enums.UserRoles;
 import br.com.student_coin_system.repository.instituicao.CursoRepository;
 import br.com.student_coin_system.repository.instituicao.InstituicaoRepository;
 import br.com.student_coin_system.repository.users.AlunoRepository;
+import br.com.student_coin_system.repository.users.EnderecoRepository;
 import br.com.student_coin_system.service.users.UsersService;
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -51,10 +46,22 @@ public class AlunoController {
     private InstituicaoRepository instituicaoRepository;
 
     @Autowired
+    private EnderecoRepository enderecoRepository;
+
+    @Autowired
     private UsersService usersService;
 
     @PostMapping
-    public ResponseEntity<Void> cadastrarAluno(@RequestBody AlunoDTO alunoDTO) {
+    public ResponseEntity<String> cadastrarAluno(@RequestBody AlunoDTO alunoDTO) {
+
+
+         // Verifica se o endereço está completo
+        if (alunoDTO.getEndereco() == null || alunoDTO.getEndereco().getCep() == null ||
+            alunoDTO.getEndereco().getLogradouro() == null || alunoDTO.getEndereco().getBairro() == null ||
+            alunoDTO.getEndereco().getCidade() == null || alunoDTO.getEndereco().getEstado() == null || alunoDTO.getEndereco().getNumero() == null
+            || alunoDTO.getEndereco().getComplemento() == null) {
+            return ResponseEntity.badRequest().body("Endereço incompleto");
+        }
 
         // Criar uma nova instância de Aluno
         Aluno novoAluno = new Aluno();
@@ -64,7 +71,22 @@ public class AlunoController {
         novoAluno.setEmail(alunoDTO.getEmail());
         novoAluno.setCpf(alunoDTO.getCpf());
         novoAluno.setRg(alunoDTO.getRg());
-        novoAluno.setEndereco(alunoDTO.getEndereco());
+
+        // Definir o endereço do aluno baseado no DTO
+        Endereço endereco = new Endereço();
+        endereco.setBairro(alunoDTO.getEndereco().getBairro());
+        endereco.setCep(alunoDTO.getEndereco().getCep());
+        endereco.setCidade(alunoDTO.getEndereco().getCidade());
+        endereco.setComplemento(alunoDTO.getEndereco().getComplemento());
+        endereco.setEstado(alunoDTO.getEndereco().getEstado());
+        endereco.setLogradouro(alunoDTO.getEndereco().getLogradouro());
+        endereco.setNumero(alunoDTO.getEndereco().getNumero());
+
+        // Persistir o endereço no banco de dados
+        // enderecoRepository.save(endereco);
+
+        // Associar o endereço ao aluno
+        novoAluno.setEndereco(endereco);
 
         // Buscar os cursos pela relação de IDs informada
         List<Curso> cursos = alunoDTO.getCursosIds().stream()
@@ -124,7 +146,16 @@ public class AlunoController {
         oldAluno.setNome(aluno.getNome());
         oldAluno.setEmail(aluno.getEmail());
         oldAluno.setRg(aluno.getRg());
-        oldAluno.setEndereco(aluno.getEndereco());
+
+        // Definir o endereço do aluno baseado no DTO
+        oldAluno.getEndereco().setCep(aluno.getEndereco().getCep());
+        oldAluno.getEndereco().setCidade(aluno.getEndereco().getCidade());
+        oldAluno.getEndereco().setComplemento(aluno.getEndereco().getComplemento());
+        oldAluno.getEndereco().setEstado(aluno.getEndereco().getEstado());
+        oldAluno.getEndereco().setNumero(aluno.getEndereco().getNumero());
+        oldAluno.getEndereco().setLogradouro(aluno.getEndereco().getLogradouro());
+        oldAluno.getEndereco().setBairro(aluno.getEndereco().getBairro());
+  
         oldAluno.setCurso(cursos);;
         oldAluno.setContaCorrente(aluno.getContaCorrente());
         oldAluno.setInstituicao(instituicao);
