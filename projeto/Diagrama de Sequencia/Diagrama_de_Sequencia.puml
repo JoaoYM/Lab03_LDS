@@ -3,8 +3,8 @@ actor Aluno
 actor Professor
 actor EmpresaParceira
 
-participant Components
 participant Pages
+participant Components
 participant Controller
 participant Service
 participant Repository
@@ -12,47 +12,69 @@ database PostgreSQL as BD
 
 
 == Cadastrar Vantagem (pela Empresa) ==
-EmpresaParceira -> Components: Acessar Tela de Cadastro de Vantagem
-Components -> Pages: Acessar Tela de Cadastro de Vantagem
-Pages -> Controller: Enviar Dados da Vantagem
-Controller -> Service: Enviar Dados da Vantagem
-Service -> Repository: Enviar Dados da Vantagem
-Repository -> BD: Inserir Vantagem no Banco
-BD --> Repository: Confirmação de Cadastro
-Repository --> Service: Confirmação de Cadastro
-Service --> Controller: Confirmação de Cadastro
-Controller --> Pages: Cadastro de Vantagem Confirmado
-Pages --> Components: Cadastro de Vantagem Confirmado
-Components -> EmpresaParceira: Vantagem Cadastrada
+EmpresaParceira -> Pages: (http://localhost:3000/empresa)
+Pages -> Components: <CadastroVantagem/>
+Components -> Controller: post("/api/vantagem")
+Controller -> Service: vantagemService.save(vantagem)
+Service -> Repository: vantagemRepository.save(vantagem)
+Repository -> BD: save(vantagem)
+BD --> Repository: return(vantagem)
+Repository --> Service: return(vantagem)
+Service --> Controller: return ResponseEntity.ok().build()
+Controller --> Components: return ResponseEntity.ok().build()
+Components --> Pages: return alert("Vantagem cadastrada com sucesso!")
+Pages -> EmpresaParceira: alert("Vantagem cadastrada com sucesso!")
 
 == Listagem de Vantagens (para Aluno) ==
-Aluno -> Components:  Acessar Tela de Listagem de Vantagens
-Components -> Pages:  Acessar Tela de Listagem de Vantagens
-Pages -> Controller: Solicitar os Dados das Vantagens
-Controller -> Service: Solicitar os Dados das Vantagens
-Service -> Repository: Solicitar os Dados das Vantagens
-Repository -> BD: Pegar os dados das Vantagens no Banco
-BD --> Repository: Enviar os dados das Vantagens existentes
-Repository --> Service: Receber os dados das Vantagens
-Service --> Controller: Receber os dados das Vantagens
-Controller --> Pages: Listar as Vantagens na tela
-Pages --> Components:  Listar as Vantagens na tela
-Components -> Aluno: Ver as Vantagens Cadastradas
+Aluno -> Pages: (http://localhost:3000/aluno) ou (http://localhost:3000/gerenciar-aluno-vantagem
+Pages -> Components: <VantagensAluno/>
+Components -> Controller: get("/api/vantagem")
+Controller -> Service: vantagemService.todasVantagens()
+Service -> Repository: vantagemRepository.findAll()
+Repository -> BD: findAll()
+BD --> Repository: return List<>vantagens
+Repository --> Service: return List<>vantagens
+Service --> Controller: return List<>vantagens
+Controller --> Components: return List<>vantagens
+Components --> Pages: return List<>vantagens
+Pages -> Aluno: Table com todas as vantagens
 
 == Troca de Moedas por Vantagem (pelo Aluno) ==
-Aluno -> Components:  Acessar Tela de Listagem de Vantagens e clickar em 'Obter'
-Components -> Pages:  Acessar Tela de Listagem de Vantagens e clickar em 'Obter'
-Pages -> Controller: Enviar os dados da Vantagem e do aluno
-Controller -> Service: Enviar os dados da Vantagem e do aluno
-Service -> Repository: Enviar os dados da Vantagem e do aluno
-Repository -> BD: Verifica se o aluno tem saldo suficiente
-BD --> Repository: Confirmação de saldo suficiente
-Repository -> BD: Salvar vantagem escolhida (create do histórico) e atualizar saldo do aluno
-BD --> Repository: Confirmação de vantagem obtida
-Repository --> Service: Confirmação de vantagem obtida
-Service --> Controller: Confirmação de vantagem obtida
-Controller --> Pages: Confirmação de vantagem obtida
-Pages --> Components:  Confirmação de vantagem obtida
-Components -> Aluno: Ver a confirmação de vantagem obtida
+Aluno -> Pages: (http://localhost:3000/aluno) ou (http://localhost:3000/gerenciar-aluno-vantagem)
+Pages -> Components: <VantagensAluno/>
+Components -> Controller: post(`/api/conta-corrente/resgatar-vantagem`)
+Controller -> Service: transferenciaService.resgatarVantagem(alunoId, vantagemId)
+Service -> Repository: alunoRepository.findById(alunoId)
+Repository -> BD: alunoRepository.findById(alunoId)
+BD --> Repository: return Aluno
+Repository --> Service: return Aluno
+
+Service -> Repository: vantagemRepository.findById(vantagemId)
+Repository -> BD: vantagemRepository.findById(vantagemId)
+BD --> Repository: return Vantagem
+Repository --> Service: return Vantagem
+
+Service -> Repository: contaCorrenteService.debitarValorVantagem(aluno, vantagem.getCustoMoedas())
+Service -> Repository: contaCorrenteService.creditarValorVantagem(empresa, vantagem.getCustoMoedas())
+Repository -> BD: contaCorrenteService.debitarValorVantagem(aluno, vantagem.getCustoMoedas())
+Repository -> BD:  contaCorrenteService.creditarValorVantagem(empresa, vantagem.getCustoMoedas())
+BD --> Repository: return ContaAluno
+BD --> Repository: return ContaEmpresa
+Repository --> Service: return ContaAluno
+Repository --> Service: return ContaEmpresa
+
+Service -> Repository: historicoService.gerarHistorico()
+Repository -> BD: historicoService.gerarHistorico()
+
+Service -> Repository: contaCorrenteRepository.save(contaAluno)
+Service -> Repository: contaCorrenteRepository.save(contaEmpresa)
+Repository -> BD: save(contaAluno) 
+Repository -> BD: save(contaEmpresa)
+BD --> Repository: return vantagemObtida
+Repository --> Service: return ResponseEntity.ok().build()
+Service --> Controller:  return "Vantagem resgatada com sucesso.";
+Controller --> Components: return ResponseEntity.ok(mensagem);
+Components --> Pages: return alert("Vantagem resgatada com sucesso.")
+Pages -> Aluno: alert("Vantagem resgatada com sucesso.")
 
 @enduml

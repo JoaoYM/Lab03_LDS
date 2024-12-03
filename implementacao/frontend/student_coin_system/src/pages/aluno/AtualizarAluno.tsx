@@ -15,19 +15,41 @@ const AtualizarAluno: React.FC<AtualizarAlunoProps> = ({ aluno }) => {
     fetchCursos();
   }, []);
 
-  const fetchCursos = async () => {
-    try {
-      const response = await axios.get("http://localhost:8080/api/curso", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-      });
-      setCursos(response.data);
-    } catch (error) {
-      console.error("Erro ao buscar cursos", error);
-    }
-  };
+  // const fetchCursos = async () => {
+  //   try {
+  //     const response = await axios.get("http://localhost:8080/api/curso", {
+  //       headers: {
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //     });
+  //     setCursos(response.data);
+  //   } catch (error) {
+  //     console.error("Erro ao buscar cursos", error);
+  //   }
+  // };
+
+  //useEffect(() => {
+    const fetchCursos = async () => {
+      if (aluno.instituicaoId) {
+        try {
+          const response = await axios.get(
+            `http://localhost:8080/api/instituicao/${aluno.instituicaoId}/cursos`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+          setCursos(response.data);
+        } catch (error) {
+          console.error("Erro ao buscar cursos", error);
+        }
+      }
+    };
+    //fetchCursos();
+  //}, [aluno.instituicaoId]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
