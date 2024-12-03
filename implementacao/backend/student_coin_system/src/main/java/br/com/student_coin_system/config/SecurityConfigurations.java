@@ -60,6 +60,7 @@ public class SecurityConfigurations {
                 .requestMatchers(HttpMethod.GET, "/api/instituicao/**").hasAnyRole("EMPRESA", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/vantagem").hasAnyRole("EMPRESA", "ADMIN")
                 .requestMatchers(HttpMethod.PUT, "/api/vantagem/**").hasAnyRole("EMPRESA", "ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/api/vantagem/**").hasAnyRole("EMPRESA", "ADMIN")
                 .requestMatchers(HttpMethod.GET, "/api/vantagem/**").hasAnyRole("EMPRESA", "ADMIN", "ALUNO")
                 .requestMatchers(HttpMethod.POST, "/api/conta-corrente/transferirMoedas").hasAnyRole("PROFESSOR", "ADMIN")
                 .requestMatchers(HttpMethod.POST, "/api/conta-corrente/resgatar-vantagem").hasAnyRole("ALUNO", "ADMIN")

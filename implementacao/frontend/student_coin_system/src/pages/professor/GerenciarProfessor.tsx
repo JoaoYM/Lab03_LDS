@@ -18,11 +18,11 @@ const GerenciarProfessor: React.FC = () => {
       const response = await axios.get("http://localhost:8080/api/professor", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
         },
       });
-      console.log(response.data);
       setProfessores(response.data);
-      console.log(professores.map((professor: any) => professor));
+      console.log(response.data);
     } catch (error) {
       console.error("Erro ao buscar professores", error);
     }
@@ -41,49 +41,76 @@ const GerenciarProfessor: React.FC = () => {
   };
 
   const handleDelete = async (id: number) => {
-    try {
-      await axios.delete(`http://localhost:8080/api/professor/${id}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json",
-        },
-      });
-      fetchProfessores();
-    } catch (error) {
-      console.error("Erro ao deletar professor", error);
+    const confirmDelete = window.confirm("Você realmente deseja excluir este professor?");
+    if (confirmDelete) {
+      try {
+        await axios.delete(`http://localhost:8080/api/professor/${id}`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
+        fetchProfessores();
+      } catch (error) {
+        console.error("Erro ao deletar professor", error);
+      }
     }
   };
 
   return (
-    <div>
-      <button onClick={handleCreate} className="bg-blue-500 text-white p-2 rounded">Create</button>
-      {isCreating && <CadastroProfessor />}
-      {isEditing && <AtualizarProfessor professor={selectedProfessor} />}
-      <table className="table-auto w-full mt-4">
-        <thead>
-          <tr>
-            <th>Nome</th>
-            <th>Email</th>
-            <th>Instituição</th>
-            <th>Departamento</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          {/* {professores.map((professor: any) => (
-            <tr key={professor.id}>
-              <td>{professor.nome}</td>
-              <td>{professor.email}</td>
-              <td>{professor.departamento.instituicao.nome}</td>
-              <td>{professor.departamento.nome}</td>
-              <td>
-                <button onClick={() => handleEdit(professor)} className="bg-yellow-500 text-white p-2 rounded">Edit</button>
-                <button onClick={() => handleDelete(professor.id)} className="bg-red-500 text-white p-2 rounded">Delete</button>
-              </td>
-            </tr>
-          ))} */}
-        </tbody>
-      </table>
+    <div className="max-w-5xl mx-auto p-8 bg-gray-50 shadow-md rounded-lg">
+      <div className="flex justify-center mb-6">
+        <button
+          onClick={handleCreate}
+          className="bg-blue-500 text-white px-4 py-3 rounded-lg hover:bg-blue-600 transition duration-300 shadow-md"
+        >
+          Criar Novo Professor
+        </button>
+      </div>
+
+      <div className="mb-6">
+        {isCreating && <CadastroProfessor />}
+        {isEditing && <AtualizarProfessor professor={selectedProfessor} />}
+      </div>
+
+      <div className="p-6 bg-white rounded-lg shadow-md">
+        <h1 className="text-2xl font-bold mb-6 text-center">Visualização dos Professores</h1>
+
+        <div className="overflow-x-auto">
+          <table className="table-auto w-full border-collapse bg-white shadow-lg rounded-lg">
+            <thead>
+              <tr className="bg-blue-500 text-white">
+                <th className="p-4 text-center">Nome</th>
+                <th className="p-4 text-center">Email</th>
+                <th className="p-4 text-center">Departamento</th>
+                <th className="p-4 text-center">Ações</th>
+              </tr>
+            </thead>
+            <tbody>
+              {professores.map((professor: any) => (
+                <tr key={professor.id} className="border-b hover:bg-gray-50">
+                  <td className="p-4">{professor.nome}</td>
+                  <td className="p-4">{professor.email}</td>
+                  <td className="p-4">{professor.departamento?.nome}</td>
+                  <td className="p-4 flex space-x-2">
+                    <button
+                      onClick={() => handleEdit(professor)}
+                      className="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-600 transition duration-300"
+                    >
+                      Editar
+                    </button>
+                    <button
+                      onClick={() => handleDelete(professor.id)}
+                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-300"
+                    >
+                      Deletar
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

@@ -6,11 +6,14 @@ interface AtualizarProfessorProps {
 }
 
 const AtualizarProfessor: React.FC<AtualizarProfessorProps> = ({ professor }) => {
-  const [nome, setNome] = useState(professor.nome);
-  const [email, setEmail] = useState(professor.email);
-  const [cpf, setCpf] = useState(professor.cpf || "");
-  const [rg, setRg] = useState(professor.rg || "");
-  const [departamento, setDepartamento] = useState(professor.departamento.id);
+  const [formData, setFormData] = useState({
+    nome: professor.nome,
+    email: professor.email,
+    cpf: professor.cpf || "",
+    rg: professor.rg || "",
+    departamentoId: professor.departamento.id,
+  });
+
   const [departamentos, setDepartamentos] = useState([]);
 
   useEffect(() => {
@@ -31,12 +34,19 @@ const AtualizarProfessor: React.FC<AtualizarProfessorProps> = ({ professor }) =>
     }
   };
 
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       await axios.put(
         `http://localhost:8080/api/professor/${professor.id}`,
-        { nome, email, cpf, rg, departamentoId: departamento },
+        formData,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -51,69 +61,78 @@ const AtualizarProfessor: React.FC<AtualizarProfessorProps> = ({ professor }) =>
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 bg-white p-6 rounded-lg shadow-md max-w-lg mx-auto">
-      <div className="flex flex-col">
-        <label className="font-semibold text-gray-700">Nome:</label>
-        <input
-          type="text"
-          value={nome}
-          onChange={(e) => setNome(e.target.value)}
-          className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label className="font-semibold text-gray-700">Email:</label>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label className="font-semibold text-gray-700">CPF:</label>
-        <input
-          type="text"
-          value={cpf}
-          onChange={(e) => setCpf(e.target.value)}
-          className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label className="font-semibold text-gray-700">RG:</label>
-        <input
-          type="text"
-          value={rg}
-          onChange={(e) => setRg(e.target.value)}
-          className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
-
-      <div className="flex flex-col">
-        <label className="font-semibold text-gray-700">Departamento:</label>
-        <select
-          value={departamento}
-          onChange={(e) => setDepartamento(Number(e.target.value))}
-          className="border border-gray-300 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          {departamentos.map((departamento: any) => (
-            <option key={departamento.id} value={departamento.id}>
-              {departamento.nome}
-            </option>
-          ))}
-        </select>
-      </div>
-
-      <button
-        type="submit"
-        className="bg-blue-500 text-white font-semibold p-3 rounded-md hover:bg-blue-600 transition duration-200"
-      >
-        Atualizar
-      </button>
-    </form>
+    <div className="max-w-3xl mx-auto p-8 bg-white shadow-md rounded-lg">
+      <h1 className="text-2xl font-bold mb-6 text-center">Editar Professor</h1>
+      <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-6">
+        <div>
+          <label className="block text-gray-700">Nome:</label>
+          <input
+            type="text"
+            name="nome"
+            placeholder="Nome"
+            value={formData.nome}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">Email:</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={formData.email}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">CPF:</label>
+          <input
+            type="text"
+            name="cpf"
+            placeholder="CPF"
+            value={formData.cpf}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div>
+          <label className="block text-gray-700">RG:</label>
+          <input
+            type="text"
+            name="rg"
+            placeholder="RG"
+            value={formData.rg}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </div>
+        <div className="col-span-2">
+          <label className="block text-gray-700">Departamento:</label>
+          <select
+            name="departamentoId"
+            value={formData.departamentoId}
+            onChange={handleInputChange}
+            className="w-full p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            {departamentos.map((departamento: any) => (
+              <option key={departamento.id} value={departamento.id}>
+                {departamento.nome}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="col-span-2">
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-3 rounded-lg hover:bg-blue-600 transition duration-300"
+          >
+            Atualizar
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

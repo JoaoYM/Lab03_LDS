@@ -60,6 +60,7 @@ public class EmpresaController {
         oldEmpresa.setNome(empresa.getNome());
         oldEmpresa.setEmail(empresa.getEmail());
         oldEmpresa.setCnpj(empresa.getCnpj()); 
+        oldEmpresa.setRazaoSocial(empresa.getRazaoSocial());
 
         try {
             empresaRepository.save(oldEmpresa);
