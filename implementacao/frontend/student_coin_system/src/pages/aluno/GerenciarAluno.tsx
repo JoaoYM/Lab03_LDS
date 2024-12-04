@@ -1,10 +1,30 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CadastroAluno from "./CadastroAluno.tsx";
-import AtualizarAluno from "./AtualizarAluno.tsx";
+
+interface AlunoDTO {
+  id: string;
+  nome: string;
+  email: string;
+  cpf: string;
+  rg: string;
+  endereco: {
+    cep: string;
+    logradouro: string;
+    bairro: string;
+    cidade: string;
+    estado: string;
+    numero: string;
+    complemento: string;
+  };
+  instituicaoId: string;
+  instituicaoNome: string;
+  cursosIds: string[];
+  cursosNomes: string[];
+} 
 
 const GerenciarAluno: React.FC = () => {
-  const [alunos, setAlunos] = useState([]);
+  const [alunos, setAlunos] = useState<AlunoDTO[]>([]);
   const [isCreating, setIsCreating] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
   const [selectedAluno, setSelectedAluno] = useState(null);
@@ -21,7 +41,22 @@ const GerenciarAluno: React.FC = () => {
           "Content-Type": "application/json",
         },
       });
-      setAlunos(response.data);
+      setAlunos(response.data.map((aluno: any) => {
+        return {
+          ...aluno,
+          instituicaoId: aluno.instituicaoId || "",
+          endereco: {
+            ...aluno.endereco,
+            cep: aluno.endereco.cep || "",
+            logradouro: aluno.endereco.logradouro || "",
+            bairro: aluno.endereco.bairro || "",
+            cidade: aluno.endereco.cidade || "",
+            estado: aluno.endereco.estado || "",
+            numero: aluno.endereco.numero || "",
+            complemento: aluno.endereco.complemento || "",
+          },
+        };
+      }));
     } catch (error) {
       console.error("Erro ao buscar alunos", error);
     }
@@ -67,7 +102,7 @@ const GerenciarAluno: React.FC = () => {
 
       <div className="mb-8">
         {isCreating && <CadastroAluno />}
-        {isEditing && <AtualizarAluno aluno={selectedAluno} />}
+        {isEditing && <CadastroAluno aluno={selectedAluno} />}
       </div>
 
       {/* Seção para Visualizar Alunos */}
@@ -90,8 +125,8 @@ const GerenciarAluno: React.FC = () => {
                 <tr key={aluno.id} className="border-b">
                   <td className="p-4">{aluno.nome}</td>
                   <td className="p-4">{aluno.email}</td>
-                  <td className="p-4">{aluno.curso?.nome}</td>
-                  <td className="p-4">{aluno.instituicao?.nome}</td>
+                  <td className="p-4">{aluno.cursosNomes[0]}</td>
+                  <td className="p-4">{aluno.instituicaoNome}</td>
                   <td className="p-4 flex space-x-2">
                     <button
                       onClick={() => handleEdit(aluno)}
